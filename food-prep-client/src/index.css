@@ -1,0 +1,17 @@
+/* RESET CSS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+html {
+  font-size: 100%;
+}
+
+body {
+  font-size: 10px;
+}
+
+/* MAIN STYLING */
