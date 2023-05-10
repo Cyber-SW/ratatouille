@@ -4,18 +4,21 @@ import PropTypes from "prop-types"
 
 function SignupUserInformation({ handleUserInformation }) {
     const [gender, setGender] = useState("")
-    const [age, setAge] = useState(null)
-    const [size, setSize] = useState(null)
-    const [weight, setWeight] = useState(null)
-    const [bmi, setBmi] = useState(null)
+    const [age, setAge] = useState("")
+    const [size, setSize] = useState("")
+    const [weight, setWeight] = useState("")
+    const [bmi, setBmi] = useState("")
     const [goal, setGoal] = useState("")
-    const [calorieDemand, setCalorieDemand] = useState(null)
+    const [activityLevel, setActivityLevel] = useState("")
+    const [calorieDemand, setCalorieDemand] = useState("")
     const [diet, setDiet] = useState("")
     const [breakfastTime, setBreakfastTime] = useState("")
     const [lunchTime, setLunchTime] = useState("")
     const [dinnerTime, setDinnerTime] = useState("")
+    const [excludedIngredients, setExcludedIngredients] = useState([])
+    const [currentIngredient, setCurrentIngredient] = useState("")
 
-    const [errorMessage, setErrorMessage] = useState(undefined)
+    const [errorMessage, setErrorMessage] = useState("")
 
   
     const handleGender = (e) => setGender(e.target.value)
@@ -25,6 +28,16 @@ function SignupUserInformation({ handleUserInformation }) {
     const handleBreakfastTime = (e) => setBreakfastTime(e.target.value)
     const handleLunchTime = (e) => setLunchTime(e.target.value)
     const handleDinnerTime = (e) => setDinnerTime(e.target.value)
+
+    function handleAddIngredient() {
+        if (currentIngredient && !excludedIngredients.includes(currentIngredient)) {
+            setExcludedIngredients([...excludedIngredients, currentIngredient])
+            setCurrentIngredient("")
+        }
+        if (excludedIngredients.includes(currentIngredient)) {
+            setErrorMessage("This ingredient is already banned.")
+        }
+    }
 
     function handleSize (e) {
         setSize(e.target.value)
@@ -46,20 +59,20 @@ function SignupUserInformation({ handleUserInformation }) {
  
     function calculateCalorieDemand(e) {
         if (e.target.value === "Only sitting or lying / Frail people") {
-            gender === "Female" ? setCalorieDemand(((0.9 * weight * 24) * 1.2).toFixed(0)) 
-            : setCalorieDemand(((weight * 24) * 1.2).toFixed(0))
+            gender === "Female" ? setCalorieDemand(((0.9 * weight * 24) * 1.2).toFixed(0)) && setActivityLevel(e.target.value)
+            : setCalorieDemand(((weight * 24) * 1.2).toFixed(0)) && setActivityLevel(e.target.value)
         } else if (e.target.value === "Sedentary, hardly any physical activity / Office work at the desk") {
-            gender === "Female" ? setCalorieDemand(((0.9 * weight * 24) * 1.4).toFixed(0))
-            : setCalorieDemand(((weight * 24) * 1.5).toFixed(0))
+            gender === "Female" ? setCalorieDemand(((0.9 * weight * 24) * 1.4).toFixed(0)) && setActivityLevel(e.target.value)
+            : setCalorieDemand(((weight * 24) * 1.5).toFixed(0)) && setActivityLevel(e.target.value)
         } else if (e.target.value === "Predominantly sitting, walking and standing / Students, pupils, cab drivers") {
-            gender === "Female" ? setCalorieDemand(((0.9 * weight * 24) * 1.6).toFixed(0))
-            : setCalorieDemand(((weight * 24) * 1.7).toFixed(0))
+            gender === "Female" ? setCalorieDemand(((0.9 * weight * 24) * 1.6).toFixed(0)) && setActivityLevel(e.target.value)
+            : setCalorieDemand(((weight * 24) * 1.7).toFixed(0)) && setActivityLevel(e.target.value)
         } else if (e.target.value === "Mainly standing and walking / Salesman, waiter, craftsman") {
-            gender === "Female" ? setCalorieDemand(((0.9 * weight * 24) * 1.8).toFixed(0))
-            : setCalorieDemand(((weight * 24) * 1.9).toFixed(0))
+            gender === "Female" ? setCalorieDemand(((0.9 * weight * 24) * 1.8).toFixed(0)) && setActivityLevel(e.target.value)
+            : setCalorieDemand(((weight * 24) * 1.9).toFixed(0)) && setActivityLevel(e.target.value)
         } else if (e.target.value === "Physically demanding work / Farmers, high performance athletes") {
-            gender === "Female" ? setCalorieDemand(((0.9 * weight * 24) * 2.2).toFixed(0))
-            : setCalorieDemand(((weight * 24) * 2.4).toFixed(0))
+            gender === "Female" ? setCalorieDemand(((0.9 * weight * 24) * 2.2).toFixed(0)) && setActivityLevel(e.target.value)
+            : setCalorieDemand(((weight * 24) * 2.4).toFixed(0)) && setActivityLevel(e.target.value)
         }
     }
 
@@ -67,8 +80,23 @@ function SignupUserInformation({ handleUserInformation }) {
         <div>
             <h1>Let´s specify your goal!</h1>
 
-            <form onSubmit={() => handleUserInformation({ gender: gender, age: age, size: size, weight: weight, bmi: bmi, goal: goal, calorieDemand: calorieDemand, diet: diet, breakfastTime: breakfastTime, lunchTime: lunchTime, dinnerTime: dinnerTime })}>
-                <label>Gender:</label>
+            <form onSubmit={() => handleUserInformation({
+                gender: gender,
+                age: age,
+                size: size,
+                weight: weight,
+                bmi: bmi,
+                goal: goal,
+                activityLevel: activityLevel,
+                calorieDemand: calorieDemand,
+                diet: diet,
+                breakfastTime: breakfastTime,
+                lunchTime: lunchTime,
+                dinnerTime: dinnerTime,
+                excludedIngredients: excludedIngredients 
+                })}>
+
+                <h2>Gender:</h2>
                 <input type="radio" name="gender" value="Male" onChange={handleGender} />
                 <label>Male</label>
                 <input type="radio" name="gender" value="Female" onChange={handleGender} />
@@ -90,7 +118,7 @@ function SignupUserInformation({ handleUserInformation }) {
                 : "" }</h2>
                 {/* dont forget the missing conditionals */}
 
-                <label>What is your goal?</label>
+                <h2>What is your goal?</h2>
                 <input type="radio" name="goal" value="Lose Weight" onChange={handleGoal} />
                 <label>Lose Weight</label>
                 <input type="radio" name="goal" value="Keep Weight" onChange={handleGoal} />
@@ -98,7 +126,7 @@ function SignupUserInformation({ handleUserInformation }) {
                 <input type="radio" name="goal" value="Gain Weight" onChange={handleGoal} />
                 <label>Gain Weight</label>
 
-                <label>What is your activity level?</label>
+                <h2>What is your activity level?</h2>
                 <select name="calorie demand" id="calorie-demand" onChange={calculateCalorieDemand}>
                     <option value="" selected disabled hidden>Please choose your activity level</option>
                     <option value="Only sitting or lying / Frail people">Only sitting or lying / Frail people</option>
@@ -110,7 +138,7 @@ function SignupUserInformation({ handleUserInformation }) {
 
                 <h2>Your calorie demand per day: {calorieDemand ? calorieDemand : "Choose your goal first."}</h2>
 
-                <label>What is your diet?</label>
+                <h2>What is your diet?</h2>
                 <select name="diet" id="diet" onChange={handleDiet}>
                     <option value="" selected disabled hidden>Please choose your diet</option>
                     <option value="Low carb">Low carb</option>
@@ -120,27 +148,37 @@ function SignupUserInformation({ handleUserInformation }) {
                 </select>
 
                 <h2>How much time do you have to prepare your meals?</h2>
-                <label>Breakfast</label>
-                <select name="diet" id="diet" onChange={handleBreakfastTime}>
-                    <option value="" selected disabled hidden>Please choose an option</option>
+                <label>Maximum time to prepare breakfast</label>
+                <select name="breakfast time" id="breakfast-time" onChange={handleBreakfastTime}>
+                    <option value="">Please choose an option</option>
                     <option value="10 minutes">10 minutes</option>
                     <option value="20 minutes">20 minutes</option>
                     <option value="30 minutes">30 minutes</option>
                 </select>
-                <label>Lunch</label>
-                <select name="diet" id="diet" onChange={handleLunchTime}>
+                <label>Maximum time to prepare lunch</label>
+                <select name="lunch time" id="lunch-time" onChange={handleLunchTime}>
                     <option value="" selected disabled hidden>Please choose an option</option>
                     <option value="15 minutes">15 minutes</option>
                     <option value="30 minutes">30 minutes</option>
                     <option value="60 minutes">60 minutes</option>
                 </select>
-                <label>Dinner</label>
-                <select name="diet" id="diet" onChange={handleDinnerTime}>
+                <label>Maximum time to prepare dinner</label>
+                <select name="dinner time" id="dinner-time" onChange={handleDinnerTime}>
                     <option value="" selected disabled hidden>Please choose an option</option>
                     <option value="10 minutes">10 minutes</option>
                     <option value="20 minutes">20 minutes</option>
                     <option value="30 minutes">30 minutes</option>
                 </select>
+
+                <h2>What ingredients should be banned from your plate?</h2>
+                <input type="text" name="excludedIngredients" value={currentIngredient} onChange={(e) => setCurrentIngredient(e.target.value)} />
+                <button type="button" onClick={handleAddIngredient}>Ban ingredient</button>
+
+                <ul>
+                    { excludedIngredients.map((ingredient, index) => (
+                        <li key={index}>{ingredient}</li>
+                    ))}
+                </ul>
 
                 <button type="submit">Continue</button>
             </form>

@@ -7,7 +7,7 @@ function SignupUserLogin({ handleUserLoginInformation }) {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [username, setUsername] = useState("")
-    const [errorMessage, setErrorMessage] = useState(undefined)
+    const [errorMessage, setErrorMessage] = useState("")
 
   
     const handleEmail = (e) => setEmail(e.target.value)
