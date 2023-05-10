@@ -1,7 +1,6 @@
 import axios from "axios"
 
 
-
 class AuthService {
   constructor() {
     this.api = axios.create({

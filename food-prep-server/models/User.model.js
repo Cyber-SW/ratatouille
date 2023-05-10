@@ -36,26 +36,41 @@ const userSchema = new Schema(
       type: Number,
       required: [true, "Weight is required."]
     },
+    bmi: {
+      type: Number
+    },
     goal: {
       type: String,
       required: [true, "Goal is required."],
       enum: ["Lose Weight", "Gain Weight", "Keep Weight"]
     },
-    bmi: {
-      type: Number
+    activityLevel: {
+      type: String,
+      required: [true, "Activity level is required."],
+      enum: ["Only sitting or lying / Frail people", "Sedentary, hardly any physical activity / Office work at the desk", "Predominantly sitting, walking and standing / Students, pupils, cab drivers", "Mainly standing and walking / Salesman, waiter, craftsman", "Physically demanding work / Farmers, high performance athletes"]
     },
     calorieDemand: {
       type: Number
     },
-    preferences: {
+    diet: {
       type: String,
       required: [true, "Preferences are required."],
       enum: ["No Preference", "Vegetarian", "Vegan", "Low Carb"]
     },
-    time: {
+    breakfastTime: {
       type: String,
-      required: [true, "Time is required."],
-      enum: ["15 min", "30 min", "60 min"]
+      required: [true, "breakfastTime is required."],
+      enum: ["10 minutes", "20 minutes", "30 minutes"]
+    },
+    lunchTime: {
+      type: String,
+      required: [true, "lunchTime is required."],
+      enum: ["15 minutes", "30 minutes", "60 minutes"]
+    },
+    dinnerTime: {
+      type: String,
+      required: [true, "dinnerTime is required."],
+      enum: ["10 minutes", "20 minutes", "30 minutes"]
     },
     excludedIngredients: {
       type: Array
