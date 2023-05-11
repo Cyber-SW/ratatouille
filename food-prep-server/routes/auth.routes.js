@@ -11,7 +11,24 @@ const saltRounds = 10;
 
 // POST /auth/signup  - Creates a new user in the database
 router.post('/signup', (req, res, next) => {
-  const { email, password, username, gender, age, size, weight, bmi, goal, activityLevel, calorieDemand, diet, breakfastTime, lunchTime, dinnerTime, excludedIngredients } = req.body;
+  const {
+    email,
+    password,
+    username,
+    gender,
+    age,
+    size,
+    weight,
+    bmi,
+    goal,
+    activityLevel,
+    calorieDemand,
+    diet,
+    breakfastTime,
+    lunchTime,
+    dinnerTime,
+    excludedIngredients
+  } = req.body;
 
   // Check if email or password or name are provided as empty string 
   if (email === '' || password === '' || username === '') {
@@ -49,15 +66,66 @@ router.post('/signup', (req, res, next) => {
 
       // Create the new user in the database
       // We return a pending promise, which allows us to chain another `then` 
-      return User.create({ email, password: hashedPassword, username, gender, age, size, weight, bmi, goal, activityLevel, calorieDemand, diet, breakfastTime, lunchTime, dinnerTime, excludedIngredients });
+      return User.create({ 
+        email,
+        password: hashedPassword,
+        username,
+        gender,
+        age,
+        size,
+        weight,
+        bmi,
+        goal,
+        activityLevel,
+        calorieDemand,
+        diet,
+        breakfastTime,
+        lunchTime,
+        dinnerTime,
+        excludedIngredients
+      });
     })
     .then((createdUser) => {
       // Deconstruct the newly created user object to omit the password
       // We should never expose passwords publicly
-      const { email, username, _id, gender, age, size, weight, bmi, goal, activityLevel, calorieDemand, diet, breakfastTime, lunchTime, dinnerTime, excludedIngredients } = createdUser;
+      const {
+        email,
+        username,
+        _id,
+        gender,
+        age,
+        size,
+        weight,
+        bmi,
+        goal,
+        activityLevel,
+        calorieDemand,
+        diet,
+        breakfastTime,
+        lunchTime,
+        dinnerTime,
+        excludedIngredients
+      } = createdUser;
     
       // Create a new object that doesn't expose the password
-      const user = { email, username, _id, gender, age, size, weight, bmi, goal, activityLevel, calorieDemand, diet, breakfastTime, lunchTime, dinnerTime, excludedIngredients };
+      const user = {
+        email,
+        username,
+        _id,
+        gender,
+        age,
+        size,
+        weight,
+        bmi,
+        goal,
+        activityLevel,
+        calorieDemand,
+        diet,
+        breakfastTime,
+        lunchTime,
+        dinnerTime,
+        excludedIngredients
+      };
 
       // Send a json response containing the user object
       res.status(201).json({ user: user });

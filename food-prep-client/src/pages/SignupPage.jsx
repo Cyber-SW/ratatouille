@@ -1,5 +1,6 @@
-import { useState } from "react"
+import { useState, useContext } from "react"
 import { useNavigate } from "react-router-dom"
+import { AuthContext } from "../context/auth.context"
 import authService from "./../services/auth.service"
 import SignupUserLogin from "../components/SignupUserLogin"
 import SignupUserInformation from "../components/SignupUserInformation"
@@ -11,20 +12,11 @@ function SignupPage() {
   const [password, setPassword] = useState("")
   const [username, setUsername] = useState("")
 
-  //user information
-  const [gender, setGender] = useState("")
-  const [age, setAge] = useState("")
-  const [size, setSize] = useState("")
-  const [weight, setWeight] = useState("")
-  const [bmi, setBmi] = useState("")
-  const [goal, setGoal] = useState("")
-  const [activityLevel, setActivityLevel] = useState("")
-  const [calorieDemand, setCalorieDemand] = useState("")
-  const [diet, setDiet] = useState("")
-  const [breakfastTime, setBreakfastTime] = useState("")
-  const [lunchTime, setLunchTime] = useState("")
-  const [dinnerTime, setDinnerTime] = useState("")
-  const [excludedIngredients, setExcludedIngredients] = useState([])
+  //toggle form
+  const [toggleForm, setToggleForm] = useState(false)
+
+  //token handling
+  const { storeToken, authenticateUser } = useContext(AuthContext)
 
   //error handling
   const [errorMessage, setErrorMessage] = useState(undefined)
@@ -32,75 +24,66 @@ function SignupPage() {
   const navigate = useNavigate();
 
   //handle user login information
-  const handleUserLoginInformation = (userLoginData) => {
-    userLoginData.preventDefault()
+  const handleUserLoginInformation = (e, userLoginData) => {
+    e.preventDefault()
 
     setEmail(userLoginData.email)
     setPassword(userLoginData.password)
     setUsername(userLoginData.username)
+    setToggleForm(true)
   }
 
-  //handle user goal information
-  const handleUserInformation = (userInformation) => {
-    userInformation.preventDefault()
-
-    setGender(userInformation.gender)
-    setAge(userInformation.age)
-    setSize(userInformation.size)
-    setWeight(userInformation.weight)
-    setBmi(userInformation.bmi)
-    setGoal(userInformation.goal)
-    setActivityLevel(userInformation.activityLevel)
-    setCalorieDemand(userInformation.calorieDemand)
-    setDiet(userInformation.diet)
-    setBreakfastTime(userInformation.breakfastTime)
-    setLunchTime(userInformation.lunchTime)
-    setDinnerTime(userInformation.dinnerTime)
-    setExcludedIngredients(userInformation.excludedIngredients)
-
-    handleSignupSubmit()
-  }
-  
-  const handleSignupSubmit = (e) => {
-    e.preventDefault();
+  //handle user information
+  const handleUserInformation = (e, userInformation) => {
+    e.preventDefault()
 
     const userData = {
       email: email,
       password: password,
       username: username,
-      gender: gender,
-      age: age,
-      size: size,
-      weight: weight,
-      bmi: bmi,
-      goal: goal,
-      activityLevel: activityLevel,
-      calorieDemand: calorieDemand,
-      diet: diet,
-      breakfastTime: breakfastTime,
-      lunchTime: lunchTime,
-      dinnerTime: dinnerTime,
-      excludedIngredients: excludedIngredients
+      gender: userInformation.gender,
+      age: userInformation.age,
+      size: userInformation.size,
+      weight: userInformation.weight,
+      bmi: userInformation.bmi,
+      goal: userInformation.goal.toString(),
+      activityLevel: userInformation.activityLevel,
+      calorieDemand: userInformation.calorieDemand,
+      diet: userInformation.diet,
+      breakfastTime: userInformation.breakfastTime,
+      lunchTime: userInformation.lunchTime,
+      dinnerTime: userInformation.dinnerTime,
+      excludedIngredients: userInformation.excludedIngredients
     }   
 
-    console.log(userData)
+    console.log("user data", userData)
 
     authService.signup(userData)
-      .then((response) => {
-        navigate("/login")
+      .then(() => {
+        authService.login({email: userData.email, password: userData.password})
+          .then((response) => {
+            console.log("JWT token", response.data.authToken)
+            
+            storeToken(response.data.authToken)
+            authenticateUser()
+            navigate("/dashboard")
+          })
+          .catch((error) => {
+            const errorDescription = error.response.data.message
+            setErrorMessage(errorDescription)
+        })
       })
       .catch((error) => {
         const errorDescription = error.response.data.message;
         setErrorMessage(errorDescription)
       })
-  };
-
+  }
   
   return (
     <div className="SignupPage">
-      <SignupUserLogin handleUserLoginInformation={handleUserLoginInformation} />
+      { !toggleForm && <SignupUserLogin handleUserLoginInformation={handleUserLoginInformation} /> }
 
-      <SignupUserInformation handleUserInformation={handleUserInformation} />
+      { toggleForm && <SignupUserInformation handleUserInformation={handleUserInformation} /> }
 
       { errorMessage && <p className="error-message">{errorMessage}</p> }
     </div>

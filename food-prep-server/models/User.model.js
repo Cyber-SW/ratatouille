@@ -25,24 +25,23 @@ const userSchema = new Schema(
       enum: ["Male", "Female"]
     },
     age: {
-      type: Number,
+      type: String,
       required: [true, "Age is required."]
     },
     size: {
-      type: Number,
+      type: String,
       required: [true, "Size is required."]
     },
     weight: {
-      type: Number,
+      type: String,
       required: [true, "Weight is required."]
     },
     bmi: {
-      type: Number
+      type: String
     },
     goal: {
       type: String,
-      required: [true, "Goal is required."],
-      enum: ["Lose Weight", "Gain Weight", "Keep Weight"]
+      required: [true, "Goal is required."]
     },
     activityLevel: {
       type: String,
@@ -50,7 +49,7 @@ const userSchema = new Schema(
       enum: ["Only sitting or lying / Frail people", "Sedentary, hardly any physical activity / Office work at the desk", "Predominantly sitting, walking and standing / Students, pupils, cab drivers", "Mainly standing and walking / Salesman, waiter, craftsman", "Physically demanding work / Farmers, high performance athletes"]
     },
     calorieDemand: {
-      type: Number
+      type: String
     },
     diet: {
       type: String,

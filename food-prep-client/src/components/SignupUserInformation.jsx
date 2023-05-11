@@ -18,28 +18,31 @@ function SignupUserInformation({ handleUserInformation }) {
     const [excludedIngredients, setExcludedIngredients] = useState([])
     const [currentIngredient, setCurrentIngredient] = useState("")
 
-    const [errorMessage, setErrorMessage] = useState("")
+    const [errorMessage, setErrorMessage] = useState(undefined)
 
   
     const handleGender = (e) => setGender(e.target.value)
     const handleAge = (e) => setAge(e.target.value)
-    const handleGoal = (e) => setGoal(e.target.value)
+    // const handleGoal = (e) => setGoal(e.target.value)
     const handleDiet = (e) => setDiet(e.target.value)
     const handleBreakfastTime = (e) => setBreakfastTime(e.target.value)
     const handleLunchTime = (e) => setLunchTime(e.target.value)
     const handleDinnerTime = (e) => setDinnerTime(e.target.value)
 
-    function handleAddIngredient() {
-        if (currentIngredient && !excludedIngredients.includes(currentIngredient)) {
-            setExcludedIngredients([...excludedIngredients, currentIngredient])
-            setCurrentIngredient("")
+    function handleGoal(e) {
+        let goal = parseInt(calorieDemand)
+        
+        if (e.target.value === "Gain Weight") {
+            goal += 500
+        } else if (e.target.value === "Lose Weight") {
+            goal -= 750
+        } else {
+            goal = parseInt(calorieDemand)
         }
-        if (excludedIngredients.includes(currentIngredient)) {
-            setErrorMessage("This ingredient is already banned.")
-        }
+        setGoal(goal)
     }
 
-    function handleSize (e) {
+    function handleSize(e) {
         setSize(e.target.value)
 
         if (e.target.value && weight) {
@@ -55,32 +58,44 @@ function SignupUserInformation({ handleUserInformation }) {
             const calculatedBmi = e.target.value / (size / 100)**2
             setBmi((calculatedBmi).toFixed(2))
         }
-    } 
+    }
+    
+    function handleAddIngredient() {
+        if (currentIngredient && !excludedIngredients.includes(currentIngredient)) {
+            setExcludedIngredients([...excludedIngredients, currentIngredient])
+            setCurrentIngredient("")
+        }
+        if (excludedIngredients.includes(currentIngredient)) {
+            setErrorMessage("This ingredient is already banned.")
+        }
+    }
  
     function calculateCalorieDemand(e) {
         if (e.target.value === "Only sitting or lying / Frail people") {
-            gender === "Female" ? setCalorieDemand(((0.9 * weight * 24) * 1.2).toFixed(0)) && setActivityLevel(e.target.value)
-            : setCalorieDemand(((weight * 24) * 1.2).toFixed(0)) && setActivityLevel(e.target.value)
+            gender === "Female" ? setCalorieDemand(((0.9 * weight * 24) * 1.2).toFixed(0))
+            : setCalorieDemand(((weight * 24) * 1.2).toFixed(0))
         } else if (e.target.value === "Sedentary, hardly any physical activity / Office work at the desk") {
-            gender === "Female" ? setCalorieDemand(((0.9 * weight * 24) * 1.4).toFixed(0)) && setActivityLevel(e.target.value)
-            : setCalorieDemand(((weight * 24) * 1.5).toFixed(0)) && setActivityLevel(e.target.value)
+            gender === "Female" ? setCalorieDemand(((0.9 * weight * 24) * 1.4).toFixed(0))
+            : setCalorieDemand(((weight * 24) * 1.5).toFixed(0))
         } else if (e.target.value === "Predominantly sitting, walking and standing / Students, pupils, cab drivers") {
-            gender === "Female" ? setCalorieDemand(((0.9 * weight * 24) * 1.6).toFixed(0)) && setActivityLevel(e.target.value)
-            : setCalorieDemand(((weight * 24) * 1.7).toFixed(0)) && setActivityLevel(e.target.value)
+            gender === "Female" ? setCalorieDemand(((0.9 * weight * 24) * 1.6).toFixed(0))
+            : setCalorieDemand(((weight * 24) * 1.7).toFixed(0))
         } else if (e.target.value === "Mainly standing and walking / Salesman, waiter, craftsman") {
-            gender === "Female" ? setCalorieDemand(((0.9 * weight * 24) * 1.8).toFixed(0)) && setActivityLevel(e.target.value)
-            : setCalorieDemand(((weight * 24) * 1.9).toFixed(0)) && setActivityLevel(e.target.value)
+            gender === "Female" ? setCalorieDemand(((0.9 * weight * 24) * 1.8).toFixed(0))
+            : setCalorieDemand(((weight * 24) * 1.9).toFixed(0))
         } else if (e.target.value === "Physically demanding work / Farmers, high performance athletes") {
-            gender === "Female" ? setCalorieDemand(((0.9 * weight * 24) * 2.2).toFixed(0)) && setActivityLevel(e.target.value)
-            : setCalorieDemand(((weight * 24) * 2.4).toFixed(0)) && setActivityLevel(e.target.value)
+            gender === "Female" ? setCalorieDemand(((0.9 * weight * 24) * 2.2).toFixed(0))
+            : setCalorieDemand(((weight * 24) * 2.4).toFixed(0))
         }
+        setActivityLevel(e.target.value)
+        handleGoal(e)
     }
 
     return (
         <div>
             <h1>Let´s specify your goal!</h1>
 
-            <form onSubmit={() => handleUserInformation({
+            <form onSubmit={(e) => handleUserInformation(e, {
                 gender: gender,
                 age: age,
                 size: size,
@@ -97,9 +112,9 @@ function SignupUserInformation({ handleUserInformation }) {
                 })}>
 
                 <h2>Gender:</h2>
-                <input type="radio" name="gender" value="Male" onChange={handleGender} />
+                <input type="radio" name="gender" value={"Male"} onChange={handleGender} />
                 <label>Male</label>
-                <input type="radio" name="gender" value="Female" onChange={handleGender} />
+                <input type="radio" name="gender" value={"Female"} onChange={handleGender} />
                 <label>Female</label>
 
                 <label>Age in years:</label>
@@ -118,56 +133,56 @@ function SignupUserInformation({ handleUserInformation }) {
                 : "" }</h2>
                 {/* dont forget the missing conditionals */}
 
-                <h2>What is your goal?</h2>
-                <input type="radio" name="goal" value="Lose Weight" onChange={handleGoal} />
-                <label>Lose Weight</label>
-                <input type="radio" name="goal" value="Keep Weight" onChange={handleGoal} />
-                <label>Keep Weight</label>
-                <input type="radio" name="goal" value="Gain Weight" onChange={handleGoal} />
-                <label>Gain Weight</label>
-
                 <h2>What is your activity level?</h2>
                 <select name="calorie demand" id="calorie-demand" onChange={calculateCalorieDemand}>
-                    <option value="" selected disabled hidden>Please choose your activity level</option>
-                    <option value="Only sitting or lying / Frail people">Only sitting or lying / Frail people</option>
-                    <option value="Sedentary, hardly any physical activity / Office work at the desk">Sedentary, hardly any physical activity / Office work at the desk</option>
-                    <option value="Predominantly sitting, walking and standing / Students, pupils, cab drivers">Predominantly sitting, walking and standing / Students, pupils, cab drivers</option>
-                    <option value="Mainly standing and walking / Salesman, waiter, craftsman">Mainly standing and walking / Salesman, waiter, craftsman</option>
-                    <option value="Physically demanding work / Farmers, high performance athletes">Physically demanding work / Farmers, high performance athletes</option>
+                    <option value={""} selected disabled hidden>Please choose your activity level</option>
+                    <option value={"Only sitting or lying / Frail people"}>Only sitting or lying / Frail people</option>
+                    <option value={"Sedentary, hardly any physical activity / Office work at the desk"}>Sedentary, hardly any physical activity / Office work at the desk</option>
+                    <option value={"Predominantly sitting, walking and standing / Students, pupils, cab drivers"}>Predominantly sitting, walking and standing / Students, pupils, cab drivers</option>
+                    <option value={"Mainly standing and walking / Salesman, waiter, craftsman"}>Mainly standing and walking / Salesman, waiter, craftsman</option>
+                    <option value={"Physically demanding work / Farmers, high performance athletes"}>Physically demanding work / Farmers, high performance athletes</option>
                 </select>
 
-                <h2>Your calorie demand per day: {calorieDemand ? calorieDemand : "Choose your goal first."}</h2>
+                <h2>What is your goal?</h2>
+                <input type="radio" name="goal" value={"Lose Weight"} onChange={handleGoal} />
+                <label>Lose Weight</label>
+                <input type="radio" name="goal" value={"Keep Weight"} onChange={handleGoal} />
+                <label>Keep Weight</label>
+                <input type="radio" name="goal" value={"Gain Weight"} onChange={handleGoal} />
+                <label>Gain Weight</label>
+
+                <h2>Your calorie demand per day: {calorieDemand && goal ? goal : "Choose your goal first."}</h2>
 
                 <h2>What is your diet?</h2>
                 <select name="diet" id="diet" onChange={handleDiet}>
-                    <option value="" selected disabled hidden>Please choose your diet</option>
-                    <option value="Low carb">Low carb</option>
-                    <option value="Vegetarian">Vegetarian</option>
-                    <option value="Vegan">Vegan</option>
-                    <option value="No preference">No preference</option>
+                    <option value={""} selected disabled hidden>Please choose your diet</option>
+                    <option value={"Low Carb"}>Low carb</option>
+                    <option value={"Vegetarian"}>Vegetarian</option>
+                    <option value={"Vegan"}>Vegan</option>
+                    <option value={"No preference"}>No preference</option>
                 </select>
 
                 <h2>How much time do you have to prepare your meals?</h2>
                 <label>Maximum time to prepare breakfast</label>
                 <select name="breakfast time" id="breakfast-time" onChange={handleBreakfastTime}>
-                    <option value="">Please choose an option</option>
-                    <option value="10 minutes">10 minutes</option>
-                    <option value="20 minutes">20 minutes</option>
-                    <option value="30 minutes">30 minutes</option>
+                    <option value={""}>Please choose an option</option>
+                    <option value={"10 minutes"}>10 minutes</option>
+                    <option value={"20 minutes"}>20 minutes</option>
+                    <option value={"30 minutes"}>30 minutes</option>
                 </select>
                 <label>Maximum time to prepare lunch</label>
                 <select name="lunch time" id="lunch-time" onChange={handleLunchTime}>
-                    <option value="" selected disabled hidden>Please choose an option</option>
-                    <option value="15 minutes">15 minutes</option>
-                    <option value="30 minutes">30 minutes</option>
-                    <option value="60 minutes">60 minutes</option>
+                    <option value={""} selected disabled hidden>Please choose an option</option>
+                    <option value={"15 minutes"}>15 minutes</option>
+                    <option value={"30 minutes"}>30 minutes</option>
+                    <option value={"60 minutes"}>60 minutes</option>
                 </select>
                 <label>Maximum time to prepare dinner</label>
                 <select name="dinner time" id="dinner-time" onChange={handleDinnerTime}>
-                    <option value="" selected disabled hidden>Please choose an option</option>
-                    <option value="10 minutes">10 minutes</option>
-                    <option value="20 minutes">20 minutes</option>
-                    <option value="30 minutes">30 minutes</option>
+                    <option value={""} selected disabled hidden>Please choose an option</option>
+                    <option value={"10 minutes"}>10 minutes</option>
+                    <option value={"20 minutes"}>20 minutes</option>
+                    <option value={"30 minutes"}>30 minutes</option>
                 </select>
 
                 <h2>What ingredients should be banned from your plate?</h2>
