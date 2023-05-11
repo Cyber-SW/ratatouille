@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { AuthContext } from "../context/auth.context";
 import { Navigate } from "react-router-dom";
+import PropTypes from "prop-types"
 
 function IsPrivate({ children }) {
   const { isLoggedIn, isLoading } = useContext(AuthContext);
@@ -16,5 +17,9 @@ function IsPrivate({ children }) {
     return children;
   }
 }
+
+IsPrivate.propTypes = {
+  children: PropTypes.node.isRequired
+};
 
 export default IsPrivate;

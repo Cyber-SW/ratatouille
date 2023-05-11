@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const { response } = require("express");
 const User = require("../models/User.model");
-const mongoose = require("mongoose")
 
 router.get("/", (req, res, next) => {
   res.json("All good in here");

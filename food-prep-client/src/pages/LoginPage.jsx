@@ -4,7 +4,7 @@ import { AuthContext } from "../context/auth.context"
 import authService from "./../services/auth.service"
 
 
-function LoginPage(props) {
+function LoginPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [errorMessage, setErrorMessage] = useState(undefined)
@@ -29,7 +29,7 @@ function LoginPage(props) {
         
         storeToken(response.data.authToken)
         authenticateUser()
-        navigate("/")
+        navigate("/dashboard")
       })
       .catch((error) => {
         const errorDescription = error.response.data.message
@@ -52,7 +52,7 @@ function LoginPage(props) {
       </form>
       { errorMessage && <p className="error-message">{errorMessage}</p> }
 
-      <p>Don't have an account yet?</p>
+      <p>Do not have an account yet?</p>
       <Link to={"/signup"}> Sign up</Link>
     </div>
   )

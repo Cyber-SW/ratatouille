@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import PropTypes from "prop-types"
 
 
@@ -10,6 +10,7 @@ function SignupUserInformation({ handleUserInformation }) {
     const [bmi, setBmi] = useState("")
     const [goal, setGoal] = useState("")
     const [activityLevel, setActivityLevel] = useState("")
+    const [storeCalorieDemand, setStoreCalorieDemand] = useState("")
     const [calorieDemand, setCalorieDemand] = useState("")
     const [diet, setDiet] = useState("")
     const [breakfastTime, setBreakfastTime] = useState("")
@@ -23,24 +24,41 @@ function SignupUserInformation({ handleUserInformation }) {
   
     const handleGender = (e) => setGender(e.target.value)
     const handleAge = (e) => setAge(e.target.value)
-    // const handleGoal = (e) => setGoal(e.target.value)
     const handleDiet = (e) => setDiet(e.target.value)
     const handleBreakfastTime = (e) => setBreakfastTime(e.target.value)
     const handleLunchTime = (e) => setLunchTime(e.target.value)
     const handleDinnerTime = (e) => setDinnerTime(e.target.value)
+    const handleCurrentIngredient = (e) => setCurrentIngredient(e.target.value)
 
     function handleGoal(e) {
-        let goal = parseInt(calorieDemand)
+        let total = parseInt(storeCalorieDemand)
         
         if (e.target.value === "Gain Weight") {
-            goal += 500
+            setCalorieDemand(total += 500)
+            setGoal("Gain Weight")
         } else if (e.target.value === "Lose Weight") {
-            goal -= 750
+            setCalorieDemand(total -= 750)
+            setGoal("Lose Weight")
         } else {
-            goal = parseInt(calorieDemand)
+            setCalorieDemand(total)
+            setGoal("Keep Weight")
         }
-        setGoal(goal)
     }
+
+    useEffect(() => {
+        let total = parseInt(storeCalorieDemand)
+        
+        if (goal === "Gain Weight") {
+            setCalorieDemand(total += 500)
+            setGoal("Gain Weight")
+        } else if (goal === "Lose Weight") {
+            setCalorieDemand(total -= 750)
+            setGoal("Lose Weight")
+        } else {
+            setCalorieDemand(total)
+            setGoal("Keep Weight")
+        }
+    }, [storeCalorieDemand])
 
     function handleSize(e) {
         setSize(e.target.value)
@@ -72,23 +90,23 @@ function SignupUserInformation({ handleUserInformation }) {
  
     function calculateCalorieDemand(e) {
         if (e.target.value === "Only sitting or lying / Frail people") {
-            gender === "Female" ? setCalorieDemand(((0.9 * weight * 24) * 1.2).toFixed(0))
-            : setCalorieDemand(((weight * 24) * 1.2).toFixed(0))
+            gender === "Female" ? setStoreCalorieDemand(((0.9 * weight * 24) * 1.2).toFixed(0))
+            : setStoreCalorieDemand(((weight * 24) * 1.2).toFixed(0))
         } else if (e.target.value === "Sedentary, hardly any physical activity / Office work at the desk") {
-            gender === "Female" ? setCalorieDemand(((0.9 * weight * 24) * 1.4).toFixed(0))
-            : setCalorieDemand(((weight * 24) * 1.5).toFixed(0))
+            gender === "Female" ? setStoreCalorieDemand(((0.9 * weight * 24) * 1.4).toFixed(0))
+            : setStoreCalorieDemand(((weight * 24) * 1.5).toFixed(0))
         } else if (e.target.value === "Predominantly sitting, walking and standing / Students, pupils, cab drivers") {
-            gender === "Female" ? setCalorieDemand(((0.9 * weight * 24) * 1.6).toFixed(0))
-            : setCalorieDemand(((weight * 24) * 1.7).toFixed(0))
+            gender === "Female" ? setStoreCalorieDemand(((0.9 * weight * 24) * 1.6).toFixed(0))
+            : setStoreCalorieDemand(((weight * 24) * 1.7).toFixed(0))
         } else if (e.target.value === "Mainly standing and walking / Salesman, waiter, craftsman") {
-            gender === "Female" ? setCalorieDemand(((0.9 * weight * 24) * 1.8).toFixed(0))
-            : setCalorieDemand(((weight * 24) * 1.9).toFixed(0))
+            gender === "Female" ? setStoreCalorieDemand(((0.9 * weight * 24) * 1.8).toFixed(0))
+            : setStoreCalorieDemand(((weight * 24) * 1.9).toFixed(0))
         } else if (e.target.value === "Physically demanding work / Farmers, high performance athletes") {
-            gender === "Female" ? setCalorieDemand(((0.9 * weight * 24) * 2.2).toFixed(0))
-            : setCalorieDemand(((weight * 24) * 2.4).toFixed(0))
+            gender === "Female" ? setStoreCalorieDemand(((0.9 * weight * 24) * 2.2).toFixed(0))
+            : setStoreCalorieDemand(((weight * 24) * 2.4).toFixed(0))
         }
         setActivityLevel(e.target.value)
-        handleGoal(e)
+        // handleGoal(e)
     }
 
     return (
@@ -151,7 +169,7 @@ function SignupUserInformation({ handleUserInformation }) {
                 <input type="radio" name="goal" value={"Gain Weight"} onChange={handleGoal} />
                 <label>Gain Weight</label>
 
-                <h2>Your calorie demand per day: {calorieDemand && goal ? goal : "Choose your goal first."}</h2>
+                <h2>Your calorie demand per day: {calorieDemand && goal ? calorieDemand : "Choose your goal first."}</h2>
 
                 <h2>What is your diet?</h2>
                 <select name="diet" id="diet" onChange={handleDiet}>
@@ -186,7 +204,7 @@ function SignupUserInformation({ handleUserInformation }) {
                 </select>
 
                 <h2>What ingredients should be banned from your plate?</h2>
-                <input type="text" name="excludedIngredients" value={currentIngredient} onChange={(e) => setCurrentIngredient(e.target.value)} />
+                <input type="text" name="excludedIngredients" value={currentIngredient} onChange={handleCurrentIngredient} />
                 <button type="button" onClick={handleAddIngredient}>Ban ingredient</button>
 
                 <ul>

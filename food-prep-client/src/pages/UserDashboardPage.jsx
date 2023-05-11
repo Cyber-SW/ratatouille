@@ -6,8 +6,8 @@ import userDataService from "../services/userData.service"
 
 
 function UserDashboardPage() {
-    const [userData, setUserData] = useState(null)
-
+    const [userData, setUserData] = useState({})
+    
     const { user } = useContext(AuthContext)
 
     useEffect(() => {
@@ -17,11 +17,13 @@ function UserDashboardPage() {
     
 
     useEffect(() => {
-        userDataService.fetchUserData(user._id)
+        if (user) {
+            userDataService.fetchUserData(user._id)
             .then(response => {
                 setUserData(response.data)
             })
-    }, [])
+        }
+    }, [user])
 
 
 
@@ -29,6 +31,7 @@ function UserDashboardPage() {
         <div>
             <Navbar />
 
+            <h1>Dashboard</h1>
         </div>
     )
 }
