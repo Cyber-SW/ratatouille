@@ -1,7 +1,7 @@
 import axios from "axios"
 
 
-class UserDataService {
+class UserService {
     constructor() {
         this.api = axios.create({
             baseURL: import.meta.env.VITE_REACT_APP_SERVER_URL,
@@ -21,8 +21,13 @@ class UserDataService {
     fetchUserData = (userId) => {
         return this.api.get(`api/user/${userId}`)
     }
+
+    fetchUserMeal = (userId, newMeal) => {
+        console.log("request body", newMeal)
+        return this.api.post(`api/user/new-meal/${userId}`, { newMeal: newMeal })
+    }
 }
 
-const userDataService = new UserDataService();
+const userService = new UserService();
 
-export default userDataService;
+export default userService;

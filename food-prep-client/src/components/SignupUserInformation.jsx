@@ -106,7 +106,6 @@ function SignupUserInformation({ handleUserInformation }) {
             : setStoreCalorieDemand(((weight * 24) * 2.4).toFixed(0))
         }
         setActivityLevel(e.target.value)
-        // handleGoal(e)
     }
 
     return (
