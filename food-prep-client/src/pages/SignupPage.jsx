@@ -50,9 +50,6 @@ function SignupPage() {
       activityLevel: userInformation.activityLevel,
       calorieDemand: userInformation.calorieDemand,
       diet: userInformation.diet,
-      breakfastTime: userInformation.breakfastTime,
-      lunchTime: userInformation.lunchTime,
-      dinnerTime: userInformation.dinnerTime,
       excludedIngredients: userInformation.excludedIngredients
     }   
 
@@ -66,7 +63,7 @@ function SignupPage() {
             
             storeToken(response.data.authToken)
             authenticateUser()
-            navigate("/dashboard")
+            navigate("/new-meal")
           })
           .catch((error) => {
             const errorDescription = error.response.data.message

@@ -9,13 +9,21 @@ function Navbar() {
 
     return (
         <nav>
-            <NavLink to="/" className={({ isActive, isPending }) => isPending ? "pending" : isActive ? "active" : "" } />
+            {/* <NavLink to="/" className={({ isActive, isPending }) => isPending ? "pending" : isActive ? "active" : "" } /> */}
 
             {isLoggedIn && (
         <>
-            {/* <NavLink></NavLink> */}
-            <button onClick={logOutUser}>Logout</button>
-            <span>{user && user.username}</span>
+            <div>
+                <span>{user && user.username}</span>
+            </div>
+            <div>
+                <NavLink to="/">Home</NavLink>
+                <NavLink to="/new-meal">New Meal</NavLink>
+                <NavLink to="/favorites">Favorites</NavLink>
+                <NavLink to="/shopping-list">Shopping List</NavLink>
+                <NavLink to="/profile">Profile</NavLink>
+                <button onClick={logOutUser}>Logout</button>
+            </div>
         </>
       )}
 

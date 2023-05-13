@@ -24,9 +24,6 @@ router.post('/signup', (req, res, next) => {
     activityLevel,
     calorieDemand,
     diet,
-    breakfastTime,
-    lunchTime,
-    dinnerTime,
     excludedIngredients
   } = req.body;
 
@@ -79,9 +76,6 @@ router.post('/signup', (req, res, next) => {
         activityLevel,
         calorieDemand,
         diet,
-        breakfastTime,
-        lunchTime,
-        dinnerTime,
         excludedIngredients
       });
     })
@@ -101,9 +95,6 @@ router.post('/signup', (req, res, next) => {
         activityLevel,
         calorieDemand,
         diet,
-        breakfastTime,
-        lunchTime,
-        dinnerTime,
         excludedIngredients
       } = createdUser;
     
@@ -121,9 +112,6 @@ router.post('/signup', (req, res, next) => {
         activityLevel,
         calorieDemand,
         diet,
-        breakfastTime,
-        lunchTime,
-        dinnerTime,
         excludedIngredients
       };
 

@@ -3,9 +3,13 @@ import { Routes, Route } from "react-router-dom"
 import HomePage from "./pages/HomePage"
 import LoginPage from "./pages/LoginPage"
 import SignupPage from "./pages/SignupPage"
-import UserDashboardPage from "./pages/UserDashboardPage"
+import NewMealPage from "./pages/NewMealPage"
 import IsAnon from './components/IsAnon'
 import IsPrivate from './components/isPrivate'
+import MealDetailsPage from "./pages/MealDetailsPage"
+import FavoritesPage from "./pages/FavoritesPage"
+import ShoppingListPage from "./pages/ShoppingListPage"
+import ProfilePage from "./pages/ProfilePage"
 
 
 function App() {
@@ -16,7 +20,11 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/signup" element={<IsAnon> <SignupPage /> </IsAnon>} />
         <Route path="/login" element={<IsAnon> <LoginPage /> </IsAnon>} />
-        <Route path="/dashboard" element={<IsPrivate> <UserDashboardPage /> </IsPrivate>} />
+        <Route path="/new-meal" element={<IsPrivate> <NewMealPage /> </IsPrivate>} />
+        <Route path="/favorites" element={<IsPrivate> <FavoritesPage /> </IsPrivate>} />
+        <Route path="/shopping-list" element={<IsPrivate> <ShoppingListPage /> </IsPrivate>} />
+        <Route path="/profile" element={<IsPrivate> <ProfilePage /> </IsPrivate>} />
+        <Route path="/meal-details" element={<IsPrivate> <MealDetailsPage /> </IsPrivate>} />
       </Routes>
     </div>
   )

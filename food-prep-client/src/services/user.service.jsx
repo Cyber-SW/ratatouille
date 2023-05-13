@@ -26,6 +26,11 @@ class UserService {
         console.log("request body", newMeal)
         return this.api.post(`api/user/new-meal/${userId}`, { newMeal: newMeal })
     }
+
+    fetchMealImage = (newMealName) => {
+        console.log("request picture", newMealName)
+        return this.api.get(`api/user/new-meal/${newMealName}`)
+    }
 }
 
 const userService = new UserService();

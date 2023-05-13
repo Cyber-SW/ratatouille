@@ -13,9 +13,6 @@ function SignupUserInformation({ handleUserInformation }) {
     const [storeCalorieDemand, setStoreCalorieDemand] = useState("")
     const [calorieDemand, setCalorieDemand] = useState("")
     const [diet, setDiet] = useState("")
-    const [breakfastTime, setBreakfastTime] = useState("")
-    const [lunchTime, setLunchTime] = useState("")
-    const [dinnerTime, setDinnerTime] = useState("")
     const [excludedIngredients, setExcludedIngredients] = useState([])
     const [currentIngredient, setCurrentIngredient] = useState("")
 
@@ -25,9 +22,6 @@ function SignupUserInformation({ handleUserInformation }) {
     const handleGender = (e) => setGender(e.target.value)
     const handleAge = (e) => setAge(e.target.value)
     const handleDiet = (e) => setDiet(e.target.value)
-    const handleBreakfastTime = (e) => setBreakfastTime(e.target.value)
-    const handleLunchTime = (e) => setLunchTime(e.target.value)
-    const handleDinnerTime = (e) => setDinnerTime(e.target.value)
     const handleCurrentIngredient = (e) => setCurrentIngredient(e.target.value)
 
     function handleGoal(e) {
@@ -122,9 +116,6 @@ function SignupUserInformation({ handleUserInformation }) {
                 activityLevel: activityLevel,
                 calorieDemand: calorieDemand,
                 diet: diet,
-                breakfastTime: breakfastTime,
-                lunchTime: lunchTime,
-                dinnerTime: dinnerTime,
                 excludedIngredients: excludedIngredients 
                 })}>
 
@@ -173,33 +164,10 @@ function SignupUserInformation({ handleUserInformation }) {
                 <h2>What is your diet?</h2>
                 <select name="diet" id="diet" onChange={handleDiet}>
                     <option value={""} selected disabled hidden>Please choose your diet</option>
-                    <option value={"Low Carb"}>Low carb</option>
-                    <option value={"Vegetarian"}>Vegetarian</option>
-                    <option value={"Vegan"}>Vegan</option>
-                    <option value={"No preference"}>No preference</option>
-                </select>
-
-                <h2>How much time do you have to prepare your meals?</h2>
-                <label>Maximum time to prepare breakfast</label>
-                <select name="breakfast time" id="breakfast-time" onChange={handleBreakfastTime}>
-                    <option value={""}>Please choose an option</option>
-                    <option value={"10 minutes"}>10 minutes</option>
-                    <option value={"20 minutes"}>20 minutes</option>
-                    <option value={"30 minutes"}>30 minutes</option>
-                </select>
-                <label>Maximum time to prepare lunch</label>
-                <select name="lunch time" id="lunch-time" onChange={handleLunchTime}>
-                    <option value={""} selected disabled hidden>Please choose an option</option>
-                    <option value={"15 minutes"}>15 minutes</option>
-                    <option value={"30 minutes"}>30 minutes</option>
-                    <option value={"60 minutes"}>60 minutes</option>
-                </select>
-                <label>Maximum time to prepare dinner</label>
-                <select name="dinner time" id="dinner-time" onChange={handleDinnerTime}>
-                    <option value={""} selected disabled hidden>Please choose an option</option>
-                    <option value={"10 minutes"}>10 minutes</option>
-                    <option value={"20 minutes"}>20 minutes</option>
-                    <option value={"30 minutes"}>30 minutes</option>
+                    <option value={"low carb"}>Low carb</option>
+                    <option value={"vegetarian"}>Vegetarian</option>
+                    <option value={"vegan"}>Vegan</option>
+                    <option value={"any delicious"}>No preference</option>
                 </select>
 
                 <h2>What ingredients should be banned from your plate?</h2>

@@ -54,22 +54,7 @@ const userSchema = new Schema(
     diet: {
       type: String,
       required: [true, "Preferences are required."],
-      enum: ["No Preference", "Vegetarian", "Vegan", "Low Carb"]
-    },
-    breakfastTime: {
-      type: String,
-      required: [true, "breakfastTime is required."],
-      enum: ["10 minutes", "20 minutes", "30 minutes"]
-    },
-    lunchTime: {
-      type: String,
-      required: [true, "lunchTime is required."],
-      enum: ["15 minutes", "30 minutes", "60 minutes"]
-    },
-    dinnerTime: {
-      type: String,
-      required: [true, "dinnerTime is required."],
-      enum: ["10 minutes", "20 minutes", "30 minutes"]
+      enum: ["any delicious", "vegetarian", "vegan", "low Carb"]
     },
     excludedIngredients: {
       type: Array
