@@ -59,6 +59,16 @@ const userSchema = new Schema(
     excludedIngredients: {
       type: Array
     },
+    appState: {
+      type: Object,
+      default: {
+        mealInformation: "",
+        mealIngredients: "",
+        mealInstructions: "",
+        mealShoppingList: "",
+        mealImage: ""
+      }
+    },
     fridge: {
       type: Array
     }

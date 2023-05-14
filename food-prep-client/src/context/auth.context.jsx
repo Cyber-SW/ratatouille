@@ -3,6 +3,7 @@ import authService from "./../services/auth.service";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom"
 
+
 const AuthContext = React.createContext();
 
 function AuthProviderWrapper(props) {
@@ -55,7 +56,8 @@ function AuthProviderWrapper(props) {
   const removeToken = () => {
     // Upon logout, remove the token from the localStorage
     localStorage.removeItem("authToken");
-  }    
+  }
+
   
   const logOutUser = () => {
     removeToken();

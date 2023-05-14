@@ -22,9 +22,13 @@ class UserService {
         return this.api.get(`api/user/${userId}`)
     }
 
+    storeUserAppState = (userId, appState) => {
+        return this.api.post(`api/user/${userId}/update-state`, { appState: appState })
+    }
+
     fetchUserMeal = (userId, newMeal) => {
         console.log("request body", newMeal)
-        return this.api.post(`api/user/new-meal/${userId}`, { newMeal: newMeal })
+        return this.api.post(`api/user/${userId}/new-meal`, { newMeal: newMeal })
     }
 
     fetchMealImage = (newMealName) => {

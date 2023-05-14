@@ -1,27 +1,71 @@
 const router = require("express").Router();
+const mongoose = require("mongoose")
 const { google } = require("googleapis")
 const User = require("../models/User.model");
 const { Configuration, OpenAIApi } = require("openai")
+
 
 router.get("/", (req, res, next) => {
   res.json("All good in here");
 });
 
+
 //user data routes
-router.get("/user/:userId", (req, res, next) => {
+router.get("/user/:userId", (req, res) => {
   const userId = req.params.userId
 
   User.findById(userId)
-    .then(user => {
+    .then(receivedUser => {
+      const {
+        username,
+        _id,
+        gender,
+        age,
+        size,
+        weight,
+        bmi,
+        goal,
+        activityLevel,
+        calorieDemand,
+        diet,
+        excludedIngredients,
+        appState
+      } = receivedUser;
+      //omit email and password
+      const user = {
+        username,
+        _id,
+        gender,
+        age,
+        size,
+        weight,
+        bmi,
+        goal,
+        activityLevel,
+        calorieDemand,
+        diet,
+        excludedIngredients,
+        appState
+      };
       res.json(user)
     })
 })
 
-module.exports = router;
+
+//store user app state
+router.post("/user/:userId/update-state", (req, res) => {
+  const userId = req.params.userId
+  const userObjectId = new mongoose.Types.ObjectId(userId)
+  const { appState } = req.body
+
+  User.findByIdAndUpdate(userObjectId, { appState }, { new: true })
+    .then(() => res.status(200))
+    .catch(err => console.log(err))
+})
 
 
 //external api route: openai API
-router.post("/user/new-meal/:userId", (req, res, next) => {
+router.post("/user/:userId/new-meal", (req, res) => {
   const { newMeal } = req.body
   console.log("meal instructions", req.body)
 
@@ -51,7 +95,7 @@ router.post("/user/new-meal/:userId", (req, res, next) => {
 
 
 //external api route: Custom Search JSON API
-router.get("/user/new-meal/:newMealName", async (req, res, next) => {
+router.get("/user/new-meal/:newMealName", async (req, res) => {
   const newMealImage = req.params.newMealName
   console.log("NEW MEAL NAME", newMealImage)
 
@@ -85,3 +129,6 @@ router.get("/user/new-meal/:newMealName", async (req, res, next) => {
     }
   }
 });
+
+
+module.exports = router;

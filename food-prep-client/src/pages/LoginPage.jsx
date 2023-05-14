@@ -29,7 +29,7 @@ function LoginPage() {
         
         storeToken(response.data.authToken)
         authenticateUser()
-        navigate("/dashboard")
+        navigate("/new-meal")
       })
       .catch((error) => {
         const errorDescription = error.response.data.message

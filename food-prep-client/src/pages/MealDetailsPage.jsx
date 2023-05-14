@@ -1,12 +1,16 @@
 import Navbar from "../components/Navbar"
-import { useState, useEffect } from "react"
-
+import { useState, useEffect, useContext } from "react"
+import { DataStorageContext } from "../context/dataStorage.context"
 
 function MealDetailsPage() {
-    const [mealInformation] = useState(JSON.parse(localStorage.getItem('mealInformation')))
-    const [mealIngredients] = useState(JSON.parse(localStorage.getItem('mealIngredients')))
-    const [mealInstructions] = useState(JSON.parse(localStorage.getItem('mealInstructions')))
-    const [mealImage] = useState(JSON.parse(localStorage.getItem('mealImage')))
+    const { storedMealInformation, storedMealImage, storedMealIngredients, storedMealInstructions } = useContext(DataStorageContext)
+
+    const [mealInformation] = useState(storedMealInformation)
+    const [mealIngredients] = useState(storedMealIngredients)
+    const [mealInstructions] = useState(storedMealInstructions)
+    const [mealImage] = useState(storedMealImage)
+
+    
 
     const [splittedInformation, setSplittedInformation] = useState([])
     const [splittedIngredients, setSplittedIngredients] = useState([])
