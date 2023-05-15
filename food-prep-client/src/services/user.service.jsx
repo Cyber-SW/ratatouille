@@ -26,6 +26,10 @@ class UserService {
         return this.api.post(`api/user/${userId}/update-state`, { appState: appState })
     }
 
+    updateUserProfile = (userId, updatedInfo) => {
+        return this.api.post(`api/user/${userId}/profile/edit`, { updatedInfo: updatedInfo })
+    }
+
     fetchUserMeal = (userId, newMeal) => {
         console.log("request body", newMeal)
         return this.api.post(`api/user/${userId}/new-meal`, { newMeal: newMeal })

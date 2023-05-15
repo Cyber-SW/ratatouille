@@ -2,7 +2,7 @@ import Navbar from "../components/Navbar"
 import { useState } from "react"
 
 function ShoppingListPage() {
-    const [shoppingList, setMealShoppingList] = useState([])
+    const [shoppingList, setShoppingList] = useState([])
     const [currentIngredient, setCurrentIngredient] = useState("")
     const [errorMessage, setErrorMessage] = useState(undefined)
 
@@ -16,12 +16,19 @@ function ShoppingListPage() {
 
     function handleAddIngredient() {
         if (currentIngredient && !shoppingList.includes(currentIngredient)) {
-            setMealShoppingList([...shoppingList, currentIngredient])
+            setShoppingList([...shoppingList, currentIngredient])
             setCurrentIngredient("")
         }
         if (shoppingList.includes(currentIngredient)) {
             setErrorMessage("This ingredient is already banned.")
         }
+    }
+
+    function handleDeleteIngredient(selectedIndex) {
+        const filteredShoppingList = shoppingList.filter((ingredient, index) => {
+            return index !== selectedIndex
+        })
+        setShoppingList(filteredShoppingList)
     }
 
 
@@ -37,7 +44,7 @@ function ShoppingListPage() {
 
             <ul>
                     { shoppingList.map((ingredient, index) => (
-                        <li key={index}>{ingredient}</li>
+                        <li key={index}>{ingredient} <button type="button" onClick={() => handleDeleteIngredient(index)}>Delete</button></li>
                     ))}
                 </ul>
                 { errorMessage && <p className="error-message">{errorMessage}</p> }

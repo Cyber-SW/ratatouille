@@ -27,30 +27,30 @@ function SignupUserInformation({ handleUserInformation }) {
     function handleGoal(e) {
         let total = parseInt(storeCalorieDemand)
         
-        if (e.target.value === "Gain Weight") {
+        if (e.target.value === "Gain weight") {
             setCalorieDemand(total += 500)
-            setGoal("Gain Weight")
-        } else if (e.target.value === "Lose Weight") {
+            setGoal("Gain weight")
+        } else if (e.target.value === "Lose weight") {
             setCalorieDemand(total -= 750)
-            setGoal("Lose Weight")
+            setGoal("Lose weight")
         } else {
             setCalorieDemand(total)
-            setGoal("Keep Weight")
+            setGoal("Keep weight")
         }
     }
 
     useEffect(() => {
         let total = parseInt(storeCalorieDemand)
         
-        if (goal === "Gain Weight") {
+        if (goal === "Gain weight") {
             setCalorieDemand(total += 500)
-            setGoal("Gain Weight")
-        } else if (goal === "Lose Weight") {
+            setGoal("Gain weight")
+        } else if (goal === "Lose weight") {
             setCalorieDemand(total -= 750)
-            setGoal("Lose Weight")
+            setGoal("Lose weight")
         } else {
             setCalorieDemand(total)
-            setGoal("Keep Weight")
+            setGoal("Keep weight")
         }
     }, [storeCalorieDemand])
 
@@ -152,11 +152,11 @@ function SignupUserInformation({ handleUserInformation }) {
                 </select>
 
                 <h2>What is your goal?</h2>
-                <input type="radio" name="goal" value={"Lose Weight"} onChange={handleGoal} />
+                <input type="radio" name="goal" value={"Lose weight"} onChange={handleGoal} />
                 <label>Lose Weight</label>
-                <input type="radio" name="goal" value={"Keep Weight"} onChange={handleGoal} />
+                <input type="radio" name="goal" value={"Keep weight"} onChange={handleGoal} />
                 <label>Keep Weight</label>
-                <input type="radio" name="goal" value={"Gain Weight"} onChange={handleGoal} />
+                <input type="radio" name="goal" value={"Gain weight"} onChange={handleGoal} />
                 <label>Gain Weight</label>
 
                 <h2>Your calorie demand per day: {calorieDemand && goal ? calorieDemand : "Choose your goal first."}</h2>
@@ -167,7 +167,7 @@ function SignupUserInformation({ handleUserInformation }) {
                     <option value={"low carb"}>Low carb</option>
                     <option value={"vegetarian"}>Vegetarian</option>
                     <option value={"vegan"}>Vegan</option>
-                    <option value={"any delicious"}>No preference</option>
+                    <option value={"any delicious"}>Any delicious</option>
                 </select>
 
                 <h2>What ingredients should be banned from your plate?</h2>
@@ -175,7 +175,7 @@ function SignupUserInformation({ handleUserInformation }) {
                 <button type="button" onClick={handleAddIngredient}>Ban ingredient</button>
 
                 <ul>
-                    { excludedIngredients.map((ingredient, index) => (
+                    { excludedIngredients && excludedIngredients.map((ingredient, index) => (
                         <li key={index}>{ingredient}</li>
                     ))}
                 </ul>

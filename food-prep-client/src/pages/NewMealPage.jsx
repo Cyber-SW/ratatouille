@@ -12,7 +12,6 @@ function NewMealPage() {
     const [mealTime, setMealTime] = useState("")
     const [mealKcal, setMealKcal] = useState("")
     const [newMeal, setNewMeal] = useState("")
-    const [goalDemand, setGoalDemand] = useState("")
     const [splittedInformation, setSplittedInformation] = useState([])
     
     const { user } = useContext(AuthContext)
@@ -22,10 +21,9 @@ function NewMealPage() {
     const handleMealTime = (e) => setMealTime(e.target.value)
     const handleMealKcal = (e) => setMealKcal(e.target.value)
 
-    useEffect(() => {
-        const goalDemand = (mealKcal * 100) / userData.calorieDemand
-        setGoalDemand(goalDemand.toFixed(0))
-    }, [mealKcal])
+
+    // const goalDemand = (mealKcal * 100) / userData.calorieDemand
+
     // console.log("STORED MEAL INFORMATION", storedMealInformation)
     // console.log("STORED IMAGE", storedMealImage)
 
@@ -151,7 +149,6 @@ function NewMealPage() {
 
                 <h2>~ Amount of calories</h2>
                 <input value={mealKcal} type="number" min="1" max="2000" name="meal kcal" onChange={handleMealKcal} />
-                <h2>This is {goalDemand}% of your daily calorie demand</h2>
 
                 <button type="submit">Suggest meal</button>
             </form>

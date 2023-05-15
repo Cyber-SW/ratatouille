@@ -63,6 +63,18 @@ router.post("/user/:userId/update-state", (req, res) => {
     .catch(err => console.log(err))
 })
 
+//update user profile
+router.post("/user/:userId/profile/edit", (req, res) => {
+  const userId = req.params.userId
+  const userObjectId = new mongoose.Types.ObjectId(userId)
+  const { updatedInfo } = req.body
+  console.log({updatedInfo})
+
+  User.findByIdAndUpdate(userObjectId, { size: updatedInfo.size, weight: updatedInfo.weight, bmi: updatedInfo.bmi, goal: updatedInfo.goal, activityLevel: updatedInfo.activityLevel, calorieDemand: updatedInfo.calorieDemand, diet: updatedInfo.diet, excludedIngredients: updatedInfo.excludedIngredients }, { new: true })
+    .then(() => res.status(200).send({ message: "Profile successfully updated!" }))
+    .catch(err => console.log(err))
+})
+
 
 //external api route: openai API
 router.post("/user/:userId/new-meal", (req, res) => {

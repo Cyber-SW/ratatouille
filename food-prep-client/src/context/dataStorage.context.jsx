@@ -57,7 +57,7 @@ function DataStorageProviderWrapper(props) {
 
     return (
         <DataStorageContext.Provider 
-            value={{ storedMealInformation, storedMealIngredients, storedMealInstructions, storedMealShoppingList, storedMealImage, handleDataStorage }}
+            value={{ storedMealInformation, storedMealIngredients, storedMealInstructions, storedMealShoppingList, storedMealImage, userData, handleDataStorage }}
         >
             {props.children}
         </DataStorageContext.Provider>
