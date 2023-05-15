@@ -30,13 +30,24 @@ class UserService {
         return this.api.post(`api/user/${userId}/profile/edit`, { updatedInfo: updatedInfo })
     }
 
+    updateUserShoppingList = (userId, newItem) => {
+        return this.api.post(`api/user/${userId}/shopping-list/update`, { newItem: newItem })
+    }
+
+    deleteOneShoppingList = (userId, index) => {
+        return this.api.post(`api/user/${userId}/shopping-list/delete-one`, { index: index })
+    }
+
+    deleteAllShoppingList = (userId) => {
+        console.log("delte all", userId)
+        return this.api.post(`api/user/${userId}/shopping-list/delete-all`)
+    }
+
     fetchUserMeal = (userId, newMeal) => {
-        console.log("request body", newMeal)
         return this.api.post(`api/user/${userId}/new-meal`, { newMeal: newMeal })
     }
 
     fetchMealImage = (newMealName) => {
-        console.log("request picture", newMealName)
         return this.api.get(`api/user/new-meal/${newMealName}`)
     }
 }

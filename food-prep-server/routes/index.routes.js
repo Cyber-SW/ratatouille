@@ -29,7 +29,8 @@ router.get("/user/:userId", (req, res) => {
         calorieDemand,
         diet,
         excludedIngredients,
-        appState
+        appState,
+        shoppingList
       } = receivedUser;
       //omit email and password
       const user = {
@@ -45,7 +46,8 @@ router.get("/user/:userId", (req, res) => {
         calorieDemand,
         diet,
         excludedIngredients,
-        appState
+        appState,
+        shoppingList
       };
       res.json(user)
     })
@@ -68,10 +70,67 @@ router.post("/user/:userId/profile/edit", (req, res) => {
   const userId = req.params.userId
   const userObjectId = new mongoose.Types.ObjectId(userId)
   const { updatedInfo } = req.body
-  console.log({updatedInfo})
 
-  User.findByIdAndUpdate(userObjectId, { size: updatedInfo.size, weight: updatedInfo.weight, bmi: updatedInfo.bmi, goal: updatedInfo.goal, activityLevel: updatedInfo.activityLevel, calorieDemand: updatedInfo.calorieDemand, diet: updatedInfo.diet, excludedIngredients: updatedInfo.excludedIngredients }, { new: true })
-    .then(() => res.status(200).send({ message: "Profile successfully updated!" }))
+  User.findByIdAndUpdate(userObjectId, {
+    size: updatedInfo.size,
+    weight: updatedInfo.weight,
+    bmi: updatedInfo.bmi,
+    goal: updatedInfo.goal,
+    activityLevel: updatedInfo.activityLevel,
+    calorieDemand: updatedInfo.calorieDemand,
+    diet: updatedInfo.diet,
+    excludedIngredients: updatedInfo.excludedIngredients
+  }, { new: true })
+    .then(() => res.status(200))
+    .catch(err => console.log(err))
+})
+
+
+//update user shopping list
+router.post("/user/:userId/shopping-list/update", (req, res) => {
+  const userId = req.params.userId
+  const userObjectId = new mongoose.Types.ObjectId(userId)
+  const { newItem } = req.body
+  console.log("new item", newItem)
+
+  User.findByIdAndUpdate(userObjectId, { $push: { shoppingList: newItem } }, { new: true })
+    .then(() => res.status(200).json())
+    .catch(err => console.log(err))
+})
+
+
+//delete one shopping list
+router.post("/user/:userId/shopping-list/delete-one", async (req, res) => {
+  const userId = req.params.userId
+  const userObjectId = new mongoose.Types.ObjectId(userId)
+  const { index } = req.body
+  console.log("index ", index)
+
+  try {
+    const response = await User.updateOne(
+      { _id: userObjectId },
+      { $unset: { [`shoppingList.${index}`] : 1 } }
+    )
+    await User.updateOne(
+      { _id: userObjectId },
+      { $pull: { shoppingList: null } }
+    )
+    res.json(response.data)
+    console.log("Item deleted successfully!")
+
+  } catch (err) {
+    console.log(err)
+  } 
+})
+
+
+//delete all shopping list
+router.post("/user/:userId/shopping-list/delete-all", (req, res) => {
+  const userId = req.params.userId
+  const userObjectId = new mongoose.Types.ObjectId(userId)
+
+  User.findByIdAndUpdate(userObjectId, { $set: { shoppingList: [] }})
+    .then(() => res.status(200).json())
     .catch(err => console.log(err))
 })
 
@@ -109,7 +168,6 @@ router.post("/user/:userId/new-meal", (req, res) => {
 //external api route: Custom Search JSON API
 router.get("/user/new-meal/:newMealName", async (req, res) => {
   const newMealImage = req.params.newMealName
-  console.log("NEW MEAL NAME", newMealImage)
 
   const customsearch = google.customsearch("v1")
 

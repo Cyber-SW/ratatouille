@@ -9,9 +9,7 @@ function ProfilePage() {
     const { user } = useContext(AuthContext)
 
     const [size, setSize] = useState("")
-    // const [newSize, setNewSize] = useState("")
     const [weight, setWeight] = useState("")
-    // const [newWeight, setNewWeight] = useState("")
     const [goal, setGoal] = useState("")
     const [bmi, setBmi] = useState(userData.bmi)
     const [gender] = useState(userData.gender)
@@ -139,9 +137,6 @@ function ProfilePage() {
 
     function handleUpdatedUserInformation(userId, updatedInfo) {
         userService.updateUserProfile(userId, updatedInfo)
-            .then(response => {
-                setErrorMessage(response.data.message)
-            })
     }
 
     console.log("excludedDB", excludedIngredientsDb)

@@ -69,6 +69,9 @@ const userSchema = new Schema(
         mealImage: ""
       }
     },
+    shoppingList: [{
+      type: String
+    }],
     fridge: {
       type: Array
     }
