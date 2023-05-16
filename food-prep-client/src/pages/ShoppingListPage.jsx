@@ -11,7 +11,6 @@ function ShoppingListPage() {
     const [newItem, setNewItem] = useState("")
     const [shoppingList, setShoppingList] = useState("")
     const [currentIngredient, setCurrentIngredient] = useState("")
-    const [errorMessage, setErrorMessage] = useState("")
 
     const handleCurrentIngredient = (e) => setCurrentIngredient(e.target.value)
     const handleClick = () => handleAddIngredient()
@@ -91,11 +90,10 @@ function ShoppingListPage() {
                 <button type="button" onClick={() => handleDeleteAll()}>Delete all</button>
 
             <ul>
-                    { shoppingList && shoppingList.map((ingredient, index) => (
-                        <li key={index}>- {ingredient} <button type="button" onClick={() => handleDeleteIngredient(index)}>Delete</button></li>
-                    ))}
-                </ul>
-                { errorMessage && <p className="error-message">{errorMessage}</p> }
+                { shoppingList && shoppingList.map((ingredient, index) => (
+                    <li key={index}>- {ingredient} <button type="button" onClick={() => handleDeleteIngredient(index)}>Delete</button></li>
+                ))}
+            </ul>
         </div>
     )
 }

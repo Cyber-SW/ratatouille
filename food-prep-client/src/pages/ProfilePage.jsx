@@ -6,6 +6,8 @@ import { AuthContext } from "../context/auth.context"
 function ProfilePage() {
     const { user } = useContext(AuthContext)
 
+    const [username, setUsername] = useState("")
+    const [usernameDb, setUsernameDb] = useState("")
     const [size, setSize] = useState("")
     const [weight, setWeight] = useState("")
     const [weightDb, setWeightDb] = useState("")
@@ -32,6 +34,7 @@ function ProfilePage() {
     function getUserData() {
         userService.fetchUserData()
             .then((response) => {
+                setUsernameDb(response.data.username)
                 setBmi(response.data.bmi)
                 setGender(response.data.gender)
                 setExcludedIngredients(response.data.excludedIngredients)
@@ -47,6 +50,8 @@ function ProfilePage() {
 
     const handleDiet = (e) => setDiet(e.target.value)
     const handleCurrentIngredient = (e) => setCurrentIngredient(e.target.value)
+    const handleUsername = (e) => setUsername(e.target.value)
+
 
     function handleGoal(e) {
         let total = parseInt(storeCalorieDemand)
@@ -153,6 +158,7 @@ function ProfilePage() {
             <h1>Profile</h1>
 
             <form onSubmit={() => handleUpdatedUserInformation({
+                username: username,
                 size: size,
                 weight: weight,
                 bmi: bmi,
@@ -163,13 +169,16 @@ function ProfilePage() {
                 excludedIngredients: [...excludedIngredientsDb, ...excludedIngredients] 
                 })}>
 
+                <label>Change your username:</label>
+                <input type="text" placeholder={usernameDb} value={username} onChange={handleUsername} />
+
                 <label>Change your weight:</label>
-                <input type="number" min="20" max="400" name="weight" placeholder={weightDb} value={weight} onChange={handleWeight} disabled={!size} />
+                <input type="number" min="20" max="400" name="weight" placeholder={weightDb} value={weight} onChange={handleWeight} />
 
                 <h2>Your BMI: {bmi && size && weight ? bmi : "Type in your size and weight first."}</h2>
 
                 <h2>Change your activity level:</h2>
-                <select name="calorie demand" id="calorie-demand" onChange={calculateCalorieDemand} disabled={!weight} >
+                <select name="calorie demand" id="calorie-demand" onChange={calculateCalorieDemand} >
                     <option value={""} selected disabled hidden>{activityLevel && activityLevel}</option>
                     <option value={"Only sitting or lying / Frail people"}>Only sitting or lying / Frail people</option>
                     <option value={"Sedentary, hardly any physical activity / Office work at the desk"}>Sedentary, hardly any physical activity / Office work at the desk</option>
@@ -179,11 +188,11 @@ function ProfilePage() {
                 </select>
 
                 <h2>Change your goal:</h2>
-                <input type="radio" name="goal" value={"Lose weight"} checked={goal === "Lose weight"} onChange={handleGoal} disabled={!activityLevel} />
+                <input type="radio" name="goal" value={"Lose weight"} checked={goal === "Lose weight"} onChange={handleGoal} />
                 <label>Lose Weight</label>
-                <input type="radio" name="goal" value={"Keep weight"} checked={goal === "Keep weight"} onChange={handleGoal} disabled={!activityLevel} />
+                <input type="radio" name="goal" value={"Keep weight"} checked={goal === "Keep weight"} onChange={handleGoal} />
                 <label>Keep Weight</label>
-                <input type="radio" name="goal" value={"Gain weight"} checked={goal === "Gain weight"} onChange={handleGoal} disabled={!activityLevel} />
+                <input type="radio" name="goal" value={"Gain weight"} checked={goal === "Gain weight"} onChange={handleGoal} />
                 <label>Gain Weight</label>
 
                 <h2>New calorie demand per day: {calorieDemand && goal ? calorieDemand : "" }</h2>

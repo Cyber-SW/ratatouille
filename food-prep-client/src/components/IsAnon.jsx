@@ -6,14 +6,11 @@ import PropTypes from "prop-types"
 function IsAnon({ children }) {
   const { isLoggedIn, isLoading } = useContext(AuthContext);
 
-  // If the authentication is still loading ⏳
   if (isLoading) return <p>Loading ...</p>;
 
-  if (isLoggedIn) {
-    // If the user is logged in, navigate to home page ❌    
+  if (isLoggedIn) { 
     return <Navigate to="/new-meal" />;
   } else {
-    // If the user is not logged in, allow to see the page ✅
     return children;
   }
 }

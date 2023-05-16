@@ -18,6 +18,7 @@ function NewMealPage() {
     const [diet, setDiet] = useState("")
     const [excludedIngredients, setExcludedIngredients] = useState("")
     const [splittedInformation, setSplittedInformation] = useState([])
+    const [errorMessage, setErrorMessage] = useState(undefined)
     
 
     const handleMealType = (e) => setMealType(e.target.value)
@@ -99,7 +100,6 @@ function NewMealPage() {
 
 
     async function apiCall() {
-        console.log("test", newMeal)
         try {
             const receivedMeal = await userService.fetchUserMeal(newMeal)
             const mealSubstrings = receivedMeal.data.split("\n\n")
@@ -114,6 +114,7 @@ function NewMealPage() {
             })
         }
         catch (error) { 
+            setErrorMessage("Oops your food is burnt unfortunately, please try again!")
             console.log(error)
         }
     }
@@ -173,6 +174,8 @@ function NewMealPage() {
 
                 <button type="submit">Suggest meal</button>
             </form>
+
+            { errorMessage && <p className="error-message">{errorMessage}</p> }
 
             <h2>Your meal suggestion</h2>
 
