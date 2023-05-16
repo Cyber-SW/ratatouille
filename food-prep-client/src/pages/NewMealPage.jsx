@@ -1,31 +1,28 @@
 import Navbar from "../components/Navbar"
 import { useState, useEffect, useContext } from "react"
 import { AuthContext } from "../context/auth.context"
-import { DataStorageContext } from "../context/dataStorage.context"
 import userService from "../services/user.service"
 import { Link } from "react-router-dom"
 
 
 function NewMealPage() {
-    const [userData, setUserData] = useState({})
+    const { user } = useContext(AuthContext)
+
+    const [appState, setAppState] = useState({})
     const [mealType, setMealType] = useState("")
     const [mealTime, setMealTime] = useState("")
     const [mealKcal, setMealKcal] = useState("")
     const [newMeal, setNewMeal] = useState("")
+    const [mealInformation, setMealInformation] = useState("")
+    const [mealImage, setMealImage] = useState("")
+    const [diet, setDiet] = useState("")
+    const [excludedIngredients, setExcludedIngredients] = useState("")
     const [splittedInformation, setSplittedInformation] = useState([])
     
-    const { user } = useContext(AuthContext)
-    const { storedMealInformation, storedMealImage, handleDataStorage } = useContext(DataStorageContext)
 
     const handleMealType = (e) => setMealType(e.target.value)
     const handleMealTime = (e) => setMealTime(e.target.value)
     const handleMealKcal = (e) => setMealKcal(e.target.value)
-
-
-    // const goalDemand = (mealKcal * 100) / userData.calorieDemand
-
-    // console.log("STORED MEAL INFORMATION", storedMealInformation)
-    // console.log("STORED IMAGE", storedMealImage)
 
 
     function handleNewMealSubmit(e) {
@@ -37,17 +34,18 @@ function NewMealPage() {
         Your task is to suggest a ${mealType} based on the following instructions.
 
         1. The ${mealType} must have around ${mealKcal} kcal.
-        2. The ${mealType} must be ${userData.diet} ${mealType}.
+        2. The ${mealType} must be ${diet} ${mealType}.
         3. The maximum time to prepare and cook the ${mealType} is ${mealTime} in total.
-        4. Do NOT include any of the following ingredients: ${userData.excludedIngredients}.
+        4. Do NOT include any of the following ingredients: ${excludedIngredients}.
         5. Provide recipe and instructions for the ${mealType}.
         6. All units of measurement must be expressed in grams or ml for fluids and all units of temperature in °C.
         7. Always provide the name and the total kcal of the ${mealType}.
         8. Always provide the time it needs to prepare and cook the ${mealType} in total.
         9. Only suggest ${mealType} that has a maximum of 9 ingredients.
-        10. Do NOT put paragraphs between the instructions, the Meal name, Total kcal or Total time.
-        11. After you prepared the ${mealType} create a shopping list with all ingredients needed to prepare that ${mealType}.
-        12. Your answer must always be formatted like this:
+        10. Do NOT put paragraphs between the Instructions.
+        11. Do NOT put paragraphs between anything.
+        12. After you prepared the ${mealType} create a shopping list with all ingredients needed to prepare that ${mealType}.
+        13. Your answer must always be formatted like this:
 
         Meal name:
         Total kcal:
@@ -73,6 +71,26 @@ function NewMealPage() {
         setMealKcal("")
     }
 
+
+    useEffect(() => {
+        if (user) {
+            getUserData()
+        }  
+    }, [user, appState])
+
+
+    function getUserData() {
+        userService.fetchUserData()
+            .then((response) => {
+                setMealInformation(response.data.appState.mealInformation)
+                setMealImage(response.data.appState.mealImage)
+                setExcludedIngredients(response.data.excludedIngredients)
+                setDiet(response.data.diet)
+            })
+            .catch(err => console.log(err))
+    }
+
+
     useEffect(() => {
         if (newMeal !== "") {
             apiCall()
@@ -83,11 +101,11 @@ function NewMealPage() {
     async function apiCall() {
         console.log("test", newMeal)
         try {
-            const receivedMeal = await userService.fetchUserMeal(user._id, newMeal)
+            const receivedMeal = await userService.fetchUserMeal(newMeal)
             const mealSubstrings = receivedMeal.data.split("\n\n")
             const mealName = mealSubstrings[0].match(/Meal name:\s*(.*)\n/)[1]
             const mealImage = await userService.fetchMealImage(mealName)
-            await handleDataStorage({
+            handleDataStorage({
                 mealInformation: mealSubstrings[0],
                 mealIngredients: mealSubstrings[1],
                 mealInstructions: mealSubstrings[2],
@@ -99,25 +117,28 @@ function NewMealPage() {
             console.log(error)
         }
     }
+
+
+    const handleDataStorage = (newMealData) => {
+        const appState = {
+            mealInformation: newMealData.mealInformation,
+            mealIngredients: newMealData.mealIngredients,
+            mealInstructions: newMealData.mealInstructions,
+            mealShoppingList: newMealData.mealShoppingList,
+            mealImage: newMealData.mealImage
+        }
+        setAppState(appState)
+        userService.storeUserAppState(appState)
+    }
     
 
     useEffect(() => {
-        if (user) {
-            userService.fetchUserData(user._id)
-                .then(response => {
-                    setUserData(response.data)
-            })
-        }
-    }, [user])
-
-
-    useEffect(() => {
-        if (user && storedMealInformation) {
-            const splittedInformation = storedMealInformation.split("\n").splice(0, 3)
+        if (user && mealInformation) {
+            const splittedInformation = mealInformation.split("\n").splice(0, 3)
 
             setSplittedInformation(splittedInformation)
         }
-    }, [storedMealInformation])
+    }, [user, mealInformation])
 
 
     return (
@@ -155,13 +176,11 @@ function NewMealPage() {
 
             <h2>Your meal suggestion</h2>
 
-            {storedMealImage && splittedInformation && splittedInformation.map((info, index) => (
+            { mealImage && splittedInformation && splittedInformation.map((info, index) => (
                 <h2 key={index}>{info}</h2>
             ))}
 
-            { storedMealImage && splittedInformation && <Link to="/meal-details"><img src={storedMealImage} alt="meal img" width={300} /></Link> }
-
-
+            { mealImage && splittedInformation && <Link to="/meal-details"><img src={mealImage} alt="meal img" width={300} /></Link> }
         </div>
     )
 }

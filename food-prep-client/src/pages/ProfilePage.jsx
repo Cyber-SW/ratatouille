@@ -1,18 +1,17 @@
 import Navbar from "../components/Navbar"
-import { DataStorageContext } from "../context/dataStorage.context"
 import { useState, useEffect, useContext } from "react"
 import userService from "../services/user.service"
 import { AuthContext } from "../context/auth.context"
 
 function ProfilePage() {
-    const { userData } = useContext(DataStorageContext)
     const { user } = useContext(AuthContext)
 
     const [size, setSize] = useState("")
     const [weight, setWeight] = useState("")
+    const [weightDb, setWeightDb] = useState("")
     const [goal, setGoal] = useState("")
-    const [bmi, setBmi] = useState(userData.bmi)
-    const [gender] = useState(userData.gender)
+    const [bmi, setBmi] = useState("")
+    const [gender, setGender] = useState("")
     const [activityLevel, setActivityLevel] = useState("")
     const [storeCalorieDemand, setStoreCalorieDemand] = useState("")
     const [calorieDemand, setCalorieDemand] = useState("")
@@ -22,9 +21,29 @@ function ProfilePage() {
     const [currentIngredient, setCurrentIngredient] = useState("")
     const [errorMessage, setErrorMessage] = useState("")
 
-    
-    console.log(userData)
-    console.log("banned ingredients", userData.excludedIngredients)
+
+    useEffect(() => {
+        if (user) {
+            getUserData()
+        }  
+    }, [user])
+
+
+    function getUserData() {
+        userService.fetchUserData()
+            .then((response) => {
+                setBmi(response.data.bmi)
+                setGender(response.data.gender)
+                setExcludedIngredients(response.data.excludedIngredients)
+                setDiet(response.data.diet)
+                setGoal(response.data.goal)
+                setActivityLevel(response.data.activityLevel)
+                setSize(response.data.size)
+                setWeightDb(response.data.weight)
+            })
+            .catch(err => console.log(err))
+    }
+
 
     const handleDiet = (e) => setDiet(e.target.value)
     const handleCurrentIngredient = (e) => setCurrentIngredient(e.target.value)
@@ -44,13 +63,6 @@ function ProfilePage() {
         }
     }
 
-    useEffect(() => {
-        if (userData && userData.excludedIngredients && userData.goal) {
-            setExcludedIngredientsDb(userData.excludedIngredients)
-            setGoal(userData.goal)
-        } 
-    }, [userData])
-
 
     useEffect(() => {
         let total = parseInt(storeCalorieDemand)
@@ -65,18 +77,9 @@ function ProfilePage() {
             setCalorieDemand(total)
             setGoal("Keep weight")
         }
-    }, [storeCalorieDemand])
+    }, [goal, storeCalorieDemand])
 
 
-
-    function handleSize(e) {
-        setSize(e.target.value)
-
-        if (e.target.value && weight) {
-            const calculatedBmi = weight / (e.target.value / 100)**2
-            setBmi((calculatedBmi).toFixed(2))
-        }
-    }
 
     function handleWeight(e) {
         setWeight(e.target.value)
@@ -86,6 +89,7 @@ function ProfilePage() {
             setBmi((calculatedBmi).toFixed(2))
         }
     }
+
     
     function handleAddIngredient() {
         if (currentIngredient && !excludedIngredientsDb.includes(currentIngredient) && !excludedIngredients.includes(currentIngredient)) {
@@ -97,6 +101,7 @@ function ProfilePage() {
             setErrorMessage("This ingredient is already banned.")
         }
     }
+
  
     function calculateCalorieDemand(e) {
         if (e.target.value === "Only sitting or lying / Frail people") {
@@ -135,12 +140,10 @@ function ProfilePage() {
     }
 
 
-    function handleUpdatedUserInformation(userId, updatedInfo) {
-        userService.updateUserProfile(userId, updatedInfo)
+    function handleUpdatedUserInformation(updatedInfo) {
+        userService.updateUserProfile(updatedInfo)
     }
 
-    console.log("excludedDB", excludedIngredientsDb)
-    console.log(userData)
 
     return (
         <div>
@@ -149,7 +152,7 @@ function ProfilePage() {
 
             <h1>Profile</h1>
 
-            <form onSubmit={() => handleUpdatedUserInformation(user._id, {
+            <form onSubmit={() => handleUpdatedUserInformation({
                 size: size,
                 weight: weight,
                 bmi: bmi,
@@ -160,17 +163,14 @@ function ProfilePage() {
                 excludedIngredients: [...excludedIngredientsDb, ...excludedIngredients] 
                 })}>
 
-                <label>Change your size:</label>
-                <input type="number" min="100" max="250" name="size" placeholder={userData.size} value={size} onChange={handleSize} />
-
                 <label>Change your weight:</label>
-                <input type="number" min="20" max="400" name="weight" placeholder={userData.weight} value={weight} onChange={handleWeight} disabled={!size} />
+                <input type="number" min="20" max="400" name="weight" placeholder={weightDb} value={weight} onChange={handleWeight} disabled={!size} />
 
                 <h2>Your BMI: {bmi && size && weight ? bmi : "Type in your size and weight first."}</h2>
 
                 <h2>Change your activity level:</h2>
                 <select name="calorie demand" id="calorie-demand" onChange={calculateCalorieDemand} disabled={!weight} >
-                    <option value={""} selected disabled hidden>{userData.activityLevel}</option>
+                    <option value={""} selected disabled hidden>{activityLevel && activityLevel}</option>
                     <option value={"Only sitting or lying / Frail people"}>Only sitting or lying / Frail people</option>
                     <option value={"Sedentary, hardly any physical activity / Office work at the desk"}>Sedentary, hardly any physical activity / Office work at the desk</option>
                     <option value={"Predominantly sitting, walking and standing / Students, pupils, cab drivers"}>Predominantly sitting, walking and standing / Students, pupils, cab drivers</option>
@@ -190,7 +190,7 @@ function ProfilePage() {
 
                 <h2>Change your diet:</h2>
                 <select name="diet" id="diet" onChange={handleDiet}>
-                    <option value={""} selected disabled hidden>{userData.diet && userData.diet.charAt(0).toUpperCase() + userData.diet.slice(1)}</option>
+                    <option value={""} selected disabled hidden>{diet && diet.charAt(0).toUpperCase() + diet.slice(1)}</option>
                     <option value={"low carb"}>Low carb</option>
                     <option value={"vegetarian"}>Vegetarian</option>
                     <option value={"vegan"}>Vegan</option>
@@ -203,10 +203,10 @@ function ProfilePage() {
                 
                 <ul>
                     { excludedIngredients && excludedIngredients.map((ingredient, index) => (
-                            <li key={index}>{ingredient} <button type="button" onClick={() => handleDeleteIngredient(index)}>Delete</button></li>
+                            <li key={index}>- {ingredient} <button type="button" onClick={() => handleDeleteIngredient(index)}>Delete</button></li>
                         ))}
                     { excludedIngredientsDb && excludedIngredientsDb.map((ingredient, index) => (
-                        <li key={index}>{ingredient} <button type="button" onClick={() => handleDeleteIngredientDb(index)}>Delete</button></li>
+                        <li key={index}>- {ingredient} <button type="button" onClick={() => handleDeleteIngredientDb(index)}>Delete</button></li>
                     ))}
                 </ul>
 

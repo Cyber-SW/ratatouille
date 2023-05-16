@@ -2,10 +2,14 @@ import Navbar from "../components/Navbar"
 import { useState, useEffect, useContext } from "react"
 import { AuthContext } from "../context/auth.context"
 import userService from "../services/user.service"
+import { useParams } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 
 
-function MealDetailsPage() {
+function FavoriteMealDetailsPage() {
+    const { mealId } = useParams()
     const { user } = useContext(AuthContext)
+    const navigate = useNavigate()
 
     const [mealInformation, setMealInformation] = useState("")
     const [mealIngredients, setMealIngredients] = useState("")
@@ -19,24 +23,25 @@ function MealDetailsPage() {
     const [splittedShoppingList, setSplittedShoppingList] = useState([])
 
 
-
     useEffect(() => {
         if (user) {
-            getUserData()
+            getMealData(mealId)
         }  
     }, [user])
 
-    function getUserData() {
-        userService.fetchUserData()
+    function getMealData(mealId) {
+        userService.fetchFavoriteMeal(mealId)
             .then((response) => {
-                setMealInformation(response.data.appState.mealInformation)
-                setMealIngredients(response.data.appState.mealIngredients)
-                setMealInstructions(response.data.appState.mealInstructions)
-                setMealShoppingList(response.data.appState.mealShoppingList)
-                setMealImage(response.data.appState.mealImage)
+                console.log(response.data)
+                setMealInformation(response.data.favoriteMeal.mealInformation)
+                setMealIngredients(response.data.favoriteMeal.mealIngredients)
+                setMealInstructions(response.data.favoriteMeal.mealInstructions)
+                setMealShoppingList(response.data.favoriteMeal.mealShoppingList)
+                setMealImage(response.data.favoriteMeal.mealImage)
             })
             .catch(err => console.log(err))
     }
+
 
     useEffect(() => {
         const splittedInformation = mealInformation.split("\n").splice(0, 3)
@@ -52,22 +57,14 @@ function MealDetailsPage() {
     }, [mealInformation, mealIngredients, mealInstructions, mealShoppingList])
 
 
-    console.log("splitted shopping list", splittedShoppingList)
-
-
-    function handleAddToFavorites(mealInformation, mealIngredients, mealInstructions, mealShoppingList, mealImage) {
-        const meal = {
-            mealInformation: mealInformation,
-            mealIngredients: mealIngredients,
-            mealInstructions: mealInstructions,
-            mealShoppingList: mealShoppingList,
-            mealImage: mealImage
-        }
-        userService.addMealToFavorites(meal)
-    }
-
     function handleAddToShoppingList(shoppingList) {
         userService.updateUserShoppingList(shoppingList)
+    }
+
+    function handleDeleteFavorite(mealId) {
+        userService.deleteFavoriteMeal(mealId)
+            .then(() => navigate("/favorites"))
+            .catch((err) => console.log(err))
     }
 
 
@@ -90,10 +87,11 @@ function MealDetailsPage() {
                 <p key={index}>{instruction}</p>
             ))}
 
-            <button type="submit" onClick={() => handleAddToFavorites(mealInformation, mealIngredients, mealInstructions, mealShoppingList, mealImage)}>To favorites</button>
+            <button type="submit" onClick={() => handleDeleteFavorite(mealId)}>Delete favorite</button>
             <button type="submit" onClick={() => handleAddToShoppingList(splittedShoppingList)}>To shopping list</button>
+
         </div>
     )
 }
 
-export default MealDetailsPage
+export default FavoriteMealDetailsPage

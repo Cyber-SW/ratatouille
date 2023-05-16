@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const mongoose = require("mongoose")
 
 // TODO: Please make sure you edit the User model to whatever makes sense in this case
 const userSchema = new Schema(
@@ -23,10 +24,6 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Gender is required."],
       enum: ["Male", "Female"]
-    },
-    age: {
-      type: String,
-      required: [true, "Age is required."]
     },
     size: {
       type: String,
@@ -72,9 +69,17 @@ const userSchema = new Schema(
     shoppingList: [{
       type: String
     }],
-    fridge: {
-      type: Array
-    }
+    favorites: [{
+      _id: {
+        type: mongoose.Types.ObjectId,
+        default: () => new mongoose.Types.ObjectId()
+      },
+      mealInformation: String,
+      mealIngredients: String,
+      mealInstructions: String,
+      mealShoppingList: String,
+      mealImage: String
+    }]
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`    

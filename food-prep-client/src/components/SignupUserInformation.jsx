@@ -4,7 +4,7 @@ import PropTypes from "prop-types"
 
 function SignupUserInformation({ handleUserInformation }) {
     const [gender, setGender] = useState("")
-    const [age, setAge] = useState("")
+
     const [size, setSize] = useState("")
     const [weight, setWeight] = useState("")
     const [bmi, setBmi] = useState("")
@@ -12,6 +12,7 @@ function SignupUserInformation({ handleUserInformation }) {
     const [activityLevel, setActivityLevel] = useState("")
     const [storeCalorieDemand, setStoreCalorieDemand] = useState("")
     const [calorieDemand, setCalorieDemand] = useState("")
+
     const [diet, setDiet] = useState("")
     const [excludedIngredients, setExcludedIngredients] = useState([])
     const [currentIngredient, setCurrentIngredient] = useState("")
@@ -20,7 +21,6 @@ function SignupUserInformation({ handleUserInformation }) {
 
   
     const handleGender = (e) => setGender(e.target.value)
-    const handleAge = (e) => setAge(e.target.value)
     const handleDiet = (e) => setDiet(e.target.value)
     const handleCurrentIngredient = (e) => setCurrentIngredient(e.target.value)
 
@@ -108,7 +108,6 @@ function SignupUserInformation({ handleUserInformation }) {
 
             <form onSubmit={(e) => handleUserInformation(e, {
                 gender: gender,
-                age: age,
                 size: size,
                 weight: weight,
                 bmi: bmi,
@@ -125,21 +124,11 @@ function SignupUserInformation({ handleUserInformation }) {
                 <input type="radio" name="gender" value={"Female"} onChange={handleGender} />
                 <label>Female</label>
 
-                <label>Age in years:</label>
-                <input type="number" min="1" max="99" name="age" value={age} onChange={handleAge} />
-
                 <label>Size in centimeter:</label>
                 <input type="number" min="100" max="250" name="size" value={size} onChange={handleSize} />
 
                 <label>Weight in kilogram:</label>
                 <input type="number" min="20" max="400" name="weight" value={weight} onChange={handleWeight} />
-
-                <h2>Your BMI: {bmi ? bmi : "Type in your age, size and weight first."}</h2>
-                <h2>{age > 18 && age < 25 && bmi > 18 && bmi < 25 ? "Your BMI is perfect, you should keep your weight." 
-                : age > 18 && age < 25 && bmi < 19 ? "Your BMI is too low, You should increase your weight." 
-                : age > 18 && age < 25 && bmi > 24 ? "You BMI is too high, You should decrease your weight." 
-                : "" }</h2>
-                {/* dont forget the missing conditionals */}
 
                 <h2>What is your activity level?</h2>
                 <select name="calorie demand" id="calorie-demand" onChange={calculateCalorieDemand}>
@@ -176,7 +165,7 @@ function SignupUserInformation({ handleUserInformation }) {
 
                 <ul>
                     { excludedIngredients && excludedIngredients.map((ingredient, index) => (
-                        <li key={index}>{ingredient}</li>
+                        <li key={index}>- {ingredient}</li>
                     ))}
                 </ul>
 

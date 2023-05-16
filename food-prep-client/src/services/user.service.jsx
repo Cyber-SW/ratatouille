@@ -18,33 +18,44 @@ class UserService {
         })
     }
 
-    fetchUserData = (userId) => {
-        return this.api.get(`api/user/${userId}`)
+    fetchUserData = () => {
+        return this.api.get(`api/user`)
     }
 
-    storeUserAppState = (userId, appState) => {
-        return this.api.post(`api/user/${userId}/update-state`, { appState: appState })
+    storeUserAppState = (appState) => {
+        return this.api.post(`api/user/update-state`, { appState: appState })
     }
 
-    updateUserProfile = (userId, updatedInfo) => {
-        return this.api.post(`api/user/${userId}/profile/edit`, { updatedInfo: updatedInfo })
+    updateUserProfile = (updatedInfo) => {
+        return this.api.post(`api/user/profile/edit`, { updatedInfo: updatedInfo })
     }
 
-    updateUserShoppingList = (userId, newItem) => {
-        return this.api.post(`api/user/${userId}/shopping-list/update`, { newItem: newItem })
+    updateUserShoppingList = (newItem) => {
+        return this.api.post(`api/user/shopping-list/update`, { newItem: newItem })
     }
 
-    deleteOneShoppingList = (userId, index) => {
-        return this.api.post(`api/user/${userId}/shopping-list/delete-one`, { index: index })
+    deleteOneShoppingList = (index) => {
+        return this.api.post(`api/user/shopping-list/delete-one`, { index: index })
     }
 
-    deleteAllShoppingList = (userId) => {
-        console.log("delte all", userId)
-        return this.api.post(`api/user/${userId}/shopping-list/delete-all`)
+    deleteAllShoppingList = () => {
+        return this.api.post(`api/user/shopping-list/delete-all`)
     }
 
-    fetchUserMeal = (userId, newMeal) => {
-        return this.api.post(`api/user/${userId}/new-meal`, { newMeal: newMeal })
+    addMealToFavorites = (meal) => {
+        return this.api.post(`api/user/favorites/add`, { meal: meal })
+    }
+
+    fetchFavoriteMeal = (mealId) => {
+        return this.api.get(`api/user/favorite/meal-details/${mealId}`)
+    }
+
+    deleteFavoriteMeal = (mealId) => {
+        return this.api.post(`api/user/favorite/meal-details/${mealId}/delete`)
+    }
+
+    fetchUserMeal = (newMeal) => {
+        return this.api.post(`api/user/new-meal`, { newMeal: newMeal })
     }
 
     fetchMealImage = (newMealName) => {

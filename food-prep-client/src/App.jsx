@@ -10,6 +10,7 @@ import MealDetailsPage from "./pages/MealDetailsPage"
 import FavoritesPage from "./pages/FavoritesPage"
 import ShoppingListPage from "./pages/ShoppingListPage"
 import ProfilePage from "./pages/ProfilePage"
+import FavoriteMealDetailsPage from "./pages/FavoriteMealDetailsPage"
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
         <Route path="/shopping-list" element={<IsPrivate> <ShoppingListPage /> </IsPrivate>} />
         <Route path="/profile" element={<IsPrivate> <ProfilePage /> </IsPrivate>} />
         <Route path="/meal-details" element={<IsPrivate> <MealDetailsPage /> </IsPrivate>} />
+        <Route path="/favorite/meal-details/:mealId" element={<IsPrivate> <FavoriteMealDetailsPage /> </IsPrivate>} />
       </Routes>
     </div>
   )

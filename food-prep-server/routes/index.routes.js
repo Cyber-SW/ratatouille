@@ -11,8 +11,10 @@ router.get("/", (req, res, next) => {
 
 
 //user data routes
-router.get("/user/:userId", (req, res) => {
-  const userId = req.params.userId
+router.get("/user", (req, res) => {
+  const userId = req.payload._id
+
+  console.log(req.payload._id)
 
   User.findById(userId)
     .then(receivedUser => {
@@ -20,7 +22,6 @@ router.get("/user/:userId", (req, res) => {
         username,
         _id,
         gender,
-        age,
         size,
         weight,
         bmi,
@@ -30,14 +31,14 @@ router.get("/user/:userId", (req, res) => {
         diet,
         excludedIngredients,
         appState,
-        shoppingList
+        shoppingList,
+        favorites
       } = receivedUser;
       //omit email and password
       const user = {
         username,
         _id,
         gender,
-        age,
         size,
         weight,
         bmi,
@@ -47,7 +48,8 @@ router.get("/user/:userId", (req, res) => {
         diet,
         excludedIngredients,
         appState,
-        shoppingList
+        shoppingList,
+        favorites
       };
       res.json(user)
     })
@@ -55,8 +57,8 @@ router.get("/user/:userId", (req, res) => {
 
 
 //store user app state
-router.post("/user/:userId/update-state", (req, res) => {
-  const userId = req.params.userId
+router.post("/user/update-state", (req, res) => {
+  const userId = req.payload._id
   const userObjectId = new mongoose.Types.ObjectId(userId)
   const { appState } = req.body
 
@@ -65,9 +67,10 @@ router.post("/user/:userId/update-state", (req, res) => {
     .catch(err => console.log(err))
 })
 
+
 //update user profile
-router.post("/user/:userId/profile/edit", (req, res) => {
-  const userId = req.params.userId
+router.post("/user/profile/edit", (req, res) => {
+  const userId = req.payload._id
   const userObjectId = new mongoose.Types.ObjectId(userId)
   const { updatedInfo } = req.body
 
@@ -87,24 +90,23 @@ router.post("/user/:userId/profile/edit", (req, res) => {
 
 
 //update user shopping list
-router.post("/user/:userId/shopping-list/update", (req, res) => {
-  const userId = req.params.userId
+router.post("/user/shopping-list/update", (req, res) => {
+  const userId = req.payload._id
   const userObjectId = new mongoose.Types.ObjectId(userId)
   const { newItem } = req.body
-  console.log("new item", newItem)
+  console.log("newItem", newItem)
 
-  User.findByIdAndUpdate(userObjectId, { $push: { shoppingList: newItem } }, { new: true })
+  User.findByIdAndUpdate(userObjectId, { $push: { shoppingList: { $each: newItem } } }, { new: true })
     .then(() => res.status(200).json())
     .catch(err => console.log(err))
 })
 
 
 //delete one shopping list
-router.post("/user/:userId/shopping-list/delete-one", async (req, res) => {
-  const userId = req.params.userId
+router.post("/user/shopping-list/delete-one", async (req, res) => {
+  const userId = req.payload._id
   const userObjectId = new mongoose.Types.ObjectId(userId)
   const { index } = req.body
-  console.log("index ", index)
 
   try {
     const response = await User.updateOne(
@@ -125,8 +127,8 @@ router.post("/user/:userId/shopping-list/delete-one", async (req, res) => {
 
 
 //delete all shopping list
-router.post("/user/:userId/shopping-list/delete-all", (req, res) => {
-  const userId = req.params.userId
+router.post("/user/shopping-list/delete-all", (req, res) => {
+  const userId = req.payload._id
   const userObjectId = new mongoose.Types.ObjectId(userId)
 
   User.findByIdAndUpdate(userObjectId, { $set: { shoppingList: [] }})
@@ -135,8 +137,86 @@ router.post("/user/:userId/shopping-list/delete-all", (req, res) => {
 })
 
 
+//add meal to favorites
+router.post("/user/favorites/add", (req, res) => {
+  const userId = req.payload._id
+  const userObjectId = new mongoose.Types.ObjectId(userId)
+  const { meal } = req.body
+
+  User.findByIdAndUpdate(userObjectId, { $push: { favorites: {
+    mealInformation: meal.mealInformation,
+    mealIngredients: meal.mealIngredients,
+    mealInstructions: meal.mealInstructions,
+    mealShoppingList: meal.mealShoppingList,
+    mealImage: meal.mealImage
+  }}}, { new: true })
+    .then(() => res.status(200).json())
+    .catch(err => console.log(err))
+})
+
+
+// fetch favorite meal
+router.get("/user/favorite/meal-details/:mealId", (req, res) => {
+  const userId = req.payload._id
+  const mealId = req.params.mealId
+  const userObjectId = new mongoose.Types.ObjectId(userId)
+  const mealObjectId = new mongoose.Types.ObjectId(mealId)
+
+  User.findById(userObjectId)
+    .then((user) => {
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      const favoriteMeal = user.favorites.find((favorite) =>
+        favorite._id.equals(mealObjectId)
+      );
+
+      if (!favoriteMeal) {
+        return res.status(404).json({ message: "Favorite meal not found" });
+      }
+
+      res.status(200).json({ favoriteMeal });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ message: "Server error" });
+    })
+})
+
+
+//delete favorite meal
+router.post("/user/favorite/meal-details/:mealId/delete", (req, res) => {
+  const userId = req.payload._id
+  const mealId = req.params.mealId
+  const userObjectId = new mongoose.Types.ObjectId(userId)
+  const mealObjectId = new mongoose.Types.ObjectId(mealId)
+
+  User.findByIdAndUpdate(
+    userObjectId,
+    { $pull: { favorites: { _id: mealObjectId } } },
+    { new: true }
+  )
+    .then((user) => {
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      // Remove null values from favorites array
+      user.favorites = user.favorites.filter((favorite) => favorite !== null);
+      user.save();
+
+      res.status(200).json({ message: "Meal removed from favorites" });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ message: "Server error" });
+    });
+})
+
+
 //external api route: openai API
-router.post("/user/:userId/new-meal", (req, res) => {
+router.post("/user/new-meal", (req, res) => {
   const { newMeal } = req.body
   console.log("meal instructions", req.body)
 
