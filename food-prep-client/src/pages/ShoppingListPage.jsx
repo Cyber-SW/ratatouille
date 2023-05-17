@@ -91,7 +91,7 @@ function ShoppingListPage() {
 
             <ul>
                 { shoppingList && shoppingList.map((ingredient, index) => (
-                    <li key={index}>- {ingredient} <button type="button" onClick={() => handleDeleteIngredient(index)}>Delete</button></li>
+                    <p key={index}>- {ingredient} <button type="button" onClick={() => handleDeleteIngredient(index)}>Delete</button></p>
                 ))}
             </ul>
         </div>

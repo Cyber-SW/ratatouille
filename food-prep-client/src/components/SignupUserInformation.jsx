@@ -165,7 +165,7 @@ function SignupUserInformation({ handleUserInformation }) {
 
                 <ul>
                     { excludedIngredients && excludedIngredients.map((ingredient, index) => (
-                        <li key={index}>- {ingredient}</li>
+                        <p key={index}>- {ingredient}</p>
                     ))}
                 </ul>
 

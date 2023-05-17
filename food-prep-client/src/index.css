@@ -1,17 +1,279 @@
-/* RESET CSS */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: inherit;
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,700;0,800;1,800&family=Playfair+Display:wght@700&display=swap');
+
+
+:root {
+  --clr-primary-200: #293133;
+  --clr-primary-400: #212729;
+
+  --clr-secondary-200: #16F568;
+  --clr-secondary-400: #11B44D;
+  --clr-accent: #F52016;
+
+  --font-primary: white;
+  --font-secondary: black;
+
+  --ff-primary: "Open Sans", sans-serif;
+  --ff-secondary: "Playfair Display", serif;
 }
 
-html {
-  font-size: 100%;
+
+/* RESET CSS */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 body {
+  font-family: var(--ff-primary);
+  font-weight: 400;
   font-size: 10px;
+  line-height: 1.5;
 }
 
+body,
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--font-secondary);
+  font-family: var(--ff-secondary);
+  font-weight: 900;
+  line-height: 1;
+}
+
+h2,
+h3,
+p {
+  margin-bottom: 1rem;
+}
+
+
 /* MAIN STYLING */
+/* Navbar */
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--clr-secondary-400);
+  font-family: var(--ff-secondary);
+  font-weight: 700;
+}
+
+.branding {
+  margin: 1rem;
+  margin-left: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.nav-links ul {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  margin-right: 1rem;
+}
+
+.nav-links li {
+  list-style: none;
+}
+
+.links {
+  text-decoration: none;
+  color: var(--font-primary);
+  padding: 0.75rem;
+  display: block;
+  font-size: 1.2rem;
+}
+
+.nav-links li :hover {
+  background-color: var(--clr-accent);
+  color: var(--clr-secondary-400);
+}
+
+.toggle-button {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 1.8rem;
+  height: 1.2rem;
+}
+
+.toggle-button .bar {
+  height: 0.2rem;
+  width: 100%;
+  background-color: white;
+  border-radius: 0.05rem;
+}
+
+@media (max-width: 431px) {
+  .toggle-button {
+    display: flex;
+  }
+
+  .nav-links {
+    display: flex;
+    width: 100%;
+  }
+
+  .nav-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nav-links ul {
+    width: 100%;
+    flex-direction: column;
+    margin: auto;
+  }
+
+  .nav-links li {
+    text-align: center;
+  }
+
+  .nav-links li,
+  .links {
+    padding: .5rem 1rem;
+  }
+
+}
+
+
+.username {
+  margin: 1rem;
+  margin-top: 0.5rem;
+  font-family: var(--ff-primary);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--clr-secondary-400);
+}
+
+/*Components*/
+.form-container {
+  display: flex;
+  flex-direction: column;
+  margin: 2rem;
+  font-size: 2rem;
+  max-width: 40rem;
+}
+
+select,
+input {
+  width: 100%;
+  min-height: 2rem;
+  font-family: "Open Sans", sans-serif;
+  background-color: transparent;
+  border: 1px solid var(--clr-secondary-200);
+  border-radius: 1rem;
+  margin-bottom: 0.4rem;
+  padding: 0.5rem;
+}
+
+
+button {
+  width: 100%;
+  min-height: 2.8rem;
+  border-radius: 1.3rem;
+  padding: 0.5rem;
+  border: transparent;
+  background-color: var(--clr-secondary-200);
+  color: var(--font-primary);
+  font-family: var(--ff-secondary);
+  font-weight: 700;
+  font-size: 2rem;
+  margin-top: 0.5rem;
+}
+
+
+.suggestion-container {
+  display: flex;
+  flex-direction: column;
+  margin: 2rem;
+  margin-top: 3.5rem;
+  font-size: 2rem;
+  max-width: 40rem;
+}
+
+
+.meal-spec {
+  display: flex;
+  font-size: 1.2rem;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+}
+
+
+
+h3 {
+  font-family: var(--ff-primary);
+  font-weight: 300;
+}
+
+.serve-img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 40rem;
+  border-top-left-radius: 3.5rem;
+  border-top-right-radius: 3.5rem;
+}
+
+
+.headline {
+  margin-bottom: 3rem;
+}
+
+
+.fav-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1.8rem;
+  font-size: 2rem;
+  max-width: 40rem;
+}
+
+
+#fav-img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 40rem;
+  border-top-left-radius: 3.5rem;
+  border-top-right-radius: 3.5rem;
+}
+
+
+.meal-headline {
+  margin: 2rem;
+  color: var(--font-secondary);
+}
+
+.fav-spec {
+  display: flex;
+  align-items: center;
+  color: var(--font-secondary);
+  background-color: rgba(17, 180, 77, 0.8);
+  position: relative;
+  bottom: auto;
+  font-size: 1rem;
+  border-bottom-left-radius: 3.5rem;
+  border-bottom-right-radius: 3.5rem;
+  margin-bottom: 2rem;
+}
+
+
+.fav-subline {
+  margin: 2rem;
+  color: var(--font-primary);
+}
+

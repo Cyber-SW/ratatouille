@@ -44,13 +44,13 @@ function NewMealPage() {
         8. Always provide the time it needs to prepare and cook the ${mealType} in total.
         9. Only suggest ${mealType} that has a maximum of 9 ingredients.
         10. Do NOT put paragraphs between the Instructions.
-        11. Do NOT put paragraphs between anything.
+        11. Do NOT put paragraphs between the first 3 lines.
         12. After you prepared the ${mealType} create a shopping list with all ingredients needed to prepare that ${mealType}.
         13. Your answer must always be formatted like this:
 
         Meal name:
-        Total kcal:
-        Total time:
+        Kcal:
+        Time:
 
         Ingredients:
         -
@@ -77,7 +77,7 @@ function NewMealPage() {
         if (user) {
             getUserData()
         }  
-    }, [user, appState])
+    }, [appState])
 
 
     function getUserData() {
@@ -136,8 +136,9 @@ function NewMealPage() {
     useEffect(() => {
         if (user && mealInformation) {
             const splittedInformation = mealInformation.split("\n").splice(0, 3)
+            const newSplittedInfromation =splittedInformation.map((item) => item.replace("Meal name: ", ""))
 
-            setSplittedInformation(splittedInformation)
+            setSplittedInformation(newSplittedInfromation)
         }
     }, [user, mealInformation])
 
@@ -145,13 +146,12 @@ function NewMealPage() {
     return (
         <div>
             <Navbar />
+            <div className="username">Hello {user && user.username} nice to see you💚</div>
 
-            <h1>New Meal</h1>
-
-            <form onSubmit={handleNewMealSubmit}>
-                <h2>Configure your meal</h2>
+            <form className="form-container" onSubmit={handleNewMealSubmit}>
+                <h1 className="headline">Configure your dish</h1>
                 <select value={mealType} name="meal type" id="meal-type" onChange={handleMealType}>
-                    <option value={""} selected disabled hidden>Choose your meal type</option>
+                    <option value={""} selected disabled hidden>Choose dish type</option>
                     <option value={"breakfast"}>Breakfast</option>
                     <option value={"lunch"}>Lunch</option>
                     <option value={"dinner"}>Dinner</option>
@@ -159,7 +159,7 @@ function NewMealPage() {
                 </select>
 
                 <select value={mealTime} name="meal time" id="meal-time" onChange={handleMealTime}>
-                    <option value={""} selected disabled hidden>Max time to prepare your meal</option>
+                    <option value={""} selected disabled hidden>Max preparation time</option>
                     <option value={"5 minutes"}>5 minutes</option>
                     <option value={"10 minutes"}>10 minutes</option>
                     <option value={"15 minutes"}>15 minutes</option>
@@ -169,21 +169,21 @@ function NewMealPage() {
                     <option value={"50 minutes"}>50 minutes</option>
                 </select>
 
-                <h2>~ Amount of calories</h2>
-                <input value={mealKcal} type="number" min="1" max="2000" name="meal kcal" onChange={handleMealKcal} />
+                <input value={mealKcal} type="number" min="1" max="2000" name="meal kcal" placeholder="~ Amount of kcal" onChange={handleMealKcal} />
 
-                <button type="submit">Suggest meal</button>
+                <button type="submit">Serve</button>
             </form>
-
+        
             { errorMessage && <p className="error-message">{errorMessage}</p> }
 
-            <h2>Your meal suggestion</h2>
-
-            { mealImage && splittedInformation && splittedInformation.map((info, index) => (
-                <h2 key={index}>{info}</h2>
-            ))}
-
-            { mealImage && splittedInformation && <Link to="/meal-details"><img src={mealImage} alt="meal img" width={300} /></Link> }
+            <div className="suggestion-container">
+                { mealImage && splittedInformation && <h2>{splittedInformation[0]}</h2> }
+                <div className="meal-spec">
+                    { mealImage && splittedInformation && <h3>{splittedInformation[2]}</h3> }
+                    { mealImage && splittedInformation && <h3>{splittedInformation[1]}</h3> }
+                </div>
+            </div>
+            { mealImage && splittedInformation && <Link to="/meal-details"><img className="serve-img" src={mealImage} alt="meal img" width={300} /></Link> }
         </div>
     )
 }

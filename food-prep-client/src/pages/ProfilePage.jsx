@@ -212,10 +212,10 @@ function ProfilePage() {
                 
                 <ul>
                     { excludedIngredients && excludedIngredients.map((ingredient, index) => (
-                            <li key={index}>- {ingredient} <button type="button" onClick={() => handleDeleteIngredient(index)}>Delete</button></li>
+                            <p key={index}>- {ingredient} <button type="button" onClick={() => handleDeleteIngredient(index)}>Delete</button></p>
                         ))}
                     { excludedIngredientsDb && excludedIngredientsDb.map((ingredient, index) => (
-                        <li key={index}>- {ingredient} <button type="button" onClick={() => handleDeleteIngredientDb(index)}>Delete</button></li>
+                        <p key={index}>- {ingredient} <button type="button" onClick={() => handleDeleteIngredientDb(index)}>Delete</button></p>
                     ))}
                 </ul>
 
