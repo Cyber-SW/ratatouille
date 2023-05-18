@@ -101,9 +101,9 @@ function ProfilePage() {
             setExcludedIngredients([...excludedIngredients, currentIngredient])
             setCurrentIngredient("")
         } else if (excludedIngredients.includes(currentIngredient)) {
-            setErrorMessage("This ingredient is already banned.")
+            setErrorMessage("This ingredient is already banned!")
         } else if (excludedIngredientsDb.includes(currentIngredient)) {
-            setErrorMessage("This ingredient is already banned.")
+            setErrorMessage("This ingredient is already banned!")
         }
     }
 
@@ -154,10 +154,7 @@ function ProfilePage() {
         <div>
             <Navbar />
 
-
-            <h1>Profile</h1>
-
-            <form onSubmit={() => handleUpdatedUserInformation({
+            <form className="profile-container" onSubmit={() => handleUpdatedUserInformation({
                 username: username,
                 size: size,
                 weight: weight,
@@ -169,50 +166,79 @@ function ProfilePage() {
                 excludedIngredients: [...excludedIngredientsDb, ...excludedIngredients] 
                 })}>
 
-                <label>Change your username:</label>
-                <input type="text" placeholder={usernameDb} value={username} onChange={handleUsername} />
+                <h1 className="shopping-list-headline">Change your informations</h1>
 
-                <label>Change your weight:</label>
-                <input type="number" min="20" max="400" name="weight" placeholder={weightDb} value={weight} onChange={handleWeight} />
+                <div className="profile-margin">
+                    <label className="labels">Change your username:</label>
+                    <input type="text" placeholder={usernameDb} value={username} onChange={handleUsername} />
 
-                <h2>Your BMI: {bmi && size && weight ? bmi : "Type in your size and weight first."}</h2>
-
-                <h2>Change your activity level:</h2>
-                <select name="calorie demand" id="calorie-demand" onChange={calculateCalorieDemand} >
-                    <option value={""} selected disabled hidden>{activityLevel && activityLevel}</option>
-                    <option value={"Only sitting or lying / Frail people"}>Only sitting or lying / Frail people</option>
-                    <option value={"Sedentary, hardly any physical activity / Office work at the desk"}>Sedentary, hardly any physical activity / Office work at the desk</option>
-                    <option value={"Predominantly sitting, walking and standing / Students, pupils, cab drivers"}>Predominantly sitting, walking and standing / Students, pupils, cab drivers</option>
-                    <option value={"Mainly standing and walking / Salesman, waiter, craftsman"}>Mainly standing and walking / Salesman, waiter, craftsman</option>
-                    <option value={"Physically demanding work / Farmers, high performance athletes"}>Physically demanding work / Farmers, high performance athletes</option>
-                </select>
-
-                <h2>Change your goal:</h2>
-                <input type="radio" name="goal" value={"Lose weight"} checked={goal === "Lose weight"} onChange={handleGoal} />
-                <label>Lose Weight</label>
-                <input type="radio" name="goal" value={"Keep weight"} checked={goal === "Keep weight"} onChange={handleGoal} />
-                <label>Keep Weight</label>
-                <input type="radio" name="goal" value={"Gain weight"} checked={goal === "Gain weight"} onChange={handleGoal} />
-                <label>Gain Weight</label>
-
-                <h2>New calorie demand per day: {calorieDemand && goal ? calorieDemand : "" }</h2>
-
-                <h2>Change your diet:</h2>
-                <select name="diet" id="diet" onChange={handleDiet}>
-                    <option value={""} selected disabled hidden>{diet && diet.charAt(0).toUpperCase() + diet.slice(1)}</option>
-                    <option value={"low carb"}>Low carb</option>
-                    <option value={"vegetarian"}>Vegetarian</option>
-                    <option value={"vegan"}>Vegan</option>
-                    <option value={"any delicious"}>Any delicious</option>
-                </select>
-
-                <h2>Edit your banned ingredients:</h2>
-                <input type="text" name="excludedIngredients" value={currentIngredient} onChange={handleCurrentIngredient} />
-                <button type="button" onClick={handleAddIngredient}>Ban ingredient</button>
+                    <label className="labels">Change your weight:</label>
+                    <input type="number" min="20" max="400" name="weight" placeholder={weightDb} value={weight} onChange={handleWeight} />
+                </div>
                 
-                <ul>
+
+                <h2 className="profile-margin">Your BMI: {bmi && size && weight ? bmi : "Type in your weight first."}</h2>
+
+                <div className="profile-margin">
+                    <label className="labels">Change your activity level:</label>
+                    <select name="calorie demand" id="calorie-demand" onChange={calculateCalorieDemand} >
+                        <option value={""} selected disabled hidden>{activityLevel && activityLevel}</option>
+                        <option value={"Only sitting or lying / Frail people"}>Only sitting or lying / Frail people</option>
+                        <option value={"Sedentary, hardly any physical activity / Office work at the desk"}>Sedentary, hardly any physical activity / Office work at the desk</option>
+                        <option value={"Predominantly sitting, walking and standing / Students, pupils, cab drivers"}>Predominantly sitting, walking and standing / Students, pupils, cab drivers</option>
+                        <option value={"Mainly standing and walking / Salesman, waiter, craftsman"}>Mainly standing and walking / Salesman, waiter, craftsman</option>
+                        <option value={"Physically demanding work / Farmers, high performance athletes"}>Physically demanding work / Farmers, high performance athletes</option>
+                    </select>
+                </div>
+                
+                <div className="profile-margin">
+                    <label className="labels">Change your goal:</label>
+                    <hr />
+                    <div className="goal-container">
+                        <div className="alignment">
+                            <label className="labels">Lose Weight</label>
+                            <input className="radio-input" type="radio" name="goal" value={"Lose weight"} checked={goal === "Lose weight"} onChange={handleGoal} />
+                        </div>
+                        
+                        <div className="alignment">
+                            <label className="labels">Keep Weight</label>
+                            <input className="radio-input" type="radio" name="goal" value={"Keep weight"} checked={goal === "Keep weight"} onChange={handleGoal} />
+                        </div>
+                        
+                        <div className="alignment">
+                            <label className="labels">Gain Weight</label>
+                            <input className="radio-input" type="radio" name="goal" value={"Gain weight"} checked={goal === "Gain weight"} onChange={handleGoal} />
+                        </div>
+                    </div>
+                </div>
+
+                <h2 className="profile-margin">New calorie demand per day: {calorieDemand && goal ? calorieDemand : "" }</h2>
+
+                <div className="profile-margin">
+                    <label className="labels">Change your diet:</label>
+                    <select name="diet" id="diet" onChange={handleDiet}>
+                        <option value={""} selected disabled hidden>{diet && diet.charAt(0).toUpperCase() + diet.slice(1)}</option>
+                        <option value={"low carb"}>Low carb</option>
+                        <option value={"vegetarian"}>Vegetarian</option>
+                        <option value={"vegan"}>Vegan</option>
+                        <option value={"any delicious"}>Any delicious</option>
+                    </select>
+                </div>
+                
+                <div className="profile-margin">
+                    <label className="labels">Change banned ingredients:</label>
+                    <input type="text" name="excludedIngredients" value={currentIngredient} onChange={handleCurrentIngredient} />
+                    <button className="ban-btn red" type="button" onClick={handleAddIngredient}>Ban ingredient</button>
+                    { errorMessage && <p className="error-message">{errorMessage}</p> }
+                </div>
+                
+                <ul className="profile-margin">
                     { excludedIngredients && excludedIngredients.map((ingredient, index) => (
-                            <p key={index}>- {ingredient} <button type="button" onClick={() => handleDeleteIngredient(index)}>Delete</button></p>
+                        <div className="positioning" key={index}>
+                            <p className="text">- {ingredient}</p>
+                            <button className="delete-list-btn red" type="button" onClick={() => handleDeleteIngredient(index)}>Delete</button>
+                        </div>
+                       
                         ))}
                     { excludedIngredientsDb && excludedIngredientsDb.map((ingredient, index) => (
                         <p key={index}>- {ingredient} <button type="button" onClick={() => handleDeleteIngredientDb(index)}>Delete</button></p>
@@ -222,7 +248,6 @@ function ProfilePage() {
                 <button type="submit">Save changes</button>
     
             </form>
-            { errorMessage && <p className="error-message">{errorMessage}</p> }
         </div>
     )
 }

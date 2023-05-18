@@ -52,8 +52,7 @@ function SignupPage() {
       diet: userInformation.diet,
       excludedIngredients: userInformation.excludedIngredients
     }   
-
-    console.log("user data", userData)
+    
 
     authService.signup(userData)
       .then(() => {
@@ -77,7 +76,7 @@ function SignupPage() {
   }
   
   return (
-    <div className="SignupPage">
+    <div className="signup-container">
       { !toggleForm && <SignupUserLogin handleUserLoginInformation={handleUserLoginInformation} /> }
 
       { toggleForm && <SignupUserInformation handleUserInformation={handleUserInformation} /> }

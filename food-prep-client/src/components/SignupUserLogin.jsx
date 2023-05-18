@@ -7,34 +7,31 @@ function SignupUserLogin({ handleUserLoginInformation }) {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [username, setUsername] = useState("")
-    const [errorMessage, setErrorMessage] = useState("")
-
   
     const handleEmail = (e) => setEmail(e.target.value)
     const handlePassword = (e) => setPassword(e.target.value)
     const handleUsername = (e) => setUsername(e.target.value)
 
+
     return (
         <div>
-            <h1>Sign up</h1>
+            <h1 className="signup-headline">Sign up</h1>
 
             <form onSubmit={(e) => handleUserLoginInformation(e, { email: email, password: password, username: username })}>
-                <label>Email:</label>
+                <label className="labels">Email:</label>
                 <input type="email" name="email" value={email} onChange={handleEmail} />
 
-                <label>Password:</label>
+                <label className="labels">Password:</label>
                 <input type="password" name="password" value={password} onChange={handlePassword} />
 
-                <label>Username:</label>
+                <label className="labels">Username:</label>
                 <input type="text" name="username" value={username} onChange={handleUsername} />
 
                 <button type="submit">Sign up</button>
             </form>
 
-            { errorMessage && <p className="error-message">{errorMessage}</p> }
-
-                <p>Already have account?</p>
-                <Link to={"/login"}> Log in</Link>
+            <p className="labels">Already have account?</p>
+            <Link className="login-link" to={"/login"}> Log in</Link>
         </div>
     )
 }

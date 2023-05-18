@@ -50,24 +50,33 @@ function Navbar() {
                     <span className="bar"></span>
                 </NavLink>
         
-            <div className="nav-links" style={{ display: navbarToggle ? 'flex' : 'none' }}>
+            <div className="nav-links" style={{ display: navbarToggle ? "flex" : "none" }}>
                 <ul>
                     <li><NavLink className="links" to="/">Home</NavLink></li>
                     <li><NavLink className="links" to="/new-meal">Serve</NavLink></li>
                     <li><NavLink className="links" to="/favorites">Favorites</NavLink></li>
-                    <li><NavLink className="links" to="/shopping-list">List</NavLink></li>
+                    <li><NavLink className="links" to="/shopping-list">Shopping List</NavLink></li>
                     <li><NavLink className="links" to="/profile">Profile</NavLink></li>
-                    <li><button className="links" onClick={logOutUser}>Logout</button></li>
+                    <li><button className="links red" onClick={logOutUser}>Logout</button></li>
                 </ul>
             </div>
         </>
       )}
 
             {!isLoggedIn && (
-        <>
-            <NavLink to="/signup"> <button>Sign up</button> </NavLink>
-            <NavLink to="/login"> <button>Log in</button> </NavLink>
-        </>
+        <div className="nav-container">
+            <div className="branding">
+                <NavLink to="/new-meal">
+                    <img className="logo" src={logo} alt="image" height={50} />
+                </NavLink>
+            </div>
+            <div className="nav-links align-signup">
+                <ul>
+                    <li><NavLink className="links" to="/signup">Sign up</NavLink></li>
+                    <li><NavLink className="links" to="/login">Log in</NavLink></li>
+                </ul>
+            </div>
+        </div>
       )}
         </nav>
     )

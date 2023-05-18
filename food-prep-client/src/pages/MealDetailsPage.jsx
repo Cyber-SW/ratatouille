@@ -39,13 +39,14 @@ function MealDetailsPage() {
     }
 
     useEffect(() => {
-        const splittedInformation = mealInformation.split("\n").splice(0, 3)
+        const splittedInformation = mealInformation.replace("Meal name: ", "")
+        const newSplittedInfromation = splittedInformation.split("\n")
         const splittedIngredients = mealIngredients.split("\n")
         const splittedInstructions = mealInstructions.split("\n")
         const splittedShoppingList = mealShoppingList.split("\n")
         const newSplittedShoppingList = splittedShoppingList.map((item) => item.replace(/^- /, '')).splice(1, splittedShoppingList.length)
         
-        setSplittedInformation(splittedInformation)
+        setSplittedInformation(newSplittedInfromation)
         setSplittedIngredients(splittedIngredients)
         setSplittedInstructions(splittedInstructions)
         setSplittedShoppingList(newSplittedShoppingList)
@@ -75,23 +76,29 @@ function MealDetailsPage() {
         <div>
             <Navbar />
 
-            <h1>Meal details</h1>
-            <img src={mealImage} alt="meal img" width={300} />
+            <img className="meal-details-img" src={mealImage} alt="meal img" width={300} />
+            <div className="meal-details-container">
+                <h2 className="meal-details-headline">{splittedInformation[0]}</h2>
+                <div className="meal-details-spec">
+                    <h3>{splittedInformation[1]}</h3>
+                    <h3>{splittedInformation[2]}</h3>
+                </div>
 
-            {splittedInformation.map((info, index) => (
-                <h2 key={index}>{info}</h2>
-            ))}
+                <h2 className="meal-details-text-headline">Ingredients:</h2>
+                {splittedIngredients.map((ingredient, index) => (
+                    <p className="meal-details-text" key={index}>{ingredient.replace("Ingredients:", "")}</p>
+                ))}
 
-            {splittedIngredients.map((ingredient, index) => (
-                <p key={index}>{ingredient}</p>
-            ))}
+                <h2 className="meal-details-text-headline">Instructions:</h2>
+                {splittedInstructions.map((instruction, index) => (
+                    <p className="meal-details-text" key={index}>{instruction.replace("Instructions:", "")}</p>
+                ))}
 
-            {splittedInstructions.map((instruction, index) => (
-                <p key={index}>{instruction}</p>
-            ))}
-
-            <button type="submit" onClick={() => handleAddToFavorites(mealInformation, mealIngredients, mealInstructions, mealShoppingList, mealImage)}>To favorites</button>
-            <button type="submit" onClick={() => handleAddToShoppingList(splittedShoppingList)}>To shopping list</button>
+                <div className="button-container">
+                    <button type="submit" onClick={() => handleAddToFavorites(mealInformation, mealIngredients, mealInstructions, mealShoppingList, mealImage)}>To favorites</button>
+                    <button type="submit" onClick={() => handleAddToShoppingList(splittedShoppingList)}>To shopping list</button>
+                </div>
+            </div>
         </div>
     )
 }

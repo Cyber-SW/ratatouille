@@ -82,18 +82,24 @@ function ShoppingListPage() {
         <div>
             <Navbar />
 
-            <h1>Shopping list</h1>
+                <div className="shopping-list-container">
+                <h1 className="shopping-list-headline">Add items to shopping list</h1>
+                    <input type="text" name="shopping-list" value={currentIngredient} onChange={handleCurrentIngredient} onKeyDown={handleKey} />
+                    <div className="button-container margin">
+                        <button className="shopping-list-btn" type="button" onClick={handleClick}>Add ingredient</button>
+                        <button className="shopping-list-btn red" type="button" onClick={() => handleDeleteAll()}>Delete all</button>
+                    </div>
 
-            <h2>Add items to your shopping list</h2>
-                <input type="text" name="shopping-list" value={currentIngredient} onChange={handleCurrentIngredient} onKeyDown={handleKey} />
-                <button type="button" onClick={handleClick}>Add ingredient</button>
-                <button type="button" onClick={() => handleDeleteAll()}>Delete all</button>
-
-            <ul>
-                { shoppingList && shoppingList.map((ingredient, index) => (
-                    <p key={index}>- {ingredient} <button type="button" onClick={() => handleDeleteIngredient(index)}>Delete</button></p>
-                ))}
-            </ul>
+                <h2 className="meal-details-text-headline">Shopping list:</h2>
+                <ul>
+                    { shoppingList && shoppingList.map((ingredient, index) => (
+                        <div className="positioning" key={index}>
+                            <p className="text" >- {ingredient}</p>
+                            <button className="delete-list-btn red" type="button" onClick={() => handleDeleteIngredient(index)}>Delete</button>
+                        </div>
+                    ))}
+                </ul>
+            </div>
         </div>
     )
 }

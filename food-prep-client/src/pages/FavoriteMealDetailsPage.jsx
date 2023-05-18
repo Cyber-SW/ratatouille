@@ -72,24 +72,29 @@ function FavoriteMealDetailsPage() {
         <div>
             <Navbar />
 
-            <h1>Meal details</h1>
-            <img src={mealImage} alt="meal img" width={300} />
+            <img className="meal-details-img" src={mealImage} alt="meal img" width={300} />
+            <div className="meal-details-container">
+                <h2 className="meal-details-headline">{splittedInformation[0]}</h2>
+                    <div className="meal-details-spec">
+                        <h3>{splittedInformation[1]}</h3>
+                        <h3>{splittedInformation[2]}</h3>
+                    </div>
 
-            {splittedInformation.map((info, index) => (
-                <h2 key={index}>{info}</h2>
-            ))}
+                <h2 className="meal-details-text-headline">Ingredients:</h2>
+                {splittedIngredients.map((ingredient, index) => (
+                    <p className="text" key={index}>{ingredient.replace("Ingredients:", "")}</p>
+                ))}
 
-            {splittedIngredients.map((ingredient, index) => (
-                <p key={index}>{ingredient}</p>
-            ))}
-
-            {splittedInstructions.map((instruction, index) => (
-                <p key={index}>{instruction}</p>
-            ))}
-
-            <button type="submit" onClick={() => handleDeleteFavorite(mealId)}>Delete favorite</button>
-            <button type="submit" onClick={() => handleAddToShoppingList(splittedShoppingList)}>To shopping list</button>
-
+                <h2 className="meal-details-text-headline">Instructions:</h2>
+                {splittedInstructions.map((instruction, index) => (
+                    <p className="text" key={index}>{instruction.replace("Instructions:", "")}</p>
+                ))}
+                
+                <div className="button-container">
+                    <button className="red" type="submit" onClick={() => handleDeleteFavorite(mealId)}>Delete favorite</button>
+                    <button type="submit" onClick={() => handleAddToShoppingList(splittedShoppingList)}>To shopping list</button>
+                </div>
+            </div>
         </div>
     )
 }

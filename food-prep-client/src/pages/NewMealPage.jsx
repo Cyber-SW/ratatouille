@@ -136,7 +136,7 @@ function NewMealPage() {
     useEffect(() => {
         if (user && mealInformation) {
             const splittedInformation = mealInformation.split("\n").splice(0, 3)
-            const newSplittedInfromation =splittedInformation.map((item) => item.replace("Meal name: ", ""))
+            const newSplittedInfromation = splittedInformation.map((item) => item.replace("Meal name: ", "").replace(/(Time:\s*.+).*/, '$1').replace(/(Kcal:\s*\d+).*/, '$1'))
 
             setSplittedInformation(newSplittedInfromation)
         }
