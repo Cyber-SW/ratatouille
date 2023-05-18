@@ -49,7 +49,10 @@ function ProfilePage() {
 
 
     const handleDiet = (e) => setDiet(e.target.value)
-    const handleCurrentIngredient = (e) => setCurrentIngredient(e.target.value)
+    const handleCurrentIngredient = (e) => {
+        setCurrentIngredient(e.target.value)
+        setErrorMessage(undefined)
+    }
     const handleUsername = (e) => setUsername(e.target.value)
 
 
@@ -109,19 +112,19 @@ function ProfilePage() {
 
  
     function calculateCalorieDemand(e) {
-        if (e.target.value === "Only sitting or lying / Frail people") {
+        if (e.target.value === "Only sitting or lying") {
             gender === "Female" ? setStoreCalorieDemand(((0.9 * weight * 24) * 1.2).toFixed(0))
             : setStoreCalorieDemand(((weight * 24) * 1.2).toFixed(0))
-        } else if (e.target.value === "Sedentary, hardly any physical activity / Office work at the desk") {
+        } else if (e.target.value === "Sedentary, hardly any physical activity") {
             gender === "Female" ? setStoreCalorieDemand(((0.9 * weight * 24) * 1.4).toFixed(0))
             : setStoreCalorieDemand(((weight * 24) * 1.5).toFixed(0))
-        } else if (e.target.value === "Predominantly sitting, walking and standing / Students, pupils, cab drivers") {
+        } else if (e.target.value === "Predominantly sitting, walking and standing") {
             gender === "Female" ? setStoreCalorieDemand(((0.9 * weight * 24) * 1.6).toFixed(0))
             : setStoreCalorieDemand(((weight * 24) * 1.7).toFixed(0))
-        } else if (e.target.value === "Mainly standing and walking / Salesman, waiter, craftsman") {
+        } else if (e.target.value === "Mainly standing and walking") {
             gender === "Female" ? setStoreCalorieDemand(((0.9 * weight * 24) * 1.8).toFixed(0))
             : setStoreCalorieDemand(((weight * 24) * 1.9).toFixed(0))
-        } else if (e.target.value === "Physically demanding work / Farmers, high performance athletes") {
+        } else if (e.target.value === "Physically demanding work") {
             gender === "Female" ? setStoreCalorieDemand(((0.9 * weight * 24) * 2.2).toFixed(0))
             : setStoreCalorieDemand(((weight * 24) * 2.4).toFixed(0))
         }
@@ -183,11 +186,11 @@ function ProfilePage() {
                     <label className="labels">Change your activity level:</label>
                     <select name="calorie demand" id="calorie-demand" onChange={calculateCalorieDemand} >
                         <option value={""} selected disabled hidden>{activityLevel && activityLevel}</option>
-                        <option value={"Only sitting or lying / Frail people"}>Only sitting or lying / Frail people</option>
-                        <option value={"Sedentary, hardly any physical activity / Office work at the desk"}>Sedentary, hardly any physical activity / Office work at the desk</option>
-                        <option value={"Predominantly sitting, walking and standing / Students, pupils, cab drivers"}>Predominantly sitting, walking and standing / Students, pupils, cab drivers</option>
-                        <option value={"Mainly standing and walking / Salesman, waiter, craftsman"}>Mainly standing and walking / Salesman, waiter, craftsman</option>
-                        <option value={"Physically demanding work / Farmers, high performance athletes"}>Physically demanding work / Farmers, high performance athletes</option>
+                        <option value={"Only sitting or lying"}>Only sitting or lying / Frail people</option>
+                        <option value={"Sedentary, hardly any physical activity"}>Sedentary, hardly any physical activity / Office work at the desk</option>
+                        <option value={"Predominantly sitting, walking and standing"}>Predominantly sitting, walking and standing / Students, pupils, cab drivers</option>
+                        <option value={"Mainly standing and walking"}>Mainly standing and walking / Salesman, waiter, craftsman</option>
+                        <option value={"Physically demanding work"}>Physically demanding work / Farmers, high performance athletes</option>
                     </select>
                 </div>
                 
@@ -196,23 +199,23 @@ function ProfilePage() {
                     <hr />
                     <div className="goal-container">
                         <div className="alignment">
-                            <label className="labels">Lose Weight</label>
+                            <label className="labels">Lose weight</label>
                             <input className="radio-input" type="radio" name="goal" value={"Lose weight"} checked={goal === "Lose weight"} onChange={handleGoal} />
                         </div>
                         
                         <div className="alignment">
-                            <label className="labels">Keep Weight</label>
+                            <label className="labels">Keep weight</label>
                             <input className="radio-input" type="radio" name="goal" value={"Keep weight"} checked={goal === "Keep weight"} onChange={handleGoal} />
                         </div>
                         
                         <div className="alignment">
-                            <label className="labels">Gain Weight</label>
+                            <label className="labels">Gain weight</label>
                             <input className="radio-input" type="radio" name="goal" value={"Gain weight"} checked={goal === "Gain weight"} onChange={handleGoal} />
                         </div>
                     </div>
                 </div>
 
-                <h2 className="profile-margin">New calorie demand per day: {calorieDemand && goal ? calorieDemand : "" }</h2>
+                <h2 className="profile-margin calorie-demand">New calorie demand per day: {calorieDemand && goal ? calorieDemand : "" }</h2>
 
                 <div className="profile-margin">
                     <label className="labels">Change your diet:</label>
@@ -241,7 +244,10 @@ function ProfilePage() {
                        
                         ))}
                     { excludedIngredientsDb && excludedIngredientsDb.map((ingredient, index) => (
-                        <p key={index}>- {ingredient} <button type="button" onClick={() => handleDeleteIngredientDb(index)}>Delete</button></p>
+                        <div className="positioning" key={index}>
+                            <p className="text">- {ingredient}</p>
+                            <button className="delete-list-btn red" type="button" onClick={() => handleDeleteIngredientDb(index)}>Delete</button>
+                        </div>
                     ))}
                 </ul>
 

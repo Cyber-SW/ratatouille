@@ -43,7 +43,7 @@ const userSchema = new Schema(
     activityLevel: {
       type: String,
       required: [true, "Activity level is required."],
-      enum: ["Only sitting or lying / Frail people", "Sedentary, hardly any physical activity / Office work at the desk", "Predominantly sitting, walking and standing / Students, pupils, cab drivers", "Mainly standing and walking / Salesman, waiter, craftsman", "Physically demanding work / Farmers, high performance athletes"]
+      enum: ["Only sitting or lying", "Sedentary, hardly any physical activity", "Predominantly sitting, walking and standing", "Mainly standing and walking", "Physically demanding work"]
     },
     calorieDemand: {
       type: String

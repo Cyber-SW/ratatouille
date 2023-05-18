@@ -76,8 +76,8 @@ function FavoriteMealDetailsPage() {
             <div className="meal-details-container">
                 <h2 className="meal-details-headline">{splittedInformation[0]}</h2>
                     <div className="meal-details-spec">
-                        <h3>{splittedInformation[1]}</h3>
                         <h3>{splittedInformation[2]}</h3>
+                        <h3>{splittedInformation[1]}</h3>
                     </div>
 
                 <h2 className="meal-details-text-headline">Ingredients:</h2>

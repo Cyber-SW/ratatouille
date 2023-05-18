@@ -154,7 +154,10 @@ p {
   }
 }
 
-
+.align-signup ul {
+  flex-direction: row;
+  margin-top: 0.8rem;
+}
 
 /* General styles */
 .form-container {
@@ -189,6 +192,12 @@ button {
   font-weight: 700;
   font-size: 2rem;
   margin-top: 0.5rem;
+}
+
+button:hover {
+  transition-duration: 0.1s;
+  background-color: var(--clr-secondary-200);
+  cursor: pointer;
 }
 
 .red {
@@ -250,7 +259,6 @@ h3 {
   align-items: center;
   width: 100%;
   max-width: 40rem;
-  min-height: 20rem;
   border-top-left-radius: 3.5rem;
   border-top-right-radius: 3.5rem;
 }
@@ -275,7 +283,6 @@ h3 {
   align-items: center;
   width: 100%;
   max-width: 40rem;
-  min-height: 20rem;
   border-top-left-radius: 3.5rem;
   border-top-right-radius: 3.5rem;
 }
@@ -389,6 +396,13 @@ h3 {
   color: var(--clr-secondary-400);
 }
 
+.subline-signup-info {
+  font-size: 1.5rem;
+  font-family: var(--ff-primary);
+  font-weight: 300;
+  margin-bottom: 4rem;
+}
+
 
 /* Profile page */
 .profile-container {
@@ -416,6 +430,10 @@ h3 {
 
 .profile-margin {
   margin-bottom: 2rem;
+}
+
+.calorie-demand {
+  font-size: 1.5rem;
 }
 
 hr {
@@ -473,6 +491,10 @@ hr {
 
 .section-one {
   margin: 2rem;
+}
+
+.section-one p {
+  font-size: 1rem;
 }
 
 .section-one-headline {

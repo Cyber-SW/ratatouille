@@ -76,7 +76,7 @@ function SignupPage() {
   }
   
   return (
-    <div className="signup-container">
+    <div>
       { !toggleForm && <SignupUserLogin handleUserLoginInformation={handleUserLoginInformation} /> }
 
       { toggleForm && <SignupUserInformation handleUserInformation={handleUserInformation} /> }

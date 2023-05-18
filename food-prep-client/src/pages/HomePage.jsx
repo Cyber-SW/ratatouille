@@ -25,13 +25,13 @@ function HomePage() {
                 <h2 className="section-one-headline">How it works</h2>
 
                 <div className="section-one-container">
-                    <h2 className="section-one-subline">Generate meals 🍔</h2>
+                    <h2 className="section-one-subline">Generate dishes 🍔</h2>
                     <p>You don't know what you want to make for dinner today? No problem let ratatouille decide for you.
                     Just a few clicks and you'll get a dish suggested along with a recipe and shopping list.</p>
                 </div>
 
                 <div className="section-one-container">
-                    <h2 className="section-one-subline">Save your favorite meals 💚</h2>
+                    <h2 className="section-one-subline">Save your favorite dishes 💚</h2>
                     <p>Save your favorite dishes directly in the app and always have access to their recipes and ingredients.</p>
                 </div>
 

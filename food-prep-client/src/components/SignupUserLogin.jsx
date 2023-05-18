@@ -15,9 +15,8 @@ function SignupUserLogin({ handleUserLoginInformation }) {
 
     return (
         <div>
+            <form className="profile-container" onSubmit={(e) => handleUserLoginInformation(e, { email: email, password: password, username: username })}>
             <h1 className="signup-headline">Sign up</h1>
-
-            <form onSubmit={(e) => handleUserLoginInformation(e, { email: email, password: password, username: username })}>
                 <label className="labels">Email:</label>
                 <input type="email" name="email" value={email} onChange={handleEmail} />
 
@@ -28,10 +27,10 @@ function SignupUserLogin({ handleUserLoginInformation }) {
                 <input type="text" name="username" value={username} onChange={handleUsername} />
 
                 <button type="submit">Sign up</button>
-            </form>
 
-            <p className="labels">Already have account?</p>
-            <Link className="login-link" to={"/login"}> Log in</Link>
+                <p className="labels">Already have account?</p>
+                <Link className="login-link" to={"/login"}> Log in</Link> 
+            </form>
         </div>
     )
 }

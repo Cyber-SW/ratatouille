@@ -3,11 +3,13 @@ import { useState, useEffect, useContext } from "react"
 import { AuthContext } from "../context/auth.context"
 import userService from "../services/user.service"
 import { Link } from "react-router-dom"
+import PacmanLoader from "react-spinners/PacmanLoader";
 
 
 function NewMealPage() {
     const { user } = useContext(AuthContext)
 
+    const [loading, setLoading] = useState(false);
     const [appState, setAppState] = useState({})
     const [mealType, setMealType] = useState("")
     const [mealTime, setMealTime] = useState("")
@@ -23,8 +25,15 @@ function NewMealPage() {
 
     const handleMealType = (e) => setMealType(e.target.value)
     const handleMealTime = (e) => setMealTime(e.target.value)
-    const handleMealKcal = (e) => setMealKcal(e.target.value)
+    const handleMealKcal = (e) => {
+        setMealKcal(e.target.value)
+        setErrorMessage(undefined)
+    }
 
+    useEffect(() => {
+        setLoading(false)
+    }, [appState])
+    
 
     function handleNewMealSubmit(e) {
         e.preventDefault()
@@ -70,6 +79,7 @@ function NewMealPage() {
         setMealTime("")
         setMealType("")
         setMealKcal("")
+        setLoading(true)
     }
 
 
@@ -176,14 +186,22 @@ function NewMealPage() {
         
             { errorMessage && <p className="error-message">{errorMessage}</p> }
 
-            <div className="suggestion-container">
+           { loading ? <PacmanLoader
+                        className="suggestion-container"
+                        color={"#11B44D"}
+                        loading={loading}
+                        size={30}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                    /> : 
+            <div className="suggestion-container" style={{ display: loading ? "none" : "flex" }}>
                 { mealImage && splittedInformation && <h2>{splittedInformation[0]}</h2> }
                 <div className="meal-spec">
                     { mealImage && splittedInformation && <h3>{splittedInformation[2]}</h3> }
                     { mealImage && splittedInformation && <h3>{splittedInformation[1]}</h3> }
-                </div>
-            </div>
-            { mealImage && splittedInformation && <Link to="/meal-details"><img className="serve-img" src={mealImage} alt="meal img" width={300} /></Link> }
+                </div> 
+            </div> }
+            { mealImage && splittedInformation && <Link to="/meal-details"><img className="serve-img" style={{ display: loading ? "none" : "flex" }} src={mealImage} alt="meal img" width={300} /></Link> }
         </div>
     )
 }
