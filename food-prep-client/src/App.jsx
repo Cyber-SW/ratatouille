@@ -5,7 +5,7 @@ import LoginPage from "./pages/LoginPage"
 import SignupPage from "./pages/SignupPage"
 import NewMealPage from "./pages/NewMealPage"
 import IsAnon from './components/IsAnon'
-import IsPrivate from './components/isPrivate'
+import IsPrivate from "./components/IsPrivate"
 import MealDetailsPage from "./pages/MealDetailsPage"
 import FavoritesPage from "./pages/FavoritesPage"
 import ShoppingListPage from "./pages/ShoppingListPage"
