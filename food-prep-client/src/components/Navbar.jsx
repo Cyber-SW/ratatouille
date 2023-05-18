@@ -64,7 +64,7 @@ function Navbar() {
       )}
 
             {!isLoggedIn && (
-        <div className="nav-container">
+        <div className="nav-container align-container">
             <div className="branding">
                 <NavLink to="/new-meal">
                     <img className="logo" src={logo} alt="image" height={50} />
@@ -72,8 +72,8 @@ function Navbar() {
             </div>
             <div className="nav-links align-signup">
                 <ul>
-                    <li><NavLink className="links" to="/signup">Sign up</NavLink></li>
-                    <li><NavLink className="links" to="/login">Log in</NavLink></li>
+                    <li><NavLink className="links" to="/signup">Signup</NavLink></li>
+                    <li><NavLink className="links" to="/login">Login</NavLink></li>
                 </ul>
             </div>
         </div>

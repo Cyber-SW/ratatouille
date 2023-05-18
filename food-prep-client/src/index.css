@@ -141,14 +141,19 @@ p {
 
   .nav-links li,
   .links {
-    padding: .5rem 1rem;
+    padding: 0.5rem 0.5rem;
+  }
+
+  .align-container {
+    flex-direction: row;
+  }
+
+  .align-signup ul {
+    flex-direction: row;
+    margin-top: 0.8rem;
   }
 }
 
-.align-signup {
-  position: relative;
-  top: 0.35rem;
-}
 
 
 /* General styles */
