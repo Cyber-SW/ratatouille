@@ -4,7 +4,7 @@ import axios from "axios"
 class AuthService {
   constructor() {
     this.api = axios.create({
-      baseURL: import.meta.env.VITE_REACT_APP_SERVER_URL,
+      baseURL: import.meta.env.VITE_SERVER_URL,
     });
 
     this.api.interceptors.request.use((config) => {
