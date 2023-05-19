@@ -140,6 +140,8 @@ function NewMealPage() {
         }
         setAppState(appState)
         userService.storeUserAppState(appState)
+            .then((message) => console.log(message))
+            .catch(err => console.log(err))
     }
     
 
