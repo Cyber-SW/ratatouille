@@ -12,7 +12,7 @@ module.exports = (app) => {
 
   app.use(
     cors({
-      origin: [FRONTEND_URL]
+      origin: process.env.ORIGIN
     })
   );
 
