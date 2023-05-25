@@ -25,7 +25,7 @@ function ProfilePage() {
     if (user) {
       getUserData();
     }
-  }, [user]);
+  }, []);
 
   function getUserData() {
     userService
@@ -152,6 +152,10 @@ function ProfilePage() {
 
   function handleUpdatedUserInformation(updatedInfo) {
     userService.updateUserProfile(updatedInfo);
+    console
+      .log("hello")
+      .then(() => getUserData())
+      .catch((err) => console.log(err));
   }
 
   return (
@@ -181,12 +185,7 @@ function ProfilePage() {
 
         <div className="profile-margin">
           <label className="labels">Change your username:</label>
-          <input
-            type="text"
-            // placeholder={usernameDb}
-            value={username}
-            onChange={handleUsername}
-          />
+          <input type="text" value={username} onChange={handleUsername} />
 
           <label className="labels">Change your weight:</label>
           <input
@@ -194,7 +193,6 @@ function ProfilePage() {
             min="20"
             max="400"
             name="weight"
-            // placeholder={weightDb}
             value={weight}
             onChange={handleWeight}
           />
