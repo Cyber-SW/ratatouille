@@ -83,7 +83,7 @@ function ShoppingListPage() {
             <Navbar />
 
                 <div className="shopping-list-container">
-                <h1 className="shopping-list-headline">Add items to shopping list</h1>
+                <h1 className="shopping-list-headline">Add items to your shopping list</h1>
                     <input type="text" name="shopping-list" value={currentIngredient} onChange={handleCurrentIngredient} onKeyDown={handleKey} />
                     <div className="button-container margin">
                         <button className="shopping-list-btn" type="button" onClick={handleClick}>Add ingredient</button>

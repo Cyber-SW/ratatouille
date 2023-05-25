@@ -145,6 +145,8 @@ function SignupUserInformation({ handleUserInformation }) {
                     <label className="labels">Weight in kilogram:</label>
                     <input type="number" min="20" max="400" name="weight" value={weight} onChange={handleWeight} />
                 </div>
+
+                <h2 className="profile-margin calorie-demand">Your BMI: {bmi && size && weight ? bmi : "Type in your weight first."}</h2>
                 
                 <div className="profile-margin">
                     <label className="labels">Choose your activity level:</label>

@@ -32,7 +32,7 @@ function NewMealPage() {
 
     useEffect(() => {
         setLoading(false)
-    }, [appState])
+    }, [appState, errorMessage])
     
 
     function handleNewMealSubmit(e) {
@@ -84,10 +84,8 @@ function NewMealPage() {
 
 
     useEffect(() => {
-        if (user) {
-            getUserData()
-        }  
-    }, [appState])
+        getUserData()
+    }, [appState, loading])
 
 
     function getUserData() {
@@ -140,7 +138,7 @@ function NewMealPage() {
         }
         setAppState(appState)
         userService.storeUserAppState(appState)
-            .then((message) => console.log(message))
+            .then(() => setErrorMessage("Oops the waiter accidentally dropped your food!"))
             .catch(err => console.log(err))
     }
     
@@ -148,7 +146,7 @@ function NewMealPage() {
     useEffect(() => {
         if (user && mealInformation) {
             const splittedInformation = mealInformation.split("\n").splice(0, 3)
-            const newSplittedInfromation = splittedInformation.map((item) => item.replace("Meal name: ", "").replace(/(Time:\s*.+).*/, '$1').replace(/(Kcal:\s*\d+).*/, '$1'))
+            const newSplittedInfromation = splittedInformation.map((item) => item.replace("Meal name: ", "").replace(/(Time:\s*.+).*/, "$1").replace(/(Kcal:\s*\d+).*/, "$1"))
 
             setSplittedInformation(newSplittedInfromation)
         }
@@ -158,52 +156,54 @@ function NewMealPage() {
     return (
         <div>
             <Navbar />
+            
             <div className="username">Hello {user && user.username} nice to see you💚</div>
 
-            <form className="form-container" onSubmit={handleNewMealSubmit}>
-                <h1 className="headline">Configure your dish</h1>
-                <select value={mealType} name="meal type" id="meal-type" onChange={handleMealType}>
-                    <option value={""} selected disabled hidden>Choose dish type</option>
-                    <option value={"breakfast"}>Breakfast</option>
-                    <option value={"lunch"}>Lunch</option>
-                    <option value={"dinner"}>Dinner</option>
-                    <option value={"snack"}>Snack</option>
-                </select>
+            <div className="desktop-container">
+                <form className="form-container" onSubmit={handleNewMealSubmit}>
+                    <h1 className="headline">Configure your dish</h1>
+                    <select value={mealType} name="meal type" id="meal-type" onChange={handleMealType}>
+                        <option value={""} selected disabled hidden>Choose dish type</option>
+                        <option value={"breakfast"}>Breakfast</option>
+                        <option value={"lunch"}>Lunch</option>
+                        <option value={"dinner"}>Dinner</option>
+                        <option value={"snack"}>Snack</option>
+                    </select>
 
-                <select value={mealTime} name="meal time" id="meal-time" onChange={handleMealTime}>
-                    <option value={""} selected disabled hidden>Max preparation time</option>
-                    <option value={"5 minutes"}>5 minutes</option>
-                    <option value={"10 minutes"}>10 minutes</option>
-                    <option value={"15 minutes"}>15 minutes</option>
-                    <option value={"20 minutes"}>20 minutes</option>
-                    <option value={"30 minutes"}>30 minutes</option>
-                    <option value={"40 minutes"}>40 minutes</option>
-                    <option value={"50 minutes"}>50 minutes</option>
-                </select>
+                    <select value={mealTime} name="meal time" id="meal-time" onChange={handleMealTime}>
+                        <option value={""} selected disabled hidden>Max. preparation time</option>
+                        <option value={"5 minutes"}>5 minutes</option>
+                        <option value={"10 minutes"}>10 minutes</option>
+                        <option value={"15 minutes"}>15 minutes</option>
+                        <option value={"20 minutes"}>20 minutes</option>
+                        <option value={"30 minutes"}>30 minutes</option>
+                        <option value={"40 minutes"}>40 minutes</option>
+                        <option value={"50 minutes"}>50 minutes</option>
+                    </select>
 
-                <input value={mealKcal} type="number" min="1" max="2000" name="meal kcal" placeholder="~ Amount of kcal" onChange={handleMealKcal} />
+                    <input value={mealKcal} type="number" min="1" max="2000" name="meal kcal" placeholder="~ Amount of kcal" onChange={handleMealKcal} />
 
-                <button type="submit">Serve</button>
-            </form>
-        
-            { errorMessage && <p className="error-message">{errorMessage}</p> }
+                    <button type="submit">Serve</button>
+                    { errorMessage && <p className="error-message" style={{ display: loading ? "none" : "flex" }}>{errorMessage}</p> }
+                </form>
 
-           { loading ? <PacmanLoader
-                        className="suggestion-container"
-                        color={"#11B44D"}
-                        loading={loading}
-                        size={30}
-                        aria-label="Loading Spinner"
-                        data-testid="loader"
-                    /> : 
-            <div className="suggestion-container" style={{ display: loading ? "none" : "flex" }}>
-                { mealImage && splittedInformation && <h2>{splittedInformation[0]}</h2> }
-                <div className="meal-spec">
-                    { mealImage && splittedInformation && <h3>{splittedInformation[2]}</h3> }
-                    { mealImage && splittedInformation && <h3>{splittedInformation[1]}</h3> }
-                </div> 
-            </div> }
-            { mealImage && splittedInformation && <Link to="/meal-details"><img className="serve-img" style={{ display: loading ? "none" : "flex" }} src={mealImage} alt="meal img" width={300} /></Link> }
+                { loading ? <PacmanLoader
+                            className="pacman-loader"
+                            color={"#11B44D"}
+                            loading={loading}
+                            size={30}
+                            aria-label="Loading Spinner"
+                            data-testid="loader"
+                        /> : 
+                <div className="suggestion-container" style={{ display: loading || mealImage === "" ? "none" : "flex" }}>
+                    { mealImage && splittedInformation && <h2 className="white-desktop">{splittedInformation[0]}</h2> }
+                    <div className="meal-spec">
+                        { mealImage && splittedInformation && <h3 className="white-desktop">{splittedInformation[2]}</h3> }
+                        { mealImage && splittedInformation && <h3 className="white-desktop">{splittedInformation[1]}</h3> }
+                    </div> 
+                </div> }
+                { mealImage && splittedInformation && <Link to="/meal-details"><img className="serve-img" style={{ display: loading ? "none" : "flex" }} src={mealImage} alt="meal img" width={300} /></Link> }
+            </div>
         </div>
     )
 }

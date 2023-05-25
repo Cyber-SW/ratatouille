@@ -3,7 +3,7 @@ const logger = require("morgan");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
-const FRONTEND_URL = process.env.ORIGIN
+// const FRONTEND_URL = process.env.ORIGIN
 
 // Middleware configuration
 module.exports = (app) => {

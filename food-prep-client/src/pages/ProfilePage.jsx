@@ -180,7 +180,7 @@ function ProfilePage() {
                 </div>
                 
 
-                <h2 className="profile-margin">Your BMI: {bmi && size && weight ? bmi : "Type in your weight first."}</h2>
+                <h2 className="profile-margin calorie-demand">Your BMI: {bmi && size && weight ? bmi : "Type in your weight first."}</h2>
 
                 <div className="profile-margin">
                     <label className="labels">Change your activity level:</label>

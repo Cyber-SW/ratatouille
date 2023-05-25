@@ -55,9 +55,9 @@ function Navbar() {
                     <li><NavLink className="links" to="/">Home</NavLink></li>
                     <li><NavLink className="links" to="/new-meal">Serve</NavLink></li>
                     <li><NavLink className="links" to="/favorites">Favorites</NavLink></li>
-                    <li><NavLink className="links" to="/shopping-list">Shopping List</NavLink></li>
-                    <li><NavLink className="links" to="/profile">Profile</NavLink></li>
-                    <li><button className="links red" onClick={logOutUser}>Logout</button></li>
+                    <li><NavLink className="links" to="/shopping-list">Shopping list</NavLink></li>
+                    <li><NavLink className="links space" to="/profile">Profile</NavLink></li>
+                    <li><button className="red logout-btn" onClick={logOutUser}>Logout</button></li>
                 </ul>
             </div>
         </>
@@ -72,8 +72,8 @@ function Navbar() {
             </div>
             <div className="nav-links align-signup">
                 <ul>
-                    <li><NavLink className="links" to="/signup">Signup</NavLink></li>
-                    <li><NavLink className="links" to="/login">Login</NavLink></li>
+                    <li><NavLink className="signup-links" to="/signup">Signup</NavLink></li>
+                    <li><NavLink className="signup-links" to="/login">Login</NavLink></li>
                 </ul>
             </div>
         </div>

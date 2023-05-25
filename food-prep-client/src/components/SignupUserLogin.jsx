@@ -15,7 +15,7 @@ function SignupUserLogin({ handleUserLoginInformation }) {
 
     return (
         <div>
-            <form className="profile-container" onSubmit={(e) => handleUserLoginInformation(e, { email: email, password: password, username: username })}>
+            <form className="signup-container" onSubmit={(e) => handleUserLoginInformation(e, { email: email, password: password, username: username })}>
             <h1 className="signup-headline">Sign up</h1>
                 <label className="labels">Email:</label>
                 <input type="email" name="email" value={email} onChange={handleEmail} />

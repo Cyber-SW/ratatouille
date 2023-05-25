@@ -81,6 +81,7 @@ p {
 
 .nav-links li {
   list-style: none;
+  white-space: nowrap;
 }
 
 .links {
@@ -91,8 +92,15 @@ p {
   font-size: 1.2rem;
 }
 
+.signup-links {
+  position: relative;
+  padding: 0.75rem;
+  bottom: 0.5rem;
+  color: var(--font-primary);
+  text-decoration: none;
+}
+
 .nav-links li :hover {
-  background-color: var(--clr-secondary-200);
   color: var(--font-secondary);
 }
 
@@ -112,6 +120,20 @@ p {
   width: 100%;
   background-color: white;
   border-radius: 0.05rem;
+}
+
+.align-signup ul {
+  flex-direction: row;
+  margin-top: 0.8rem;
+}
+
+.hide {
+  display: none;
+}
+
+.pacman-loader {
+  margin: 2rem;
+  margin-top: 3rem;
 }
 
 @media (max-width: 431px) {
@@ -144,6 +166,19 @@ p {
     padding: 0.5rem 0.5rem;
   }
 
+  .signup-links {
+    position: relative;
+    padding: 0.5rem;
+    top: 0.6rem;
+    font-size: 1.2rem;
+    color: var(--font-primary);
+    text-decoration: none;
+  }
+
+  .logout-btn {
+    font-size: 1.2rem;;
+  }
+
   .align-container {
     flex-direction: row;
   }
@@ -152,11 +187,6 @@ p {
     flex-direction: row;
     margin-top: 0.8rem;
   }
-}
-
-.align-signup ul {
-  flex-direction: row;
-  margin-top: 0.8rem;
 }
 
 /* General styles */
@@ -470,27 +500,28 @@ hr {
   background-image: url("../src/assets/hero-img.png");
 }
 
-.hero-section button {
-  max-width: 80%;
-  min-height: 4rem;
-  font-size: 2rem;
+.hero-content {
+  width: 80%;
 }
 
 .hero-headline {
   font-size: 4rem;
   color: var(--font-primary);
+  margin-bottom: 2rem;
 }
 
 .hero-subline {
   font-size: 2rem;
-  margin: 2rem;
   font-family: var(--ff-primary);
   font-weight: 400;
   color: var(--font-primary);
+  margin-bottom: 3rem;
 }
 
 .section-one {
   margin: 2rem;
+  margin-bottom: 5rem;
+  margin-top: 3rem;
 }
 
 .section-one p {
@@ -502,12 +533,16 @@ hr {
   margin-bottom: 3rem;
 }
 
+.white {
+  color: var(--font-primary);
+}
+
 .section-one-subline {
   font-size: 1.5rem;
 }
 
-.section-one-container {
-  margin-bottom: 4rem;
+.section-one-align {
+  margin-bottom: 3rem;
 }
 
 .about-section {
@@ -515,7 +550,7 @@ hr {
   margin-bottom: -2rem;
   padding-top: 2rem;
   padding-bottom: 2rem;
-  color: var(--font-secondary)
+  color: var(--font-primary)
 }
 
 .about-section-align {
@@ -532,5 +567,188 @@ hr {
 }
 
 .my-link {
-  color: var(--font-secondary);
+  color: var(--font-primary);
+}
+
+
+@media (min-width: 432px) {
+  .nav-links li,
+  .links {
+    padding-top: 1rem;
+    font-size: 1.1rem;
+  }
+
+  .space {
+    margin-right: 1rem;
+  }
+
+  .logout-btn {
+    font-size: 1.1rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-bottom: 0.3rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .signup-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto;
+    margin-top: 10%;
+  }
+
+  .hero-section {
+    min-height: 55rem;
+  }
+
+  .hero-content {
+    max-width: 60rem;
+  }
+
+  .hero-content button {
+    min-height: 3.5rem;
+    border-radius: 2rem;
+    max-width: 80%;
+  }
+
+  .hero-headline {
+    font-size: 10rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-subline {
+    font-size: 4rem;
+    margin-bottom: 6rem;
+  }
+
+  .desktop-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .pacman-loader {
+    position: absolute;
+    right: 40.9rem;
+    top: 22rem;
+  }
+
+  .serve-img {
+    border-bottom-left-radius: 3.5rem;
+    border-bottom-right-radius: 3.5rem;
+    max-height: 50rem;
+    margin-left: 4rem;
+  }
+
+  .suggestion-container {
+    position: absolute;
+    left: 30%;
+    top: 60%;
+    max-width: 37rem;
+    background-color: var(--clr-secondary-400);
+    padding: 2rem;
+    border-radius: 2rem;
+    color: var(--font-secondary);
+  }
+
+  .white-desktop {
+    color: var(--font-primary);
+  }
+
+  .section-one {
+    display: flex;
+    flex-direction: column;
+    max-width: 40rem;
+    margin: 0 auto;
+    margin-top: 5rem;
+    margin-bottom: 3rem;
+  }
+
+  .about-section {
+    display: flex;
+    justify-content: center;
+  }
+
+  .about-section-align {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .about-desktop {
+    max-width: 20rem;
+    margin-right: 5rem;
+  }
+
+  .meal-details-desktop {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .meal-details-img {
+    max-width: 40%;
+    border-top-left-radius: 3.5rem;
+    border-top-right-radius: 3.5rem;
+    margin: 4rem;
+  }
+
+  .meal-details-container {
+    margin: 4rem 4rem 4rem 0rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .fav-container {
+    display: flex;
+    flex-direction: row;
+    min-width: 100%;
+    margin-top: 0rem;
+    white-space: nowrap;
+  }
+
+  .fav-container-align {
+    margin: 2.5rem 2rem;
+    min-width: 20%;
+    max-width: 20%;
+    display: inline-block;
+    height: 50rem;
+  }
+
+  .fav-headline {
+    margin: 0rem;
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+    white-space: pre-wrap;
+  }
+
+  #fav-img {
+    max-height: 32rem;
+  }
+
+  .shopping-list-container {
+    max-width: 40rem;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    margin-top: 4rem;
+    margin-bottom: 5rem;
+  }
+
+  .shopping-list-headline {
+    font-size: 4rem;
+  }
+
+  .profile-container {
+    max-width: 40rem;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    margin-top: 4rem;
+    margin-bottom: 5rem;
+  }
+
+  .delete-list-btn {
+    font-size: 1rem;
+  }
 }
