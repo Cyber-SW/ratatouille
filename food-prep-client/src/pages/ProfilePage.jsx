@@ -1,11 +1,9 @@
 import Navbar from "../components/Navbar";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import userService from "../services/user.service";
-import { AuthContext } from "../context/auth.context";
+
 
 function ProfilePage() {
-  const { user } = useContext(AuthContext);
-
   const [username, setUsername] = useState("");
   const [size, setSize] = useState("");
   const [weight, setWeight] = useState("");
@@ -22,9 +20,7 @@ function ProfilePage() {
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    if (user) {
-      getUserData();
-    }
+    getUserData();
   }, []);
 
   function getUserData() {
@@ -151,9 +147,7 @@ function ProfilePage() {
   }
 
   function handleUpdatedUserInformation(updatedInfo) {
-    userService.updateUserProfile(updatedInfo);
-    console
-      .log("hello")
+    userService.updateUserProfile(updatedInfo)
       .then(() => getUserData())
       .catch((err) => console.log(err));
   }
