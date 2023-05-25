@@ -1,16 +1,15 @@
 const express = require("express");
-const bcrypt = require('bcryptjs');
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User.model");
 
-const { isAuthenticated } = require('./../middleware/jwt.middleware.js');
+const { isAuthenticated } = require("./../middleware/jwt.middleware.js");
 
 const router = express.Router();
 const saltRounds = 10;
 
-
 // POST /auth/signup  - Creates a new user in the database
-router.post('/signup', (req, res, next) => {
+router.post("/signup", (req, res, next) => {
   const {
     email,
     password,
@@ -24,11 +23,11 @@ router.post('/signup', (req, res, next) => {
     activityLevel,
     calorieDemand,
     diet,
-    excludedIngredients
+    excludedIngredients,
   } = req.body;
 
-  // Check if email or password or name are provided as empty string 
-  if (email === '' || password === '' || username === '') {
+  // Check if email or password or name are provided as empty string
+  if (email === "" || password === "" || username === "") {
     res.status(400).json({ message: "Provide email, password and username" });
     return;
   }
@@ -36,17 +35,19 @@ router.post('/signup', (req, res, next) => {
   // Use regex to validate the email format
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
   if (!emailRegex.test(email)) {
-    res.status(400).json({ message: 'Provide a valid email address.' });
-    return;
-  }
-  
-  // Use regex to validate the password format
-  const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
-  if (!passwordRegex.test(password)) {
-    res.status(400).json({ message: 'Password must have at least 6 characters and contain at least one number, one lowercase and one uppercase letter.' });
+    res.status(400).json({ message: "Provide a valid email address." });
     return;
   }
 
+  // Use regex to validate the password format
+  const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
+  if (!passwordRegex.test(password)) {
+    res.status(400).json({
+      message:
+        "Password must have at least 6 characters and contain at least one number, one lowercase and one uppercase letter.",
+    });
+    return;
+  }
 
   // Check the users collection if a user with the same email already exists
   User.findOne({ email })
@@ -61,7 +62,7 @@ router.post('/signup', (req, res, next) => {
       const hashedPassword = bcrypt.hashSync(password, salt);
 
       // Create the new user in the database
-      return User.create({ 
+      return User.create({
         email,
         password: hashedPassword,
         username,
@@ -74,7 +75,7 @@ router.post('/signup', (req, res, next) => {
         activityLevel,
         calorieDemand,
         diet,
-        excludedIngredients
+        excludedIngredients,
       });
     })
     .then((createdUser) => {
@@ -92,9 +93,9 @@ router.post('/signup', (req, res, next) => {
         activityLevel,
         calorieDemand,
         diet,
-        excludedIngredients
+        excludedIngredients,
       } = createdUser;
-    
+
       // Create a new object that doesn't expose the password
       const user = {
         email,
@@ -109,23 +110,22 @@ router.post('/signup', (req, res, next) => {
         activityLevel,
         calorieDemand,
         diet,
-        excludedIngredients
+        excludedIngredients,
       };
       res.status(201).json({ user: user });
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
-      res.status(500).json({ message: "Internal Server Error" })
+      res.status(500).json({ message: "Internal Server Error" });
     });
 });
 
-
 // POST  /auth/login - Verifies email and password and returns a JWT
-router.post('/login', (req, res, next) => {
+router.post("/login", (req, res, next) => {
   const { email, password } = req.body;
 
-  // Check if email or password are provided as empty string 
-  if (email === '' || password === '') {
+  // Check if email or password are provided as empty string
+  if (email === "" || password === "") {
     res.status(400).json({ message: "Provide email and password." });
     return;
   }
@@ -133,9 +133,8 @@ router.post('/login', (req, res, next) => {
   // Check the users collection if a user with the same email exists
   User.findOne({ email })
     .then((foundUser) => {
-    
       if (!foundUser) {
-        res.status(401).json({ message: "User not found." })
+        res.status(401).json({ message: "User not found." });
         return;
       }
 
@@ -144,38 +143,29 @@ router.post('/login', (req, res, next) => {
 
       if (passwordCorrect) {
         const { _id, email, username } = foundUser;
-        
+
         // Create an object that will be set as the token payload
         const payload = { _id, email, username };
 
         // Create and sign the token
-        const authToken = jwt.sign( 
-          payload,
-          process.env.TOKEN_SECRET,
-          { algorithm: 'HS256', expiresIn: "6h" }
-        );
+        const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
+          algorithm: "HS256",
+          expiresIn: "24h",
+        });
 
         // Send the token as the response
         res.status(200).json({ authToken: authToken });
-      }
-      else {
+      } else {
         res.status(401).json({ message: "Unable to authenticate the user" });
       }
-
     })
-    .catch(err => res.status(500).json({ message: "Internal Server Error" }));
+    .catch((err) => res.status(500).json({ message: "Internal Server Error" }));
 });
 
-
 // GET  /auth/verify  -  Used to verify JWT stored on the client
-router.get('/verify', isAuthenticated, (req, res, next) => {
-
-  // isAuthenticated middleware and made available on `req.payload`
-  console.log(`req.payload`, req.payload);
-
+router.get("/verify", isAuthenticated, (req, res) => {
   // Send back the object with user data
   res.status(200).json(req.payload);
 });
-
 
 module.exports = router;

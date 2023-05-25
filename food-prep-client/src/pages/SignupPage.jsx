@@ -1,41 +1,33 @@
-import { useState, useContext } from "react"
-import { useNavigate } from "react-router-dom"
-import { AuthContext } from "../context/auth.context"
-import authService from "./../services/auth.service"
-import SignupUserLogin from "../components/SignupUserLogin"
-import SignupUserInformation from "../components/SignupUserInformation"
-
+import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/auth.context";
+import authService from "./../services/auth.service";
+import SignupUserLogin from "../components/SignupUserLogin";
+import SignupUserInformation from "../components/SignupUserInformation";
 
 function SignupPage() {
-  //user login information
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [username, setUsername] = useState("")
-
-  //toggle form
-  const [toggleForm, setToggleForm] = useState(false)
-
-  //token handling
-  const { storeToken, authenticateUser } = useContext(AuthContext)
-
-  //error handling
-  const [errorMessage, setErrorMessage] = useState(undefined)
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [toggleForm, setToggleForm] = useState(false);
+  const { storeToken, authenticateUser } = useContext(AuthContext);
+  const [errorMessage, setErrorMessage] = useState(undefined);
 
   const navigate = useNavigate();
 
-  //handle user login information
+  
   const handleUserLoginInformation = (e, userLoginData) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    setEmail(userLoginData.email)
-    setPassword(userLoginData.password)
-    setUsername(userLoginData.username)
-    setToggleForm(true)
-  }
+    setEmail(userLoginData.email);
+    setPassword(userLoginData.password);
+    setUsername(userLoginData.username);
+    setToggleForm(true);
+  };
 
-  //handle user information
+
   const handleUserInformation = (e, userInformation) => {
-    e.preventDefault()
+    e.preventDefault();
 
     const userData = {
       email: email,
@@ -50,40 +42,45 @@ function SignupPage() {
       activityLevel: userInformation.activityLevel,
       calorieDemand: userInformation.calorieDemand,
       diet: userInformation.diet,
-      excludedIngredients: userInformation.excludedIngredients
-    }   
-    
+      excludedIngredients: userInformation.excludedIngredients,
+    };
 
-    authService.signup(userData)
+    authService
+      .signup(userData)
       .then(() => {
-        authService.login({email: userData.email, password: userData.password})
+        authService
+          .login({ email: userData.email, password: userData.password })
           .then((response) => {
-            console.log("JWT token", response.data.authToken)
-            
-            storeToken(response.data.authToken)
-            authenticateUser()
-            navigate("/new-meal")
+            storeToken(response.data.authToken);
+            authenticateUser();
+            navigate("/new-meal");
           })
           .catch((error) => {
-            const errorDescription = error.response.data.message
-            setErrorMessage(errorDescription)
-        })
+            const errorDescription = error.response.data.message;
+            setErrorMessage(errorDescription);
+          });
       })
       .catch((error) => {
         const errorDescription = error.response.data.message;
-        setErrorMessage(errorDescription)
-      })
-  }
-  
+        setErrorMessage(errorDescription);
+      });
+  };
+
   return (
     <div>
-      { !toggleForm && <SignupUserLogin handleUserLoginInformation={handleUserLoginInformation} /> }
+      {!toggleForm && (
+        <SignupUserLogin
+          handleUserLoginInformation={handleUserLoginInformation}
+        />
+      )}
 
-      { toggleForm && <SignupUserInformation handleUserInformation={handleUserInformation} /> }
+      {toggleForm && (
+        <SignupUserInformation handleUserInformation={handleUserInformation} />
+      )}
 
-      { errorMessage && <p className="error-message">{errorMessage}</p> }
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
     </div>
-  )
+  );
 }
 
-export default SignupPage
+export default SignupPage;

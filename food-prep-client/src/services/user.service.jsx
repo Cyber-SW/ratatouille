@@ -1,66 +1,65 @@
-import axios from "axios"
-
+import axios from "axios";
 
 class UserService {
-    constructor() {
-        this.api = axios.create({
-            baseURL: import.meta.env.VITE_SERVER_URL,
-        })
+  constructor() {
+    this.api = axios.create({
+      baseURL: import.meta.env.VITE_SERVER_URL,
+    });
 
-        this.api.interceptors.request.use((config) => {
-            const storedToken = localStorage.getItem("authToken")
+    this.api.interceptors.request.use((config) => {
+      const storedToken = localStorage.getItem("authToken");
 
-            if (storedToken) {
-                config.headers = { Authorization: `Bearer ${storedToken}` }
-            }
+      if (storedToken) {
+        config.headers = { Authorization: `Bearer ${storedToken}` };
+      }
 
-            return config
-        })
-    }
+      return config;
+    });
+  }
 
-    fetchUserData = () => {
-        return this.api.get(`api/user`)
-    }
+  fetchUserData = () => {
+    return this.api.get(`api/user`);
+  };
 
-    storeUserAppState = (appState) => {
-        return this.api.post(`api/user/update-state`, { appState: appState })
-    }
+  storeUserAppState = (appState) => {
+    return this.api.post(`api/user/update-state`, { appState: appState });
+  };
 
-    updateUserProfile = (updatedInfo) => {
-        return this.api.post(`api/user/profile/edit`, { updatedInfo: updatedInfo })
-    }
+  updateUserProfile = (updatedInfo) => {
+    return this.api.post(`api/user/profile/edit`, { updatedInfo: updatedInfo });
+  };
 
-    updateUserShoppingList = (newItem) => {
-        return this.api.post(`api/user/shopping-list/update`, { newItem: newItem })
-    }
+  updateUserShoppingList = (newItem) => {
+    return this.api.post(`api/user/shopping-list/update`, { newItem: newItem });
+  };
 
-    deleteOneShoppingList = (index) => {
-        return this.api.post(`api/user/shopping-list/delete-one`, { index: index })
-    }
+  deleteOneShoppingList = (index) => {
+    return this.api.post(`api/user/shopping-list/delete-one`, { index: index });
+  };
 
-    deleteAllShoppingList = () => {
-        return this.api.post(`api/user/shopping-list/delete-all`)
-    }
+  deleteAllShoppingList = () => {
+    return this.api.post(`api/user/shopping-list/delete-all`);
+  };
 
-    addMealToFavorites = (meal) => {
-        return this.api.post(`api/user/favorites/add`, { meal: meal })
-    }
+  addMealToFavorites = (meal) => {
+    return this.api.post(`api/user/favorites/add`, { meal: meal });
+  };
 
-    fetchFavoriteMeal = (mealId) => {
-        return this.api.get(`api/user/favorite/meal-details/${mealId}`)
-    }
+  fetchFavoriteMeal = (mealId) => {
+    return this.api.get(`api/user/favorite/meal-details/${mealId}`);
+  };
 
-    deleteFavoriteMeal = (mealId) => {
-        return this.api.post(`api/user/favorite/meal-details/${mealId}/delete`)
-    }
+  deleteFavoriteMeal = (mealId) => {
+    return this.api.post(`api/user/favorite/meal-details/${mealId}/delete`);
+  };
 
-    fetchUserMeal = (newMeal) => {
-        return this.api.post(`api/user/new-meal`, { newMeal: newMeal })
-    }
+  fetchUserMeal = (newMeal) => {
+    return this.api.post(`api/user/new-meal`, { newMeal: newMeal });
+  };
 
-    fetchMealImage = (newMealName) => {
-        return this.api.get(`api/user/new-meal/${newMealName}`)
-    }
+  fetchMealImage = (newMealName) => {
+    return this.api.get(`api/user/new-meal/${newMealName}`);
+  };
 }
 
 const userService = new UserService();

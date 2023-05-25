@@ -7,12 +7,11 @@ const cors = require("cors");
 
 // Middleware configuration
 module.exports = (app) => {
-
   app.set("trust proxy", 1);
 
   app.use(
     cors({
-      origin: process.env.ORIGIN
+      origin: process.env.ORIGIN,
     })
   );
 

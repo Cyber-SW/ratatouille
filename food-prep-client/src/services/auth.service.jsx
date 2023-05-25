@@ -1,5 +1,4 @@
-import axios from "axios"
-
+import axios from "axios";
 
 class AuthService {
   constructor() {
@@ -8,7 +7,6 @@ class AuthService {
     });
 
     this.api.interceptors.request.use((config) => {
-
       const storedToken = localStorage.getItem("authToken");
 
       if (storedToken) {
@@ -18,7 +16,6 @@ class AuthService {
       return config;
     });
   }
-
 
   login = (requestBody) => {
     return this.api.post("/auth/login", requestBody);
@@ -32,7 +29,6 @@ class AuthService {
     return this.api.get("/auth/verify");
   };
 }
-
 
 const authService = new AuthService();
 
