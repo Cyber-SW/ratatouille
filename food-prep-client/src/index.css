@@ -135,6 +135,7 @@ p {
 
 .pacman-loader-initial {
   margin: auto;
+  margin-top: 50%;
 }
 
 @media (max-width: 431px) {

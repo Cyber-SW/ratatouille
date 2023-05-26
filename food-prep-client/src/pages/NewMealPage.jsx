@@ -10,7 +10,6 @@ function NewMealPage() {
 
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
-  const [appState, setAppState] = useState({});
   const [mealType, setMealType] = useState("");
   const [mealTime, setMealTime] = useState("");
   const [mealKcal, setMealKcal] = useState("");
@@ -31,7 +30,7 @@ function NewMealPage() {
 
   useEffect(() => {
     setLoading(false);
-  }, [appState, errorMessage]);
+  }, [errorMessage]);
 
   function handleNewMealSubmit(e) {
     e.preventDefault();
@@ -81,7 +80,7 @@ function NewMealPage() {
 
   useEffect(() => {
     getUserData();
-  }, [appState]);
+  }, []);
 
   function getUserData() {
     userService
@@ -133,7 +132,8 @@ function NewMealPage() {
     };
     userService
       .storeUserAppState(appState)
-      .then((response) => setAppState(response.data.appState))
+      .then(() => getUserData())
+      .then(() => setLoading(false))
       .catch((err) => console.log(err));
   };
 
