@@ -34,34 +34,32 @@ function FavoritesPage() {
   }
 
   return (
-    <div className="no-scroll">
+    <div>
       <Navbar />
 
-      <div
-        className="fav-container"
-        style={{ scrollbarColor: "transparent", overflowX: "auto" }}
-        onWheel={(e) => {
-          const strength = Math.abs(e.deltaY);
-          if (e.deltaY === 0) return;
+      {favorites && (
+        <div
+          className="fav-container"
+          style={{ scrollbarColor: "transparent", overflowX: "auto" }}
+          onWheel={(e) => {
+            const strength = Math.abs(e.deltaY);
+            if (e.deltaY === 0) return;
 
-          const el = e.currentTarget;
-          if (
-            !(el.scrollLeft === 0 && e.deltaY < 0) &&
-            !(
-              el.scrollWidth - el.clientWidth - Math.round(el.scrollLeft) ===
-                0 && e.deltaY > 0
+            const el = e.currentTarget;
+            if (
+              !(el.scrollLeft === 0 && e.deltaY < 0) &&
+              !(
+                el.scrollWidth - el.clientWidth - Math.round(el.scrollLeft) ===
+                  0 && e.deltaY > 0
+              )
             )
-          ) {
-            e.preventDefault();
-          }
-          el.scrollTo({
-            left: el.scrollLeft + e.deltaY,
-            behavior: strength > 70 ? "auto" : "smooth",
-          });
-        }}
-      >
-        {favorites &&
-          favorites.map((meal) => (
+              el.scrollTo({
+                left: el.scrollLeft + e.deltaY,
+                behavior: strength > 70 ? "auto" : "smooth",
+              });
+          }}
+        >
+          {favorites.map((meal) => (
             <div key={meal._id} className="fav-container-align">
               <h2 className={"fav-headline " + (toggleHeadline ? "hide" : "")}>
                 {meal.mealInformation.split("\n")[0].replace("Meal name: ", "")}
@@ -91,7 +89,8 @@ function FavoritesPage() {
               </h2>
             </div>
           ))}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
