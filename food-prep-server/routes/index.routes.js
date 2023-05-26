@@ -4,10 +4,6 @@ const { google } = require("googleapis");
 const User = require("../models/User.model");
 const { Configuration, OpenAIApi } = require("openai");
 
-// router.get("/", (req, res, next) => {
-//   res.json("All good in here");
-// });
-
 //user data routes
 router.get("/user", (req, res) => {
   const userId = req.payload._id;
@@ -59,7 +55,7 @@ router.post("/user/update-state", (req, res) => {
   const { appState } = req.body;
 
   User.findByIdAndUpdate(userObjectId, { appState }, { new: true })
-    .then(() => res.status(200))
+    .then(() => res.status(200).json())
     .catch((err) => console.log(err));
 });
 
@@ -84,7 +80,7 @@ router.post("/user/profile/edit", (req, res) => {
     },
     { new: true }
   )
-    .then(() => res.status(200))
+    .then(() => res.status(200).json())
     .catch((err) => console.log(err));
 });
 
@@ -235,7 +231,7 @@ router.post("/user/new-meal", (req, res) => {
         max_tokens: 900,
         temperature: 1,
       });
-      res.json(response.data.choices[0].message.content);
+      res.json(response.data.choices[0].message.content).status(200);
     } catch (err) {
       console.log(err);
     }
@@ -251,7 +247,7 @@ router.get("/user/new-meal/:newMealName", async (req, res) => {
 
   try {
     const imageUrl = await searchForImage(newMealImage);
-    res.json(imageUrl);
+    res.json(imageUrl).status(200);
   } catch (err) {
     console.error(err);
   }

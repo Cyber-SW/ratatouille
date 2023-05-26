@@ -8,6 +8,7 @@ import PacmanLoader from "react-spinners/PacmanLoader";
 function NewMealPage() {
   const { user } = useContext(AuthContext);
 
+  const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
   const [appState, setAppState] = useState({});
   const [mealType, setMealType] = useState("");
@@ -86,6 +87,7 @@ function NewMealPage() {
     userService
       .fetchUserData()
       .then((response) => {
+        setUsername(response.data.username);
         setMealInformation(response.data.appState.mealInformation);
         setMealImage(response.data.appState.mealImage);
         setExcludedIngredients(response.data.excludedIngredients);
@@ -156,9 +158,7 @@ function NewMealPage() {
     <div>
       <Navbar />
 
-      <div className="username">
-        Hello {user && user.username} nice to see you💚
-      </div>
+      <div className="username">Hello {user && username} nice to see you💚</div>
 
       <div className="desktop-container">
         <form className="form-container" onSubmit={handleNewMealSubmit}>
