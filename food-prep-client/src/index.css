@@ -189,6 +189,10 @@ p {
     flex-direction: row;
     margin-top: 0.8rem;
   }
+
+  .pacman-loader-initial {
+    margin: auto;
+  }
 }
 
 /* General styles */

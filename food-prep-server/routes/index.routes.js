@@ -217,6 +217,8 @@ router.post("/user/favorite/meal-details/:mealId/delete", (req, res) => {
 router.post("/user/new-meal", (req, res) => {
   const { newMeal } = req.body;
 
+  console.log("API query start", new Date());
+
   const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
   });
@@ -231,7 +233,7 @@ router.post("/user/new-meal", (req, res) => {
         max_tokens: 900,
         temperature: 1,
       });
-      console.log(response.data.choices[0].message.content)
+      console.log(response.data.choices[0].message.content);
       res.json(response.data.choices[0].message.content).status(200);
     } catch (err) {
       console.log(err);
@@ -273,6 +275,7 @@ router.get("/user/new-meal/:newMealName", async (req, res) => {
       response.data.items &&
       response.data.items.length > 0
     ) {
+      console.log("API query end", new Date());
       return response.data.items[0].link;
     } else {
       throw new Error("No images found for query: " + newMealImage);
