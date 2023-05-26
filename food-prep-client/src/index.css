@@ -190,8 +190,9 @@ p {
   }
 
   .pacman-loader-initial {
-    margin: auto;
-    margin-top: 75%;
+    position: absolute;
+    top: 50;
+    left: 50%;
   }
 }
 
