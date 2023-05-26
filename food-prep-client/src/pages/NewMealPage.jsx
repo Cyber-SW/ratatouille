@@ -134,6 +134,7 @@ function NewMealPage() {
       .storeUserAppState(appState)
       .then(() => getUserData())
       .then(() => setLoading(false))
+      .then(() => setNewMeal(""))
       .catch((err) => console.log(err));
   };
 
