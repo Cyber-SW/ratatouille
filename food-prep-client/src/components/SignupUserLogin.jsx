@@ -27,20 +27,20 @@ function SignupUserLogin({ handleUserLoginInformation }) {
         <label className="labels">Email:</label>
         <input type="email" name="email" value={email} onChange={handleEmail} />
 
-        <label className="labels">Password:</label>
-        <input
-          type="password"
-          name="password"
-          value={password}
-          onChange={handlePassword}
-        />
-
         <label className="labels">Username:</label>
         <input
           type="text"
           name="username"
           value={username}
           onChange={handleUsername}
+        />
+
+        <label className="labels">Password:</label>
+        <input
+          type="password"
+          name="password"
+          value={password}
+          onChange={handlePassword}
         />
 
         <button type="submit">Sign up</button>

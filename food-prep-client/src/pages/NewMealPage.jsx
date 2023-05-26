@@ -81,7 +81,7 @@ function NewMealPage() {
 
   useEffect(() => {
     getUserData();
-  }, [appState, loading]);
+  }, [appState]);
 
   function getUserData() {
     userService
@@ -117,7 +117,7 @@ function NewMealPage() {
       });
     } catch (error) {
       setErrorMessage(
-        "Oops your food is burnt unfortunately, please try again!"
+        "Oops, your food got burnt, unfortunately, please try again!"
       );
       console.log(error);
     }
@@ -131,12 +131,9 @@ function NewMealPage() {
       mealShoppingList: newMealData.mealShoppingList,
       mealImage: newMealData.mealImage,
     };
-    setAppState(appState);
     userService
       .storeUserAppState(appState)
-      .then(() =>
-        setErrorMessage("Oops the waiter accidentally dropped your food!")
-      )
+      .then((response) => setAppState(response.data.appState))
       .catch((err) => console.log(err));
   };
 
