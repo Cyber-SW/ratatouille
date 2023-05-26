@@ -92,7 +92,7 @@ function FavoriteMealDetailsPage() {
 
       {loading ? (
         <PacmanLoader
-          className="pacman-loader"
+          className="pacman-loader-details"
           color={"#11B44D"}
           loading={loading}
           size={30}
