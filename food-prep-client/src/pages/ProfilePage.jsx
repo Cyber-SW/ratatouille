@@ -40,6 +40,12 @@ function ProfilePage() {
       .catch((err) => console.log(err));
   }
 
+  function handleUpdatedUserInformation(updatedInfo) {
+    userService.updateUserProfile(updatedInfo)
+      .then(() => getUserData())
+      .catch((err) => console.log(err));
+  }
+
   const handleDiet = (e) => setDiet(e.target.value);
   const handleCurrentIngredient = (e) => {
     setCurrentIngredient(e.target.value);
@@ -146,11 +152,6 @@ function ProfilePage() {
     setExcludedIngredientsDb(filteredExcludedIngredientsDb);
   }
 
-  function handleUpdatedUserInformation(updatedInfo) {
-    userService.updateUserProfile(updatedInfo)
-      .then(() => getUserData())
-      .catch((err) => console.log(err));
-  }
 
   return (
     <div>

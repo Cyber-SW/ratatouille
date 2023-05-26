@@ -9,7 +9,7 @@ const router = express.Router();
 const saltRounds = 10;
 
 // POST /auth/signup  - Creates a new user in the database
-router.post("/signup", (req, res, next) => {
+router.post("/signup", (req, res) => {
   const {
     email,
     password,
@@ -121,7 +121,7 @@ router.post("/signup", (req, res, next) => {
 });
 
 // POST  /auth/login - Verifies email and password and returns a JWT
-router.post("/login", (req, res, next) => {
+router.post("/login", (req, res) => {
   const { email, password } = req.body;
 
   // Check if email or password are provided as empty string
@@ -142,10 +142,10 @@ router.post("/login", (req, res, next) => {
       const passwordCorrect = bcrypt.compareSync(password, foundUser.password);
 
       if (passwordCorrect) {
-        const { _id, email, username } = foundUser;
+        const { _id, email } = foundUser;
 
         // Create an object that will be set as the token payload
-        const payload = { _id, email, username };
+        const payload = { _id, email };
 
         // Create and sign the token
         const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
@@ -164,6 +164,7 @@ router.post("/login", (req, res, next) => {
 
 // GET  /auth/verify  -  Used to verify JWT stored on the client
 router.get("/verify", isAuthenticated, (req, res) => {
+  console.log(req.payload)
   // Send back the object with user data
   res.status(200).json(req.payload);
 });

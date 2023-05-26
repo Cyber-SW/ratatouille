@@ -4,50 +4,52 @@ const { google } = require("googleapis");
 const User = require("../models/User.model");
 const { Configuration, OpenAIApi } = require("openai");
 
-router.get("/", (req, res, next) => {
-  res.json("All good in here");
-});
+// router.get("/", (req, res, next) => {
+//   res.json("All good in here");
+// });
 
 //user data routes
 router.get("/user", (req, res) => {
   const userId = req.payload._id;
 
-  User.findById(userId).then((receivedUser) => {
-    const {
-      username,
-      _id,
-      gender,
-      size,
-      weight,
-      bmi,
-      goal,
-      activityLevel,
-      calorieDemand,
-      diet,
-      excludedIngredients,
-      appState,
-      shoppingList,
-      favorites,
-    } = receivedUser;
-    //omit email and password
-    const user = {
-      username,
-      _id,
-      gender,
-      size,
-      weight,
-      bmi,
-      goal,
-      activityLevel,
-      calorieDemand,
-      diet,
-      excludedIngredients,
-      appState,
-      shoppingList,
-      favorites,
-    };
-    res.json(user);
-  });
+  User.findById(userId)
+    .then((receivedUser) => {
+      const {
+        username,
+        _id,
+        gender,
+        size,
+        weight,
+        bmi,
+        goal,
+        activityLevel,
+        calorieDemand,
+        diet,
+        excludedIngredients,
+        appState,
+        shoppingList,
+        favorites,
+      } = receivedUser;
+      //omit email and password
+      const user = {
+        username,
+        _id,
+        gender,
+        size,
+        weight,
+        bmi,
+        goal,
+        activityLevel,
+        calorieDemand,
+        diet,
+        excludedIngredients,
+        appState,
+        shoppingList,
+        favorites,
+      };
+      res.json(user).status(200);
+    })
+    .catch((err) => console.log(err));
 });
 
 //store user app state
