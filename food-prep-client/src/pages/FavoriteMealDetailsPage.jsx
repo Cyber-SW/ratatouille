@@ -4,12 +4,14 @@ import { AuthContext } from "../context/auth.context";
 import userService from "../services/user.service";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import PacmanLoader from "react-spinners/PacmanLoader";
 
 function FavoriteMealDetailsPage() {
   const { mealId } = useParams();
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  const [loading, setLoading] = useState(false);
   const [mealInformation, setMealInformation] = useState("");
   const [mealIngredients, setMealIngredients] = useState("");
   const [mealInstructions, setMealInstructions] = useState("");
@@ -66,62 +68,84 @@ function FavoriteMealDetailsPage() {
       .catch((err) => console.log(err));
   }
 
+  useEffect(() => {
+    if (
+      splittedInformation === [] ||
+      splittedIngredients === [] ||
+      splittedInstructions === [] ||
+      mealImage === ""
+    ) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+  }, [
+    splittedInformation,
+    splittedIngredients,
+    splittedInstructions,
+    mealImage,
+  ]);
+
   return (
     <div>
       <Navbar />
 
-      {mealImage &&
-        splittedInformation &&
-        splittedIngredients &&
-        splittedInstructions && (
-          <div className="meal-details-desktop">
-            <img
-              className="meal-details-img"
-              src={mealImage}
-              alt="meal img"
-              width={300}
-            />
-            <div className="meal-details-container">
-              <h2 className="meal-details-headline">
-                {splittedInformation[0]}
-              </h2>
-              <div className="meal-details-spec">
-                <h3>{splittedInformation[2]}</h3>
-                <h3>{splittedInformation[1]}</h3>
-              </div>
+      {loading ? (
+        <PacmanLoader
+          className="pacman-loader"
+          color={"#11B44D"}
+          loading={loading}
+          size={30}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
+      ) : (
+        <div className="meal-details-desktop">
+          <img
+            className="meal-details-img"
+            src={mealImage}
+            alt="meal img"
+            width={300}
+          />
+          <div className="meal-details-container">
+            <h2 className="meal-details-headline">{splittedInformation[0]}</h2>
+            <div className="meal-details-spec">
+              <h3>{splittedInformation[2]}</h3>
+              <h3>{splittedInformation[1]}</h3>
+            </div>
 
-              <h2 className="meal-details-text-headline">Ingredients:</h2>
-              {splittedIngredients.map((ingredient, index) => (
-                <p className="text" key={index}>
-                  {ingredient.replace("Ingredients:", "")}
-                </p>
-              ))}
+            <h2 className="meal-details-text-headline">Ingredients:</h2>
+            {splittedIngredients.map((ingredient, index) => (
+              <p className="text" key={index}>
+                {ingredient.replace("Ingredients:", "")}
+              </p>
+            ))}
 
-              <h2 className="meal-details-text-headline">Instructions:</h2>
-              {splittedInstructions.map((instruction, index) => (
-                <p className="text" key={index}>
-                  {instruction.replace("Instructions:", "")}
-                </p>
-              ))}
+            <h2 className="meal-details-text-headline">Instructions:</h2>
+            {splittedInstructions.map((instruction, index) => (
+              <p className="text" key={index}>
+                {instruction.replace("Instructions:", "")}
+              </p>
+            ))}
 
-              <div className="button-container">
-                <button
-                  className="red"
-                  type="submit"
-                  onClick={() => handleDeleteFavorite(mealId)}
-                >
-                  Delete favorite
-                </button>
-                <button
-                  type="submit"
-                  onClick={() => handleAddToShoppingList(splittedShoppingList)}
-                >
-                  To shopping list
-                </button>
-              </div>
+            <div className="button-container">
+              <button
+                className="red"
+                type="submit"
+                onClick={() => handleDeleteFavorite(mealId)}
+              >
+                Delete favorite
+              </button>
+              <button
+                type="submit"
+                onClick={() => handleAddToShoppingList(splittedShoppingList)}
+              >
+                To shopping list
+              </button>
             </div>
           </div>
-        )}
+        </div>
+      )}
     </div>
   );
 }

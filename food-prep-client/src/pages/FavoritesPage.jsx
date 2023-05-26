@@ -3,11 +3,13 @@ import { useState, useContext, useEffect } from "react";
 import userService from "../services/user.service";
 import { AuthContext } from "../context/auth.context";
 import { Link } from "react-router-dom";
+import PacmanLoader from "react-spinners/PacmanLoader";
 
 function FavoritesPage() {
   const { user } = useContext(AuthContext);
 
   const [favorites, setFavorites] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [toggleHeadline, setHeadline] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
@@ -33,11 +35,28 @@ function FavoritesPage() {
     setHeadline(true);
   }
 
+  useEffect(() => {
+    if (favorites === []) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+  }, [favorites]);
+
   return (
     <div>
       <Navbar />
 
-      {favorites && (
+      {loading ? (
+        <PacmanLoader
+          className="pacman-loader"
+          color={"#11B44D"}
+          loading={loading}
+          size={30}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
+      ) : (
         <div
           className="fav-container"
           style={{ scrollbarColor: "transparent", overflowX: "auto" }}
