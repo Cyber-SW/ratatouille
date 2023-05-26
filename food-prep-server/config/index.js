@@ -3,11 +3,12 @@ const logger = require("morgan");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
-// const FRONTEND_URL = process.env.ORIGIN
 
 // Middleware configuration
 module.exports = (app) => {
   app.set("trust proxy", 1);
+
+  console.log(process.env.ORIGIN)
 
   app.use(
     cors({

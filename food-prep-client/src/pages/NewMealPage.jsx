@@ -114,11 +114,11 @@ function NewMealPage() {
         mealShoppingList: mealSubstrings[3],
         mealImage: mealImage.data,
       });
-    } catch (error) {
+    } catch (err) {
       setErrorMessage(
         "Oops, your food got burnt, unfortunately, please try again!"
       );
-      console.log(error);
+      console.log(err);
     }
   }
 
@@ -133,8 +133,10 @@ function NewMealPage() {
     userService
       .storeUserAppState(appState)
       .then(() => getUserData())
-      .then(() => setLoading(false))
-      .then(() => setNewMeal(""))
+      .then(() => {
+        setLoading(false);
+        setNewMeal("");
+      })
       .catch((err) => console.log(err));
   };
 

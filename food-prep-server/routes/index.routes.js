@@ -231,6 +231,7 @@ router.post("/user/new-meal", (req, res) => {
         max_tokens: 900,
         temperature: 1,
       });
+      console.log(response.data.choices[0].message.content)
       res.json(response.data.choices[0].message.content).status(200);
     } catch (err) {
       console.log(err);
