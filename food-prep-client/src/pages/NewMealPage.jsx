@@ -124,7 +124,7 @@ function NewMealPage() {
       });
     } catch (err) {
       setErrorMessage(
-        "Oops, your food got burnt, unfortunately, please try again!"
+        "Oops, your food got burnt, unfortunately, please refresh the page and try again!"
       );
       console.log(err);
     }
