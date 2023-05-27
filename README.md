@@ -7,6 +7,9 @@ and since I don't like to think about what I eat every day and what I have to bu
 TIMEFRAME:
 This project was developed within the given time frame of 9 days.
 
+PLEASE NOTE:
+When you try out my project be prepared that the first two or three meal generations could fail due to the hosting provider adaptable.io which I use to deploy my backend. I like adaptable.io and normally it is really fast, but when the server doesn´t get requested for a longer period the server capacity will decrease which sometimes can cause the first two or three meal generations to fail since the meal generation takes a good amount of server capacity. But this is only the case until the server capacity rises again.
+
 WHAT IS RATATOUILLE ?
 With ratatouille, users can track their calories, generate food recipes and the associated ingredients and instructions, based on their personal eating preferences.
 In addition, the required ingredients for a dish can be added to the shopping list and saved in the favorites with just one click.
@@ -34,9 +37,8 @@ What made the whole thing even more difficult was the asynchronous behavior of r
 because it took minimally longer to load than the app. After a while, you get used to it and know that you can solve this problem by using async/await functions and useEffect.
 
 BUGS?
-Until now I have not discovered any major bugs. Sure sometimes something takes a bit longer to load or sometimes suggests a dish fails because the responses of the OpenAI API are not 100% consistent,
-but even for this case the user gets displayed an error message, which encourages him to try it again. The only thing that can be considered a bug is that sometimes the console shows a CORS error with a 404 not found,
-but I double-checked the related route and everything that belongs to it and couldn´t find anything. Also, everything works properly even the things that use the related route, so I think it´s not that much of a problem.
+The responses of the OpenAI API are not 100% consistent, which sometimes causes the meal generation to fail, but in this case, the user gets displayed an error message, which encourages him to try it again.
+Also sometimes the meal generation was successful, but the meal didn´t get displayed. This issue only occurs when the server capacity is too low for the requested data (for more information review PLEASE NOTE).
 
 CONCLUSION:
 I learned a lot with this project, from structural things like time management to technical things like working with APIs, react or linking frontend, and backend to mental things like dealing with frustration and success.
