@@ -121,7 +121,7 @@ function NewMealPage() {
       });
     } catch (err) {
       setErrorMessage(
-        "Oops, your food got burnt, unfortunately, please try again! \n In case the generation process takes longer that 30sec refresh the page"
+        "Oops, your food got burnt, unfortunately, please try again! \n In case the generation process takes longer than 30sec refresh the page"
       );
       console.log(err);
     }
