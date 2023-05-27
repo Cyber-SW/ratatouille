@@ -142,10 +142,16 @@ function NewMealPage() {
       // Store received data in app state
       .storeUserAppState(appState)
       // Fetch user data again to update user display
-      .then(() => getUserData())
       .then(() => {
-        setLoading(false);
-        setNewMeal("");
+        userService
+          .fetchUserData()
+          .then((response) => {
+            setMealInformation(response.data.appState.mealInformation);
+            setMealImage(response.data.appState.mealImage);
+            setLoading(false);
+            setNewMeal("");
+          })
+          .catch((err) => console.log(err));
       })
       .catch((err) => console.log(err));
   };
