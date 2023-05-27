@@ -4,11 +4,9 @@ import { AuthContext } from "../context/auth.context";
 import userService from "../services/user.service";
 import { Link } from "react-router-dom";
 import PacmanLoader from "react-spinners/PacmanLoader";
-import { useNavigate } from "react-router-dom";
 
 function NewMealPage() {
   const { user } = useContext(AuthContext);
-  const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
@@ -122,12 +120,9 @@ function NewMealPage() {
         mealImage: mealImage.data,
       });
     } catch (err) {
-      navigate(0).then(() =>
-        setErrorMessage(
-          "Oops, your food got burnt, unfortunately, please try again!"
-        )
+      setErrorMessage(
+        "Oops, your food got burnt, unfortunately, please try again! \n In case the generation process takes longer that 30sec refresh the page"
       );
-
       console.log(err);
     }
   }
