@@ -29,6 +29,7 @@ function FavoriteMealDetailsPage() {
     }
   }, [user]);
 
+  // Fetch specific meal from user favorites
   function getMealData(mealId) {
     userService
       .fetchFavoriteMeal(mealId)
@@ -42,6 +43,7 @@ function FavoriteMealDetailsPage() {
       .catch((err) => console.log(err));
   }
 
+  // Prepare meal data for display
   useEffect(() => {
     const splittedInformation = mealInformation.split("\n").splice(0, 3);
     const splittedIngredients = mealIngredients.split("\n");
@@ -57,10 +59,12 @@ function FavoriteMealDetailsPage() {
     setSplittedShoppingList(newSplittedShoppingList);
   }, [mealInformation, mealIngredients, mealInstructions, mealShoppingList]);
 
+  // Add ingredients to user shoppig list
   function handleAddToShoppingList(shoppingList) {
     userService.updateUserShoppingList(shoppingList);
   }
 
+  // Delete specific favorite meal
   function handleDeleteFavorite(mealId) {
     userService
       .deleteFavoriteMeal(mealId)
@@ -68,6 +72,7 @@ function FavoriteMealDetailsPage() {
       .catch((err) => console.log(err));
   }
 
+  // Display loader when data is not loaded
   useEffect(() => {
     if (
       splittedInformation === [] ||
@@ -107,6 +112,7 @@ function FavoriteMealDetailsPage() {
             alt="meal img"
             width={300}
           />
+          {/* Display meal header */}
           <div className="meal-details-container">
             <h2 className="meal-details-headline">{splittedInformation[0]}</h2>
             <div className="meal-details-spec">
@@ -114,6 +120,7 @@ function FavoriteMealDetailsPage() {
               <h3>{splittedInformation[1]}</h3>
             </div>
 
+            {/* Display meal ingredients */}
             <h2 className="meal-details-text-headline">Ingredients:</h2>
             {splittedIngredients.map((ingredient, index) => (
               <p className="text" key={index}>
@@ -121,6 +128,7 @@ function FavoriteMealDetailsPage() {
               </p>
             ))}
 
+            {/* Display meal instructions */}
             <h2 className="meal-details-text-headline">Instructions:</h2>
             {splittedInstructions.map((instruction, index) => (
               <p className="text" key={index}>
@@ -128,6 +136,7 @@ function FavoriteMealDetailsPage() {
               </p>
             ))}
 
+            {/* Display delete and add to shopping list buttons */}
             <div className="button-container">
               <button
                 className="red"

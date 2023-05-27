@@ -2,7 +2,6 @@ import Navbar from "../components/Navbar";
 import { useState, useEffect } from "react";
 import userService from "../services/user.service";
 
-
 function ProfilePage() {
   const [username, setUsername] = useState("");
   const [size, setSize] = useState("");
@@ -19,6 +18,7 @@ function ProfilePage() {
   const [currentIngredient, setCurrentIngredient] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
+  // Fetch user data on initial page load
   useEffect(() => {
     getUserData();
   }, []);
@@ -40,8 +40,11 @@ function ProfilePage() {
       .catch((err) => console.log(err));
   }
 
+  // Update profile information
   function handleUpdatedUserInformation(updatedInfo) {
-    userService.updateUserProfile(updatedInfo)
+    userService
+      .updateUserProfile(updatedInfo)
+      // Fetch user data again after update
       .then(() => getUserData())
       .catch((err) => console.log(err));
   }
@@ -49,10 +52,12 @@ function ProfilePage() {
   const handleDiet = (e) => setDiet(e.target.value);
   const handleCurrentIngredient = (e) => {
     setCurrentIngredient(e.target.value);
+    // Set error message back to undefined on new user input
     setErrorMessage(undefined);
   };
   const handleUsername = (e) => setUsername(e.target.value);
 
+  // Calculate calorie demand based on user goal
   function handleGoal(e) {
     let total = parseInt(storeCalorieDemand);
 
@@ -68,6 +73,7 @@ function ProfilePage() {
     }
   }
 
+  // Calculate calorie demand again after user input changes
   useEffect(() => {
     let total = parseInt(storeCalorieDemand);
 
@@ -85,13 +91,14 @@ function ProfilePage() {
 
   function handleWeight(e) {
     setWeight(e.target.value);
-
+    // Calculate bmi after weight input
     if (e.target.value && size) {
       const calculatedBmi = e.target.value / (size / 100) ** 2;
       setBmi(calculatedBmi.toFixed(2));
     }
   }
 
+  // Add banned db ingredients and new banned ingredients to excluded ingredients
   function handleAddIngredient() {
     if (
       currentIngredient &&
@@ -100,6 +107,7 @@ function ProfilePage() {
     ) {
       setExcludedIngredients([...excludedIngredients, currentIngredient]);
       setCurrentIngredient("");
+      // Check for duplicates
     } else if (excludedIngredients.includes(currentIngredient)) {
       setErrorMessage("This ingredient is already banned!");
     } else if (excludedIngredientsDb.includes(currentIngredient)) {
@@ -107,6 +115,7 @@ function ProfilePage() {
     }
   }
 
+  // Calculate and store calorie demand based on gender, weight and activity level
   function calculateCalorieDemand(e) {
     if (e.target.value === "Only sitting or lying") {
       gender === "Female"
@@ -134,6 +143,7 @@ function ProfilePage() {
     setActivityLevel(e.target.value);
   }
 
+  // Delete ingredient from new banned ingredients
   function handleDeleteIngredient(selectedIndex) {
     const filteredExcludedIngredients = excludedIngredients.filter(
       (ingredient, index) => {
@@ -143,6 +153,7 @@ function ProfilePage() {
     setExcludedIngredients(filteredExcludedIngredients);
   }
 
+  // Delete ingredient in db with index
   function handleDeleteIngredientDb(selectedIndex) {
     const filteredExcludedIngredientsDb = excludedIngredientsDb.filter(
       (ingredient, index) => {
@@ -152,7 +163,6 @@ function ProfilePage() {
     setExcludedIngredientsDb(filteredExcludedIngredientsDb);
   }
 
-
   return (
     <div>
       <Navbar />
@@ -160,6 +170,7 @@ function ProfilePage() {
       <form
         className="profile-container"
         onSubmit={() =>
+          // Pass updated user information to handle function
           handleUpdatedUserInformation({
             username: username,
             size: size,
@@ -178,6 +189,7 @@ function ProfilePage() {
       >
         <h1 className="shopping-list-headline">Change your informations</h1>
 
+        {/* Display change username and weight */}
         <div className="profile-margin">
           <label className="labels">Change your username:</label>
           <input type="text" value={username} onChange={handleUsername} />
@@ -193,10 +205,12 @@ function ProfilePage() {
           />
         </div>
 
+        {/* Display bmi */}
         <h2 className="profile-margin calorie-demand">
           Your BMI: {bmi && size && weight ? bmi : "Type in your weight first."}
         </h2>
 
+        {/* Display change activity level input fields */}
         <div className="profile-margin">
           <label className="labels">Change your activity level:</label>
           <select
@@ -225,6 +239,7 @@ function ProfilePage() {
           </select>
         </div>
 
+        {/* Display change goal input fields */}
         <div className="profile-margin">
           <label className="labels">Change your goal:</label>
           <hr />
@@ -267,11 +282,13 @@ function ProfilePage() {
           </div>
         </div>
 
+        {/* Display calorie demand */}
         <h2 className="profile-margin calorie-demand">
           New calorie demand per day:{" "}
           {calorieDemand && goal ? calorieDemand : ""}
         </h2>
 
+        {/* Display change diet input field */}
         <div className="profile-margin">
           <label className="labels">Change your diet:</label>
           <select name="diet" id="diet" onChange={handleDiet}>
@@ -285,6 +302,7 @@ function ProfilePage() {
           </select>
         </div>
 
+        {/* Display banned ingredients and ban ingredient input field */}
         <div className="profile-margin">
           <label className="labels">Change banned ingredients:</label>
           <input

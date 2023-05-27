@@ -17,6 +17,7 @@ function FavoritesPage() {
       .then((response) => setFavorites(response.data.favorites));
   }, [user]);
 
+  // Change favorites headline position based on screen size
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -39,6 +40,7 @@ function FavoritesPage() {
 
       {favorites && (
         <div
+          // Enable side scrolling with mouse wheel on desktop version
           className="fav-container"
           style={{ scrollbarColor: "transparent", overflowX: "auto" }}
           onWheel={(e) => {
@@ -59,6 +61,7 @@ function FavoritesPage() {
               });
           }}
         >
+          {/* Display favorites */}
           {favorites.map((meal) => (
             <div key={meal._id} className="fav-container-align">
               <h2 className={"fav-headline " + (toggleHeadline ? "hide" : "")}>

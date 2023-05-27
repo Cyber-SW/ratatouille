@@ -16,6 +16,7 @@ function SignupUserLogin({ handleUserLoginInformation }) {
       <form
         className="signup-container"
         onSubmit={(e) =>
+          // Send user login information to sign up page
           handleUserLoginInformation(e, {
             email: email,
             password: password,
@@ -23,6 +24,7 @@ function SignupUserLogin({ handleUserLoginInformation }) {
           })
         }
       >
+        {/* Display sign up login information input fields */}
         <h1 className="signup-headline">Sign up</h1>
         <label className="labels">Email:</label>
         <input type="email" name="email" value={email} onChange={handleEmail} />

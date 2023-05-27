@@ -12,6 +12,7 @@ function AuthProviderWrapper(props) {
 
   const navigate = useNavigate();
 
+  // Store token in local storage
   const storeToken = (token) => {
     localStorage.setItem("authToken", token);
   };
@@ -19,6 +20,7 @@ function AuthProviderWrapper(props) {
   const authenticateUser = () => {
     const storedToken = localStorage.getItem("authToken");
 
+    // Verify user if user got stored token otherwise deny access
     if (storedToken) {
       authService
         .verify()
@@ -51,11 +53,13 @@ function AuthProviderWrapper(props) {
     navigate("/");
   };
 
+  // Authenticate user on initial page load
   useEffect(() => {
     authenticateUser();
   }, []);
 
   return (
+    // Provide functions and state variables for child elements
     <AuthContext.Provider
       value={{
         isLoggedIn,

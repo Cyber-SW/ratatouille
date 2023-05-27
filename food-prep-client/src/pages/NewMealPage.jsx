@@ -25,13 +25,16 @@ function NewMealPage() {
   const handleMealTime = (e) => setMealTime(e.target.value);
   const handleMealKcal = (e) => {
     setMealKcal(e.target.value);
+    // Set error message back to undefined on new user input
     setErrorMessage(undefined);
   };
 
+  // Turn generate meal loading animation off when error message appears
   useEffect(() => {
     setLoading(false);
   }, [errorMessage]);
 
+  // Create promt from user profile data and user input data
   function handleNewMealSubmit(e) {
     e.preventDefault();
 
@@ -72,12 +75,14 @@ function NewMealPage() {
         `;
 
     setNewMeal(mealConfiguration);
+    // Reset state variables
     setMealTime("");
     setMealType("");
     setMealKcal("");
     setLoading(true);
   }
 
+  // Fetch user data on initial page load
   useEffect(() => {
     getUserData();
   }, []);
@@ -95,18 +100,21 @@ function NewMealPage() {
       .catch((err) => console.log(err));
   }
 
+  // Call APIs if new meal state is not empty string anymore
   useEffect(() => {
     if (newMeal !== "") {
       apiCall();
     }
   }, [newMeal]);
 
+  // Call openaiAPI and Google custom search API
   async function apiCall() {
     try {
       const receivedMeal = await userService.fetchUserMeal(newMeal);
       const mealSubstrings = receivedMeal.data.split("\n\n");
       const mealName = mealSubstrings[0].match(/Meal name:\s*(.*)\n/)[1];
       const mealImage = await userService.fetchMealImage(mealName);
+      // Pass received data to data storage function
       handleDataStorage({
         mealInformation: mealSubstrings[0],
         mealIngredients: mealSubstrings[1],
@@ -131,7 +139,9 @@ function NewMealPage() {
       mealImage: newMealData.mealImage,
     };
     userService
+      // Store received data in app state
       .storeUserAppState(appState)
+      // Fetch user data again to update user display
       .then(() => getUserData())
       .then(() => {
         setLoading(false);
@@ -140,6 +150,7 @@ function NewMealPage() {
       .catch((err) => console.log(err));
   };
 
+  // Prepare data for display
   useEffect(() => {
     if (user && mealInformation) {
       const splittedInformation = mealInformation.split("\n").splice(0, 3);
@@ -161,6 +172,7 @@ function NewMealPage() {
       <div className="username">Hello {user && username} nice to see you💚</div>
 
       <div className="desktop-container">
+        {/* Display configure meal input fields */}
         <form className="form-container" onSubmit={handleNewMealSubmit}>
           <h1 className="headline">Configure your dish</h1>
           <select
@@ -217,6 +229,7 @@ function NewMealPage() {
           )}
         </form>
 
+        {/* Display loader until data is there */}
         {loading ? (
           <PacmanLoader
             className="pacman-loader"
@@ -228,6 +241,7 @@ function NewMealPage() {
           />
         ) : (
           <div
+            // Display generated meal
             className="suggestion-container"
             style={{ display: loading || mealImage === "" ? "none" : "flex" }}
           >

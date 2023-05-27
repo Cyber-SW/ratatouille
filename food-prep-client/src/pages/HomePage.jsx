@@ -12,6 +12,7 @@ function HomePage() {
     <div>
       <Navbar />
 
+      {/* Display hero section */}
       <div className="hero-section">
         <div className="hero-content">
           <h1 className="hero-headline">ratatouille</h1>
@@ -22,6 +23,7 @@ function HomePage() {
         </div>
       </div>
 
+      {/* Display section one */}
       <section className="section-one">
         <h2 className="section-one-headline">How it works</h2>
 
@@ -52,6 +54,7 @@ function HomePage() {
         </div>
       </section>
 
+      {/* Display about section */}
       <section className="about-section">
         <div className="about-section-align">
           <div className="about-desktop">
@@ -63,6 +66,7 @@ function HomePage() {
             </p>
           </div>
 
+          {/* Display contact information */}
           <div className="contact-information">
             <h2 className="white">Contact information:</h2>
             <p>E-mail: woltersh@outlook.de</p>

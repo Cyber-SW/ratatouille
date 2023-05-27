@@ -15,6 +15,8 @@ function LoginPage() {
   const handleEmail = (e) => setEmail(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
 
+  // Handle user login and redirect automatically to new meal page
+  // -> because everyone hates having to enter their login information twice 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
     const requestBody = { email, password };
@@ -34,6 +36,7 @@ function LoginPage() {
 
   return (
     <div className="signup-container">
+      {/* Display login input fields */}
       <h1 className="signup-headline">Log in</h1>
 
       <form onSubmit={handleLoginSubmit}>

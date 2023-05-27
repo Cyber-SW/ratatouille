@@ -19,6 +19,7 @@ function MealDetailsPage() {
   const [splittedInstructions, setSplittedInstructions] = useState([]);
   const [splittedShoppingList, setSplittedShoppingList] = useState([]);
 
+  // Fetch user data on initial page load
   useEffect(() => {
     if (user) {
       getUserData();
@@ -38,6 +39,7 @@ function MealDetailsPage() {
       .catch((err) => console.log(err));
   }
 
+  // Prepare meal data for display
   useEffect(() => {
     const splittedInformation = mealInformation.replace("Meal name: ", "");
     const newSplittedInfromation = splittedInformation.split("\n");
@@ -54,6 +56,7 @@ function MealDetailsPage() {
     setSplittedShoppingList(newSplittedShoppingList);
   }, [mealInformation, mealIngredients, mealInstructions, mealShoppingList]);
 
+  // Add meal to user favorites list
   function handleAddToFavorites(
     mealInformation,
     mealIngredients,
@@ -71,10 +74,12 @@ function MealDetailsPage() {
     userService.addMealToFavorites(meal);
   }
 
+  // Add ingredients to user shoppig list
   function handleAddToShoppingList(shoppingList) {
     userService.updateUserShoppingList(shoppingList);
   }
 
+  // Display loader when data is not loaded
   useEffect(() => {
     if (
       splittedInformation === [] ||
@@ -114,6 +119,7 @@ function MealDetailsPage() {
             alt="meal img"
             width={300}
           />
+          {/* Display meal header */}
           <div className="meal-details-container">
             <h2 className="meal-details-headline">{splittedInformation[0]}</h2>
             <div className="meal-details-spec">
@@ -121,6 +127,7 @@ function MealDetailsPage() {
               <h3>{splittedInformation[1]}</h3>
             </div>
 
+            {/* Display meal ingredients */}
             <h2 className="meal-details-text-headline">Ingredients:</h2>
             {splittedIngredients.map((ingredient, index) => (
               <p className="meal-details text" key={index}>
@@ -128,6 +135,7 @@ function MealDetailsPage() {
               </p>
             ))}
 
+            {/* Display meal instructions */}
             <h2 className="meal-details-text-headline">Instructions:</h2>
             {splittedInstructions.map((instruction, index) => (
               <p className="meal-details text" key={index}>
@@ -135,6 +143,7 @@ function MealDetailsPage() {
               </p>
             ))}
 
+            {/* Display add to favorites and add to shopping list buttons */}
             <div className="button-container">
               <button
                 type="submit"

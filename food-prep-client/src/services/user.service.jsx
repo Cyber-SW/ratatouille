@@ -3,13 +3,16 @@ import axios from "axios";
 class UserService {
   constructor() {
     this.api = axios.create({
+      // Import and set server URL to base URL
       baseURL: import.meta.env.VITE_SERVER_URL,
     });
 
     this.api.interceptors.request.use((config) => {
+      // Get stored token from user local storage
       const storedToken = localStorage.getItem("authToken");
 
       if (storedToken) {
+        // Send stored token in http header
         config.headers = { Authorization: `Bearer ${storedToken}` };
       }
 
@@ -17,6 +20,7 @@ class UserService {
     });
   }
 
+  // Backend user app functionality URLs
   fetchUserData = () => {
     return this.api.get(`api/user`);
   };

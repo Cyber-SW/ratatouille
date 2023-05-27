@@ -15,7 +15,7 @@ function SignupPage() {
 
   const navigate = useNavigate();
 
-  
+  // Pass user login information to user object
   const handleUserLoginInformation = (e, userLoginData) => {
     e.preventDefault();
 
@@ -25,7 +25,7 @@ function SignupPage() {
     setToggleForm(true);
   };
 
-
+  // Create user object and authenticate user
   const handleUserInformation = (e, userInformation) => {
     e.preventDefault();
 
@@ -45,6 +45,7 @@ function SignupPage() {
       excludedIngredients: userInformation.excludedIngredients,
     };
 
+    // Automatically login user after user signup
     authService
       .signup(userData)
       .then(() => {
@@ -68,6 +69,7 @@ function SignupPage() {
 
   return (
     <div>
+      {/* Change components depending on state of user sign up */}
       {!toggleForm && (
         <SignupUserLogin
           handleUserLoginInformation={handleUserLoginInformation}

@@ -124,6 +124,7 @@ p {
   margin-top: 0.8rem;
 }
 
+/* loader and fav headline toggle */
 .hide {
   display: none;
 }
@@ -138,6 +139,7 @@ p {
   margin-top: 60%;
 }
 
+/* MOBILE NAVBAR */
 @media (max-width: 431px) {
   .toggle-button {
     display: flex;
@@ -188,11 +190,6 @@ p {
   .align-signup ul {
     flex-direction: row;
     margin-top: 0.8rem;
-  }
-
-  .pacman-loader-initial {
-    margin: auto;
-    margin-top: 60%;
   }
 }
 
@@ -568,6 +565,7 @@ hr {
   color: var(--font-primary);
 }
 
+/* DESKTOP STYLES HD UPWARDS */
 @media (min-width: 432px) {
   .nav-links li,
   .links {

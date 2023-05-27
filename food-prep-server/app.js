@@ -7,11 +7,11 @@ const { isAuthenticated } = require("./middleware/jwt.middleware");
 
 require("./config")(app);
 
-//api routes
+// API routes
 const indexRoutes = require("./routes/index.routes");
 app.use("/api", isAuthenticated, indexRoutes);
 
-//auth routes
+// Auth routes
 const authRouter = require("./routes/auth.routes");
 app.use("/auth", authRouter);
 
@@ -19,7 +19,7 @@ require("./error-handling")(app);
 
 module.exports = app;
 
-//handle errors. Routes that don't exist or errors that you handle in specific routes
+// Handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
 
 module.exports = app;

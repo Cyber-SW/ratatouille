@@ -11,7 +11,6 @@ function SignupUserInformation({ handleUserInformation }) {
   const [activityLevel, setActivityLevel] = useState("");
   const [storeCalorieDemand, setStoreCalorieDemand] = useState("");
   const [calorieDemand, setCalorieDemand] = useState("");
-
   const [diet, setDiet] = useState("");
   const [excludedIngredients, setExcludedIngredients] = useState([]);
   const [currentIngredient, setCurrentIngredient] = useState("");
@@ -22,9 +21,11 @@ function SignupUserInformation({ handleUserInformation }) {
   const handleDiet = (e) => setDiet(e.target.value);
   const handleCurrentIngredient = (e) => {
     setCurrentIngredient(e.target.value);
+    // Set error message back to undefined on new user input
     setErrorMessage(undefined);
   };
 
+  // Calculate calorie demand based on user goal
   function handleGoal(e) {
     let total = parseInt(storeCalorieDemand);
 
@@ -40,6 +41,7 @@ function SignupUserInformation({ handleUserInformation }) {
     }
   }
 
+  // Calculate calorie demand again after user input changes
   useEffect(() => {
     let total = parseInt(storeCalorieDemand);
 
@@ -53,12 +55,13 @@ function SignupUserInformation({ handleUserInformation }) {
       setCalorieDemand(total);
       setGoal("Keep weight");
     }
-  }, [storeCalorieDemand]);
+  }, [goal, storeCalorieDemand]);
 
   function handleSize(e) {
     setSize(e.target.value);
 
     if (e.target.value && weight) {
+      // Calculate bmi after size and weight input
       const calculatedBmi = weight / (e.target.value / 100) ** 2;
       setBmi(calculatedBmi.toFixed(2));
     }
@@ -68,6 +71,7 @@ function SignupUserInformation({ handleUserInformation }) {
     setWeight(e.target.value);
 
     if (e.target.value && size) {
+      // Calculate bmi after weight and size input
       const calculatedBmi = e.target.value / (size / 100) ** 2;
       setBmi(calculatedBmi.toFixed(2));
     }
@@ -78,11 +82,13 @@ function SignupUserInformation({ handleUserInformation }) {
       setExcludedIngredients([...excludedIngredients, currentIngredient]);
       setCurrentIngredient("");
     }
+    // Check for duplicates
     if (excludedIngredients.includes(currentIngredient)) {
       setErrorMessage("This ingredient is already banned!");
     }
   }
 
+  // Calculate and store calorie demand based on gender, weight and activity level
   function calculateCalorieDemand(e) {
     if (e.target.value === "Only sitting or lying") {
       gender === "Female"
@@ -115,6 +121,7 @@ function SignupUserInformation({ handleUserInformation }) {
       <form
         className="profile-container"
         onSubmit={(e) =>
+          // Send user inputs and calculated variables to sign up page
           handleUserInformation(e, {
             gender: gender,
             size: size,
@@ -133,6 +140,7 @@ function SignupUserInformation({ handleUserInformation }) {
           Don´t worry you can change your settings at any time in your profile
         </h2>
 
+        {/* Gender Input fields */}
         <div className="profile-margin">
           <label className="labels">Choose your gender:</label>
           <hr />
@@ -161,6 +169,7 @@ function SignupUserInformation({ handleUserInformation }) {
           </div>
         </div>
 
+        {/* Size and weight input fields */}
         <div className="profile-margin">
           <label className="labels">Size in centimeter:</label>
           <input
@@ -183,10 +192,12 @@ function SignupUserInformation({ handleUserInformation }) {
           />
         </div>
 
+        {/* Display bmi */}
         <h2 className="profile-margin calorie-demand">
           Your BMI: {bmi && size && weight ? bmi : "Type in your weight first."}
         </h2>
 
+        {/* Activity level input fields */}
         <div className="profile-margin">
           <label className="labels">Choose your activity level:</label>
           <select
@@ -215,6 +226,7 @@ function SignupUserInformation({ handleUserInformation }) {
           </select>
         </div>
 
+        {/* User goal input fields */}
         <div className="profile-margin">
           <label className="labels">Define your goal:</label>
           <hr />
@@ -252,11 +264,13 @@ function SignupUserInformation({ handleUserInformation }) {
           </div>
         </div>
 
+        {/* Display calorie demand */}
         <h2 className="profile-margin calorie-demand">
           Daily calorie goal:{" "}
           {calorieDemand && goal ? calorieDemand : "Choose your goal first."}
         </h2>
 
+        {/* Select diet input fields */}
         <div className="profile-margin">
           <label className="labels">Select your diet:</label>
           <select name="diet" id="diet" onChange={handleDiet}>
@@ -270,6 +284,7 @@ function SignupUserInformation({ handleUserInformation }) {
           </select>
         </div>
 
+        {/* Banned ingredients input field */}
         <div className="profile-margin">
           <label className="labels">Ban ingredients from your plate:</label>
           <input
@@ -288,6 +303,7 @@ function SignupUserInformation({ handleUserInformation }) {
           {errorMessage && <p className="error-message">{errorMessage}</p>}
         </div>
 
+        {/* Display list with already banned ingredients */}
         <ul className="profile-margin">
           {excludedIngredients &&
             excludedIngredients.map((ingredient, index) => (

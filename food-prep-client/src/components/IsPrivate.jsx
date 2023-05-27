@@ -4,6 +4,7 @@ import { Navigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import PacmanLoader from "react-spinners/PacmanLoader";
 
+// Pages with isPrivate component can be visited from logged in users only
 function IsPrivate({ children }) {
   const { isLoggedIn, isLoading } = useContext(AuthContext);
 

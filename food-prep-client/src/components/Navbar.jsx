@@ -9,6 +9,7 @@ function Navbar() {
 
   const logo = new URL("../assets/ratatouille-logo.png", import.meta.url).href;
 
+  // Mobile - Desktop navbar toggle
   function toggleNavbar() {
     if (!navbarToggle) {
       setNavbarToggle(true);
@@ -42,6 +43,7 @@ function Navbar() {
               <img className="logo" src={logo} alt="image" height={50} />
             </NavLink>
           </div>
+          {/* Hamburger menu -> mobile navbar */}
           <NavLink className="toggle-button" onClick={toggleNavbar}>
             <span className="bar"></span>
             <span className="bar"></span>
@@ -129,7 +131,7 @@ function Navbar() {
           </div>
         </>
       )}
-
+      {/* Navbar for logged out users */}
       {!isLoggedIn && (
         <div className="nav-container align-container">
           <div className="branding">
