@@ -32,6 +32,10 @@ function NewMealPage() {
   // Turn generate meal loading animation off when error message appears
   useEffect(() => {
     setLoading(false);
+    setMealTime("");
+    setMealType("");
+    setMealKcal("");
+    setNewMeal("");
   }, [errorMessage]);
 
   // Create promt from user profile data and user input data
@@ -75,7 +79,6 @@ function NewMealPage() {
         `;
 
     setNewMeal(mealConfiguration);
-    // Reset state variables
     setLoading(true);
   }
 
@@ -121,7 +124,7 @@ function NewMealPage() {
       });
     } catch (err) {
       setErrorMessage(
-        "Oops, your food got burnt, unfortunately, please try again! \n In case the generation process takes longer than 30sec refresh the page"
+        "Oops, your food got burnt, unfortunately. Please try again. In case the generation process takes longer than 30 seconds please refresh the page!"
       );
       console.log(err);
     }
