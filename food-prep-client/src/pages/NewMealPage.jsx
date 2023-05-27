@@ -4,9 +4,11 @@ import { AuthContext } from "../context/auth.context";
 import userService from "../services/user.service";
 import { Link } from "react-router-dom";
 import PacmanLoader from "react-spinners/PacmanLoader";
+import { useNavigate } from "react-router-dom";
 
 function NewMealPage() {
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
@@ -76,9 +78,6 @@ function NewMealPage() {
 
     setNewMeal(mealConfiguration);
     // Reset state variables
-    setMealTime("");
-    setMealType("");
-    setMealKcal("");
     setLoading(true);
   }
 
@@ -123,8 +122,9 @@ function NewMealPage() {
         mealImage: mealImage.data,
       });
     } catch (err) {
+      navigate(0)
       setErrorMessage(
-        "Oops, your food got burnt, unfortunately, please refresh the page and try again!"
+        "Oops, your food got burnt, unfortunately, please try again!"
       );
       console.log(err);
     }
@@ -149,6 +149,9 @@ function NewMealPage() {
             setMealInformation(response.data.appState.mealInformation);
             setMealImage(response.data.appState.mealImage);
             setLoading(false);
+            setMealTime("");
+            setMealType("");
+            setMealKcal("");
             setNewMeal("");
           })
           .catch((err) => console.log(err));
