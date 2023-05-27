@@ -11,7 +11,7 @@ function IsPrivate({ children }) {
   if (isLoading)
     return (
       <PacmanLoader
-        className="pacman-loader-initial"
+        className="pacman-loader"
         color={"#11B44D"}
         loading={isLoading}
         size={30}
