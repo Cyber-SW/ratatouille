@@ -122,10 +122,12 @@ function NewMealPage() {
         mealImage: mealImage.data,
       });
     } catch (err) {
-      navigate(0)
-      setErrorMessage(
-        "Oops, your food got burnt, unfortunately, please try again!"
+      navigate(0).then(() =>
+        setErrorMessage(
+          "Oops, your food got burnt, unfortunately, please try again!"
+        )
       );
+
       console.log(err);
     }
   }
