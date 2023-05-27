@@ -129,14 +129,14 @@ p {
   display: none;
 }
 
-.pacman-loader {
+.pacman-loader-meal-generation {
   margin: 2rem;
   margin-top: 3rem;
 }
 
-.pacman-loader-initial {
+.pacman-loader {
   margin: auto;
-  margin-top: 60%;
+  margin-top: 75%;
 }
 
 /* MOBILE NAVBAR */
@@ -623,10 +623,15 @@ hr {
     justify-content: center;
   }
 
-  .pacman-loader {
+  .pacman-loader-meal-generation {
     position: absolute;
     right: 40.9rem;
     top: 22rem;
+  }
+
+  .pacman-loader {
+    margin: auto;
+    margin-top: 20%;
   }
 
   .serve-img {

@@ -238,7 +238,7 @@ function NewMealPage() {
         {/* Display loader until data is there */}
         {loading ? (
           <PacmanLoader
-            className="pacman-loader"
+            className="pacman-loader-meal-generation"
             color={"#11B44D"}
             loading={loading}
             size={30}
