@@ -23,13 +23,13 @@ WHERE CAN I FIND IT?
 https://ratatouilleai.netlify.app/
 
 TECHNOLOGIES:
-Frontend: JavaScript(ES6), HTML5, CSS3, React, JSX
-Frontend deployment: Netlify
-Backend: Express, Node.Js, MongoDB, Axios
-Backend deployment: Adaptable.io
-Authorization and security: JWT, CORS, bcrypt
-Build system: Vite
-Version control: Git, GitHub
+- Frontend: JavaScript(ES6), HTML5, CSS3, React, JSX
+- Frontend deployment: Netlify
+- Backend: Express, Node.Js, MongoDB, Axios
+- Backend deployment: Adaptable.io
+- Authorization and security: JWT, CORS, bcrypt
+- Build system: Vite
+- Version control: Git, GitHub
 
 CHALLENGES:
 The biggest challenge in this project was to store the user data from the frontend via the backend in the database and to send this data back to the frontend when needed.
