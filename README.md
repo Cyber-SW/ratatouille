@@ -33,7 +33,7 @@ TECHNOLOGIES:
 CHALLENGES:
 The biggest challenge in this project was to store the user data from the frontend via the backend in the database and to send this data back to the frontend when needed.
 What made the whole thing even more difficult was the asynchronous behavior of react, which sometimes led to the data arriving in the front, but not being displayed,
-because it took minimally longer to load than the app. After a while, you get used to it and know that you can solve this problem by using async/await functions and useEffect.
+because it took minimally longer to load than the app. After a while, you get used to it and know that you can solve this problem by using promises and useEffect.
 
 BUGS?
 The responses of the OpenAI API are not 100% consistent, which sometimes causes the meal generation to fail, but in this case, the user gets displayed an error message, which encourages him to try it again.
