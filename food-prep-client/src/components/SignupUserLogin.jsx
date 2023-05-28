@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
@@ -6,10 +6,24 @@ function SignupUserLogin({ handleUserLoginInformation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const [pwMessage, setPwMessage] = useState(undefined);
 
   const handleEmail = (e) => setEmail(e.target.value);
-  const handlePassword = (e) => setPassword(e.target.value);
   const handleUsername = (e) => setUsername(e.target.value);
+  const handlePassword = (e) => {
+    setPassword(e.target.value);
+  };
+
+  useEffect(() => {
+    const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
+    if (!passwordRegex.test(password) && password !== "") {
+      setPwMessage(
+        "Password must have at least 6 characters and contain at least one number, one lowercase and one uppercase letter."
+      );
+    } else {
+      setPwMessage(undefined);
+    }
+  }, [password]);
 
   return (
     <div>
@@ -44,6 +58,15 @@ function SignupUserLogin({ handleUserLoginInformation }) {
           value={password}
           onChange={handlePassword}
         />
+
+        {
+          <div
+            className="strong-password-message"
+            style={{ display: pwMessage ? "flex" : "none" }}
+          >
+            {pwMessage}
+          </div>
+        }
 
         <button type="submit">Sign up</button>
 

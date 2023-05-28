@@ -481,6 +481,17 @@ hr {
   color: var(--font-primary);
 }
 
+.strong-password-message {
+  display: flex;
+  text-align: center;
+  color: var(--font-primary);
+  margin-top: 0.2rem;
+  margin-bottom: 1rem;
+  font-size: 0.8rem;
+  padding: 1rem;
+  background-color: var(--clr-accent);
+}
+
 /* Home page */
 .hero-section {
   min-height: 40rem;
