@@ -1,6 +1,7 @@
 # ratatouille
 
 GOAL:
+---
 The goal was to develop an app that I would use myself and that also uses artificial intelligence in some way,
 and since I don't like to think about what I eat every day and what I have to buy for it, my decision came relatively quickly to a "recipe generator".
 Of course, I know that people would use such an app in everyday life and that most people don't sit in front of the computer all day,
