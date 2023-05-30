@@ -36,7 +36,7 @@ TECHNOLOGIES:
 - Authorization and security: JWT, CORS, bcrypt
 - Build system: Vite
 - Version control: Git, GitHub
-- APIs: openaiAPI, Google Custom Search API
+- APIs: OpenAI API, Google Custom Search API
 - Deployment: Netlify(frontend), Adaptable.io(backend)
 
 CHALLENGES:
