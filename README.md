@@ -9,7 +9,7 @@ so the main focus when developing the app was on the mobile version. With the cl
 
 TIMEFRAME:
 ---
-This project was developed within the given time frame of 9 days.
+This project was developed within the given time frame of 9 days plus two additional days to clean up the code and make small performance and bug fixes.
 
 PLEASE NOTE:
 ---
@@ -31,7 +31,7 @@ https://ratatouilleai.netlify.app/
 
 TECHNOLOGIES:
 ---
-- Frontend: JavaScript(ES6), HTML5, CSS3, React, JSX
+- Frontend: JavaScript(ES6), HTML5, CSS3, React
 - Backend: Express, Node.Js, MongoDB, Axios
 - Authorization and security: JWT, CORS, bcrypt
 - Build system: Vite
